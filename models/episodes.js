@@ -1,15 +1,13 @@
 'use strict';
 
-const { DATE } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
     const Episode = sequelize.define('Episode', {
         title: DataTypes.STRING,
         description: DataTypes.TEXT,
         desc_parsed: DataTypes.TEXT,
         pub_date: DataTypes.DATE,
-        author: DataTypes.STRING,
-        link: DataTypes.STRING,
+		author: DataTypes.STRING,
+		slug: DataTypes.STRING,
         guid: DataTypes.STRING,
         enclosure: DataTypes.STRING,
         size: DataTypes.INTEGER,
@@ -18,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         img: DataTypes.STRING,
         episode: DataTypes.INTEGER,
         saison: DataTypes.INTEGER,
-
     }, {
 
     });

@@ -108,3 +108,5 @@ web/static/bundle.js.map
 
 base.db
 base.db-journal
+
+upload
