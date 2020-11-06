@@ -1,14 +1,14 @@
 {
-  "name": "owncast",
+  "name": "muffin",
   "version": "1.0.0",
-  "main": "owncast.js",
+  "main": "muffin.js",
   "repository": "https://github.com/Bigaston/OwnCast.git",
   "author": "Bigaston",
   "private": true,
   "scripts": {
     "build": "webpack",
     "release": "cross-env NODE_ENV=production webpack",
-    "server": "node owncast.js",
+    "server": "node muffin.js",
     "start": "npm run build && npm run server",
     "postinstall": "node ./cli/init_file.js && npm run bdd",
     "bdd": "node ./cli/bdd.js"
