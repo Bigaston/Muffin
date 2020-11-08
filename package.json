@@ -1,32 +1,49 @@
 {
   "name": "muffin",
-  "version": "1.0.0",
-  "main": "muffin.js",
+  "version": "0.1.0",
+  "private": true,
   "repository": "https://github.com/Bigaston/OwnCast.git",
   "author": "Bigaston",
-  "private": true,
-  "scripts": {
-    "build": "webpack",
-    "release": "cross-env NODE_ENV=production webpack",
-    "server": "node muffin.js",
-    "start": "npm run build && npm run server",
-    "postinstall": "node ./cli/init_file.js && npm run bdd",
-    "bdd": "node ./cli/bdd.js"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.2",
-    "css-loader": "^5.0.0",
-    "style-loader": "^2.0.0",
-    "svelte": "^3.29.0",
-    "svelte-loader": "^2.13.6",
-    "webpack": "^5.1.0",
-    "webpack-cli": "^4.0.0"
-  },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.1",
+    "@testing-library/user-event": "^12.2.0",
+    "axios": "^0.21.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "web-vitals": "^0.2.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "node ./cli/init_file.js && npm run bdd",
+    "bdd": "node ./cli/bdd.js",
+    "server": "node muffin.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
