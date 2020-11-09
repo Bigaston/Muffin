@@ -17,6 +17,7 @@ module.exports = {
 					let ep_obj = {
 						title: ep.title,
 						description: ep.desc_parsed,
+						small_desc: ep.small_desc,
 						pub_date: ep.pub_date,
 						author: ep.author,
 						enclosure: ep.enclosure,

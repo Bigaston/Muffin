@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import config from "../config.json"
 
+import Episode from "../component/episode";
+
 import "./podcast.css";
 
 export default function Podcast() {
@@ -14,6 +16,7 @@ export default function Podcast() {
 			url: config.host + "/api/podcast/get_info"
 		}).then(res => {
 			if (res.status === 200) {
+				console.log(res.data);
 				setPodcast(res.data);
 			}
 		}).catch(err => {
@@ -38,9 +41,14 @@ export default function Podcast() {
 					<p className="description">{podcast.description}</p>
 				</div>
 			</div>
-			<div class="content">
-				<p>Bonjour</p>
-			</div>
+			{podcast.episodes !== undefined ?
+				<>
+					{podcast.episodes.map((episode) => (
+						<Episode key={episode.slug} episode={episode} podcast={podcast}/>
+					))}
+				</>
+			:<></>}
+
 		</>
 	)
 }

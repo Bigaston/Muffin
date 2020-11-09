@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     const Episode = sequelize.define('Episode', {
         title: DataTypes.STRING,
         description: DataTypes.TEXT,
-        desc_parsed: DataTypes.TEXT,
+		desc_parsed: DataTypes.TEXT,
+		small_desc: DataTypes.STRING,
         pub_date: DataTypes.DATE,
 		author: DataTypes.STRING,
 		slug: DataTypes.STRING,

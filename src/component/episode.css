@@ -1,0 +1,45 @@
+.episode {
+	display: flex;
+	flex-direction: row;
+	background-color: #F4F6F7;
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+	margin-top: 10px;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: #34495E 0px 0px 5px;
+}
+
+.episode > img {
+	width: 100px;
+	height: 100px;
+	border-radius: 5px;
+}
+
+.rightDivEp {
+	margin-left: 10px;
+}
+
+.rightDivEp > h2 {
+	margin: 0px;
+}
+
+.rightDivEp > h2:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.rightDivEp > .desc {
+	text-align: justify;
+	margin-top: 0px;
+}
+
+.rightDivEp > .moreInfoEp {
+	margin: 0px;
+	font-size: 15px;
+	color: #616A6B;
+	position: relative;
+	bottom: 0;
+}
