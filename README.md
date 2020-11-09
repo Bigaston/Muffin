@@ -1,6 +1,13 @@
 # OwnCast
 Hebergeur de podcast auto hébergé et proposant des solutions innovantes (ou pas) 
 
+## Features importantes :
+- Flux RSS
+- Présentation des épisodes
+- Création d'episodes, ajouts de tags itunes, description en markdown, image d'épisode
+- Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
+- Un seul compte utilisateur
+- Installation simple
 
 # Getting Started with Create React App
 
