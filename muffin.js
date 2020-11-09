@@ -16,6 +16,7 @@ app.use("/img", express.static("./upload/img"))
 app.use("/audio", express.static("./upload/audio"))
 
 app.get("/api/podcast/get_info", m.podcast_ctrl.get_info);
+app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);
 
 
 app.get("/*", (req, res) => {
