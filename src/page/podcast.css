@@ -1,0 +1,97 @@
+body {
+	padding: 0px;
+}
+
+.headerBox {
+	z-index: -3;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.header {
+	z-index: -3;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	filter: blur(10px);
+	transform: scale(1.1);
+	height: 350px;
+	width: 100%;
+}
+
+.hoverHeader2 {
+	z-index: -2;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 350px;
+	position: absolute;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.hoverHeader {
+	z-index: -1;
+	background-color: #FDFEFE;
+	position: absolute;
+	top: 290px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.topPage {
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	flex-direction: row;
+	width: 800px;
+}
+
+.topLeft > img {
+	width: 250px;
+	height: 250px;
+	border-radius: 10px;
+}
+
+.topRight {
+	margin-left: 10px;
+}
+
+.topRight > h1 {
+	color: #FDFEFE;
+	font-size: 35px;
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.slogan {
+	color: #FDFEFE;
+	margin-top: 0px;
+	font-size: 20px;
+	font-style: italic;
+}
+
+.description {
+	color: #FDFEFE;
+	font-size: 20px;
+	text-align: justify;
+}
+
+/* Contenu */
+.content {
+	background-color: #F4F6F7;
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+	margin-top: 10px;
+	padding: 20px;
+	border-radius: 5px 5px 0px 0px;
+}
