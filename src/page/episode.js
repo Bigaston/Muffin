@@ -52,7 +52,7 @@ export default function EpisodePage() {
 		<>
 			{podcast !== undefined ?
 				<>
-					<img className="backToMenuImg" src={config.host + "/public/arrow-left.svg"} alt="Retourner à l'index" />
+					<img className="backToMenuImg" src={config.host + "/public/arrow-left.svg"} alt="Retourner à l'index" onClick={handleReturnMenu} />
 					<div className="headerBox">
 						<div className="header" style={{backgroundImage: "url(" + config.host + (episode.img !== undefined ? episode.img : podcast.logo) + ")"}}></div>
 					</div>
