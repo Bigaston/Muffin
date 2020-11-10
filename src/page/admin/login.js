@@ -43,7 +43,7 @@ export default function Login() {
 		}).then(res => {
 			if (res.status === 200) {
 				let new_user = {
-					made_verification: false,
+					made_verification: true,
 					logged: true,
 					username: res.data.username,
 					id: res.data.id,
