@@ -7,6 +7,8 @@ import {
 import Podcast from "./page/public/podcast"
 import Episode from "./page/public/episode"
 
+import Login from "./page/admin/login"
+
 import Player from "./component/player"
 
 function App() {
@@ -14,6 +16,10 @@ function App() {
     <>
 		<Router>
 			<Switch>
+				<Route path="/a/login">
+					<Login/>
+				</Route>
+
 				<Route path="/:slug">
 					<Episode />
 				</Route>

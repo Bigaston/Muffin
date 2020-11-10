@@ -16,7 +16,6 @@ export default function Podcast() {
 			url: config.host + "/api/podcast/get_info"
 		}).then(res => {
 			if (res.status === 200) {
-				console.log(res.data);
 				setPodcast(res.data);
 			}
 		}).catch(err => {

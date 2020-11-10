@@ -1,6 +1,5 @@
 import {
     atom,
-    selector,
 } from 'recoil';
 
 const playerState = atom({

@@ -1,0 +1,39 @@
+.loginContainer {
+	position: absolute;
+	width: 400px;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-top: auto;
+	height: 290px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+	border-radius: 5px;
+	padding: 20px;
+	background-color: white;
+}
+
+.loginContainer > h1 {
+	text-align: center;
+	margin-top:0px;
+}
+
+.loginContainer > label {
+	margin-top: 5px;
+}
+
+.loginContainer > button {
+	width: 100%;
+	margin-top: 10px;
+}
+
+.loginContainer .errorMessage {
+	color: red;
+	font-weight: bold;
+	margin: 0px;
+	margin-top: 5px;
+	text-align: center;
+}

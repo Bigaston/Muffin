@@ -7,6 +7,7 @@ const m = require("./modules")
 
 var app = express()
 
+app.use(express.json());
 app.use(cors({
 	origin: "http://localhost:3000"
 }))
@@ -17,6 +18,8 @@ app.use("/audio", express.static("./upload/audio"))
 
 app.get("/api/podcast/get_info", m.podcast_ctrl.get_info);
 app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);
+
+app.post("/api/user/login", m.user_ctrl.login)
 
 
 app.get("/*", (req, res) => {
