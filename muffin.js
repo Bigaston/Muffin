@@ -7,7 +7,7 @@ const m = require("./modules")
 
 var app = express()
 
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(cors({
 	origin: "http://localhost:3000"
 }))
@@ -18,6 +18,9 @@ app.use("/audio", express.static("./upload/audio"))
 
 app.get("/api/podcast/get_info", m.podcast_ctrl.get_info);
 app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);
+
+app.get("/api/admin/podcast", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_info_admin);
+app.post("/api/admin/podcast/img", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_pod_img);
 
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);

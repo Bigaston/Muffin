@@ -1,4 +1,7 @@
 const bdd = require("../../models")
+const fs = require("fs");
+const path = require("path");
+const pngToJpeg = require('png-to-jpeg');
 
 module.exports = {
 	get_info: (req, res) => {
@@ -69,5 +72,36 @@ module.exports = {
 				}
 			})
 		})
+	},
+	get_info_admin: (req, res) => {
+		bdd.Podcast.findOne().then(podcast => {
+			let return_obj = {
+				title: podcast.title,
+				description: podcast.description,
+				slogan: podcast.slogan,
+				author: podcast.author,
+				email: podcast.email,
+				itunes_category: podcast.itunes_category,
+				itunes_subcategory: podcast.itunes_subcategory,
+				prefix: podcast.prefix,
+				logo: podcast.logo
+			}
+
+			res.json(return_obj);
+		})
+	},
+	get_pod_img: (req, res) => {
+		let img_buffer = new Buffer.from(req.body.image.split(/,\s*/)[1], "base64");
+
+		if (req.body.image.startsWith("data:image/png;")) {
+			pngToJpeg({quality: 90})(img_buffer)
+			.then(output => {
+				fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), output);
+				res.send("OK");
+			});
+		} else {
+			fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
+			res.send("OK");
+		}
 	}
 }

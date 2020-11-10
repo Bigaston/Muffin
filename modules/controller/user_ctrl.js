@@ -34,5 +34,14 @@ module.exports = {
 				res.status(401).send("Bad JWT");
 			}
 		});
+	},
+	check_if_logged: (req, res, next) => {
+		jwt.verify(req.headers.authorization.replace("Bearer ", ""), process.env.JWT_SECRET, function(err, decoded) {
+			if (!err) {
+				next();
+			} else {
+				res.status(401).send("Must be logged");
+			}
+		});
 	}
 }

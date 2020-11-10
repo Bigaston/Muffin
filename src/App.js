@@ -8,19 +8,26 @@ import Podcast from "./page/public/podcast"
 import Episode from "./page/public/episode"
 
 import Login from "./page/admin/login"
+import PodcastAdmin from "./page/admin/podcast"
 
 import Player from "./component/player"
 import Menu from "./component/menu"
+import CheckLogged from "./component/checkLogged"
 
 function App() {
   return (
     <>
-		<Menu />
-
 		<Router>
+			<Menu />
+
 			<Switch>
 				<Route path="/a/login">
 					<Login/>
+				</Route>
+				<Route path="/a/podcast">
+					<CheckLogged>
+						<PodcastAdmin />
+					</CheckLogged>
 				</Route>
 
 				<Route path="/:slug">
@@ -30,10 +37,11 @@ function App() {
 					<Podcast />
 				</Route>
 			</Switch>
+
+			<Player />
 		</Router>
 
 
-		<Player />
     </>
   );
 }

@@ -1,0 +1,49 @@
+.podcastAdminContainer {
+	position: absolute;
+	width: 900px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+	border-radius: 5px;
+	padding: 20px;
+	background-color: white;
+}
+
+.podcastAdminContainer > h1 {
+	text-align: center;
+	margin-top:0px;
+}
+
+.podcastAdminContainer > label {
+	margin-top: 5px;
+}
+
+.podcastAdminContainer > .fakeLabel {
+	font-weight: bold;
+}
+
+.podcastAdminContainer > .podcastLogo {
+	width: 200px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.modal input[type="file"] {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.modal .errorMessageImg {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+
+.modal progress {
+	display: block;
+	width: 100%;
+}

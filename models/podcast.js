@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		itunes_category: DataTypes.STRING,
 		itunes_subcategory: DataTypes.STRING,
 		logo: DataTypes.STRING,
-		prefix: DataTypes.STRING
+		prefix: DataTypes.STRING,
     }, {
 
     });
