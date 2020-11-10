@@ -4,11 +4,12 @@ body {
 
 .headerBox {
 	z-index: -3;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
+	overflow: hidden;
 }
 
 .header {
@@ -83,7 +84,7 @@ body {
 		margin-top: 10px;
 		padding: 20px;
 		border-radius: 5px;
-		box-shadow: #34495E 0px 0px 5px;
+		filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.5));
 	}
 }
 
@@ -138,5 +139,5 @@ body {
 	margin-top: 10px;
 	padding: 20px;
 	border-radius: 5px 5px 0px 0px;
-	box-shadow: #34495E 0px 0px 5px;
+	filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.5));
 }
