@@ -8,9 +8,13 @@ import Loader from "../component/loader"
 
 import {useParams} from "react-router-dom";
 
+import playerAtom from "../stores/player";
+import {useRecoilState} from "recoil";
+
 import "./episode.css";
 
 export default function EpisodePage() {
+	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
 	let history = useHistory();
 	let {slug} = useParams();
 	let [episode, setEpisode] = useState({});
@@ -48,6 +52,50 @@ export default function EpisodePage() {
 		history.push("/")
 	}
 
+	function playPauseEp() {
+		if (!playerStore.displayed || playerStore.slug !== episode.slug) {
+			let played_ep = {
+				displayed: true,
+				paused: false,
+				img: episode.img,
+				title: episode.title,
+				slug: episode.slug,
+				duration: episode.duration,
+				audio: episode.audio
+			}
+
+			setPlayerStore(played_ep);
+		} else if (playerStore.paused) {
+			let played_ep = {
+				displayed: playerStore.displayed,
+				paused: false,
+				img: playerStore.img,
+				title: playerStore.title,
+				slug: playerStore.slug,
+				duration: playerStore.duration,
+				audio: playerStore.audio
+			}
+
+			setPlayerStore(played_ep);
+		} else if (!playerStore.paused) {
+			let played_ep = {
+				displayed: playerStore.displayed,
+				paused: true,
+				img: playerStore.img,
+				title: playerStore.title,
+				slug: playerStore.slug,
+				duration: playerStore.duration,
+				audio: playerStore.audio
+			}
+
+			setPlayerStore(played_ep);
+		}
+	}
+
+	function downloadEp() {
+		window.open(config.host + episode.audio)
+	}
+
 	return (
 		<>
 			{podcast !== undefined ?
@@ -71,6 +119,13 @@ export default function EpisodePage() {
 						:
 							<>
 								<h2 className="contentHeader">{episode.title}</h2>
+								<div className="buttonBar">
+									<img src={
+										playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/pause.svg" : config.host + "/public/play.svg"}
+										alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title} 
+										onClick={playPauseEp} />
+									<img src={config.host + "/public/download.svg"} alt="Télécharger l'épisode" onClick={downloadEp}/>
+								</div>
 								<div ref={divDescription} className="descriptionEp"></div>
 								<p className="moreInfoEp">Publié le {pubDateString}</p>
 							</>

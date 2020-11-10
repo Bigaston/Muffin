@@ -42,11 +42,11 @@ export default function Podcast() {
 				</div>
 			</div>
 			{podcast.episodes !== undefined ?
-				<>
+				<div>
 					{podcast.episodes.map((episode) => (
 						<Episode key={episode.slug} episode={episode} podcast={podcast}/>
 					))}
-				</>
+				</div>
 			:<></>}
 		</>
 	)
