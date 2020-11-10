@@ -12,6 +12,22 @@
 	box-shadow: #34495E 0px 0px 5px;
 }
 
+@media screen and (max-width: 490px) {
+	.episode {
+		display: flex;
+		flex-direction: row;
+		background-color: #F4F6F7;
+		width: auto;
+		margin-left: auto;
+		margin-right: auto;
+		overflow: hidden;
+		margin-top: 10px;
+		padding: 20px;
+		border-radius: 5px;
+		box-shadow: #34495E 0px 0px 5px;
+	}
+}
+
 .episode:last-child {
 	margin-bottom: 150px;
 }
@@ -22,6 +38,14 @@
 	border-radius: 5px;
 }
 
+@media screen and (max-width: 490px) {
+	.episode > img {
+		width: 50px;
+		height: 50px;
+		border-radius: 5px;
+	}
+}
+
 .rightDivEp {
 	margin-left: 10px;
 }
@@ -29,12 +53,20 @@
 .divTitle {
 	display: flex;
 	flex-direction: row;
-	align-items: baseline;
+	align-items: center;
 }
 
 .divTitle > h2 {
 	margin: 0px;
 }
+
+@media screen and (max-width: 490px) {
+	.divTitle > h2 {
+		margin: 0px;
+		font-size: 20px;
+	}
+}
+
 
 .divTitle > img{
 	display: inline;
@@ -58,6 +90,12 @@
 .rightDivEp > .desc {
 	text-align: justify;
 	margin-top: 0px;
+}
+
+@media screen and (max-width: 490px) {
+	.rightDivEp > .desc {
+		display: none;
+	}
 }
 
 .rightDivEp > .moreInfoEp {

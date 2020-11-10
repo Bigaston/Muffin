@@ -20,6 +20,12 @@
 	margin-bottom: 150px;
 }
 
+@media screen and (max-width: 490px) {
+	.content {
+		width: auto;
+	}
+}
+
 .contentHeader {
 	margin-top: 0;
 	text-align: center;
@@ -36,6 +42,10 @@
 
 .descriptionEp a {
 	color: black;
+}
+
+.descriptionEp p {
+	text-align: justify;
 }
 
 .moreInfoEp {
@@ -65,6 +75,12 @@
 	width: 50px;
 	margin-left:5px;
 	margin-right: 5px;
+}
+
+@media screen and (max-width: 490px) {
+	.buttonBar > img {
+		width: 30px;
+	}
 }
 
 .buttonBar > img:hover {

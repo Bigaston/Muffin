@@ -35,7 +35,6 @@ body {
 	position: absolute;
 	background-color: rgba(0,0,0,0.5);
 }
-
 .hoverHeader {
 	z-index: -1;
 	background-color: #FDFEFE;
@@ -54,6 +53,17 @@ body {
 	width: 800px;
 }
 
+@media screen and (max-width: 490px) {
+	.topPage {
+		margin-left: auto;
+		margin-right: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: auto;
+	}
+}
+
 .topLeft > img {
 	width: 250px;
 	height: 250px;
@@ -62,6 +72,19 @@ body {
 
 .topRight {
 	margin-left: 10px;
+}
+
+@media screen and (max-width: 490px) {
+	.topRight {
+		background-color: #F4F6F7;
+		margin-left: auto;
+		margin-right: auto;
+		overflow: hidden;
+		margin-top: 10px;
+		padding: 20px;
+		border-radius: 5px;
+		box-shadow: #34495E 0px 0px 5px;
+	}
 }
 
 .topRight > h1 {
@@ -76,12 +99,33 @@ body {
 	margin-top: 0px;
 	font-size: 20px;
 	font-style: italic;
+	text-align: justify;
 }
 
 .description {
 	color: #FDFEFE;
 	font-size: 20px;
 	text-align: justify;
+}
+
+@media screen and (max-width: 490px) {
+	.topRight > h1 {
+		color: black;
+		font-size: 25px;
+		margin-top: 0px;
+	}
+	
+	.slogan {
+		color: black;
+		margin-top: 0px;
+		font-size: 15px;
+	}
+	
+	.description {
+		color: black;
+		font-size: 17px;
+		margin: 0px;
+	}
 }
 
 /* Contenu */
