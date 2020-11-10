@@ -7,6 +7,8 @@ import {
 import Podcast from "./page/podcast"
 import Episode from "./page/episode"
 
+import Player from "./component/player"
+
 function App() {
   return (
     <>
@@ -20,6 +22,8 @@ function App() {
 				</Route>
 			</Switch>
 		</Router>
+
+		<Player />
     </>
   );
 }

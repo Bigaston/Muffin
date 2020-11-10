@@ -1,0 +1,78 @@
+.closed {
+	display: none;
+}
+
+.opened{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-shadow: #34495E 0px 0px 5px;
+	display: flex;
+	flex-direction: row;
+	padding: 10px;
+}
+
+.playerDiv > img {
+	width: 75px;
+	height: 75px;
+	border-radius: 4px;
+}
+
+.rightDivPlayer {
+	margin-left: 10px;
+	margin-top: 0px;
+	width: 100%;
+}
+
+.rightDivPlayer > p {
+	margin-top: 3px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#progressbar {
+	text-align: left;
+    height: 10px;
+    background-color: #BFC9CA;
+    border-radius: 3px;
+    margin-top: 3px;
+}
+
+#progressbar:hover {
+    cursor: pointer;
+}
+
+#prog {
+    background-color: #3498DB;
+    height: 10px;
+	border-radius: 3px;
+	width: 0;
+}
+.time {
+    display: flex;
+    justify-content: space-between;
+}
+    
+.time > p {
+    margin-top: 1px;
+    color: #5D6D7E;
+    margin-bottom: 0px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+}
+
+.controls > img {
+    margin-top: -15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 40px;
+}
+
+.controls > img:hover {
+	cursor: pointer;
+}

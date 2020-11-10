@@ -20,9 +20,9 @@ export default function EpisodePage() {
 
 	let divDescription = useRef(undefined)
 
-	let month_tab = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-
 	useEffect(() => {
+		let month_tab = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
 		axios({
 			method: "GET",
 			url: config.host + "/api/podcast/get_ep_info/" + slug
@@ -42,7 +42,7 @@ export default function EpisodePage() {
 		}).catch(err => {
 			console.log(err)
 		})
-	}, [])
+	}, [slug])
 
 	const handleReturnMenu = () => {
 		history.push("/")

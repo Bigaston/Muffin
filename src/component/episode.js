@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 
 import "./episode.css";
 import config from "../config.json"
 import {Link} from "react-router-dom"
 
+import playerAtom from "../stores/player";
+import {useRecoilState} from "recoil";
+
 export default function Episode(props) {
+	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
+
 	let episode = props.episode;
 	let podcast = props.podcast;
 
@@ -13,11 +18,58 @@ export default function Episode(props) {
 	let pub_date = new Date(episode.pub_date);
 	let pub_date_string = "Publié le " + pub_date.getDate() === 1 ? "1er" : pub_date.getDate() + " " + month_tab[pub_date.getMonth()] + " " + pub_date.getFullYear()
 
+	function playPauseEp() {
+		if (!playerStore.displayed || playerStore.slug !== episode.slug) {
+			let played_ep = {
+				displayed: true,
+				paused: false,
+				img: episode.img,
+				title: episode.title,
+				slug: episode.slug,
+				duration: episode.duration,
+				audio: episode.audio
+			}
+
+			setPlayerStore(played_ep);
+		} else if (playerStore.paused) {
+			let played_ep = {
+				displayed: playerStore.displayed,
+				paused: false,
+				img: playerStore.img,
+				title: playerStore.title,
+				slug: playerStore.slug,
+				duration: playerStore.duration,
+				audio: playerStore.audio
+			}
+
+			setPlayerStore(played_ep);
+		} else if (!playerStore.paused) {
+			let played_ep = {
+				displayed: playerStore.displayed,
+				paused: true,
+				img: playerStore.img,
+				title: playerStore.title,
+				slug: playerStore.slug,
+				duration: playerStore.duration,
+				audio: playerStore.audio
+			}
+
+			setPlayerStore(played_ep);
+		}
+	}
+
 	return (
 		<div className="episode">
 			<img src={episode.img !== undefined ? config.host + episode.img : config.host + podcast.logo} alt={"Couverture de " + episode.title} />
 			<div className="rightDivEp">
-				<h2><Link to={"/" + episode.slug}>{episode.title}</Link></h2>
+				<div className="divTitle">
+					<img src={
+						playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/pause.svg" : config.host + "/public/play.svg"}
+						alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title} 
+						onClick={playPauseEp} />
+					<h2><Link to={"/" + episode.slug}>{episode.title}</Link></h2>
+				</div>
+
 				<p className="desc">{episode.small_desc}</p>
 				<p className="moreInfoEp">{episode.duration} | {pub_date_string}</p>
 			</div>

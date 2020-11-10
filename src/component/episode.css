@@ -22,21 +22,32 @@
 	margin-left: 10px;
 }
 
-.rightDivEp > h2 {
+.divTitle {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+
+.divTitle > h2 {
 	margin: 0px;
 }
 
-.rightDivEp > h2 > a { 
+.divTitle > img{
+	display: inline;
+	width: 20px;
+	margin-right: 5px;
+}
+
+.divTitle > img:hover {
+	cursor: pointer;
+}
+
+.divTitle > h2 > a { 
 	color: black;
 	text-decoration: none;
 }
 
-.rightDivEp > h2 > a:hover {
-	text-decoration: underline;
-}
-
-.rightDivEp > h2:hover {
-	cursor: pointer;
+.divTitle > h2 > a:hover {
 	text-decoration: underline;
 }
 

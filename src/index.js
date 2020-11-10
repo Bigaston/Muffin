@@ -5,10 +5,16 @@ import reportWebVitals from './reportWebVitals';
 
 import "./index.css"
 
+import {
+  RecoilRoot,
+} from 'recoil';
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  	<React.StrictMode>
+		<RecoilRoot>
+			<App />
+		</RecoilRoot>
+  	</React.StrictMode>,
   document.getElementById('root')
 );
 
