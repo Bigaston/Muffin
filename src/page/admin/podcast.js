@@ -12,7 +12,10 @@ import {toBase64} from "../../utils"
 import userAtom from "../../stores/user";
 import {useRecoilState} from "recoil";
 
+import {useHistory} from "react-router-dom"
+
 export default function Podcast() {
+	let history = useHistory()
 	let [userState, ] = useRecoilState(userAtom);
 	let [podcast, setPodcast] = useState({})
 	let [currentCategory, setCurrentCategory] = useState("");
@@ -48,6 +51,10 @@ export default function Podcast() {
 	function handleChangeCategory(event) {
 		setCurrentCategory(event.target.value);
 		setCurrentCategorySub(itunes_category[event.target.value]);
+
+		if (itunes_category[event.target.value].length === 0) {
+			setCurrentSub("");
+		}
 	}
 
 	function handleChangeSub(event) {
@@ -114,39 +121,76 @@ export default function Podcast() {
 		}
 	}
 
+	let [errorMessageEdit, setErrorMessageEdit] = useState("");
+
+	function savePodcast() {
+		if (!podcast.title || !podcast.slogan || !podcast.description || !podcast.author || !podcast.email || !podcast.itunes_category) {
+			setErrorMessageEdit("Merci de completer tous les champs marqués d'un *!")
+			return;
+		}
+
+		setErrorMessageEdit("");
+
+		let edited_podcast = {...podcast};
+		edited_podcast.itunes_category = currentCategory;
+		edited_podcast.itunes_subcategory = currentSub;
+
+		axios({
+			method: "POST",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/podcast/info",
+			data: edited_podcast
+		}).then(res => {
+			if (res.status === 200) {
+				history.push("/")
+			}
+		}).catch(err => {
+			console.log(err)
+		})
+	}
+
 	return (
 		<>
 			<div className="podcastAdminContainer">
 				<h1>Modifier mon podcast</h1>
 
-				<label htmlFor="title">Titre du podcast</label>
+				<label htmlFor="title">Titre du podcast*</label>
 				<input className="u-full-width" type="text" id="title" value={podcast.title} onChange={handleAllInput}/>
-				<label htmlFor="slogan">Slogan du podcast</label>
+				<label htmlFor="slogan">Slogan du podcast*</label>
 				<input className="u-full-width" type="text" id="slogan" value={podcast.slogan} onChange={handleAllInput}/>
-				<label for="description">Description</label>
-				<textarea class="u-full-width" id="description" value={podcast.description} onChange={handleAllInput}></textarea>
-				<label htmlFor="author">Auteur du podcast</label>
+				<label htmlFor="description">Description*</label>
+				<textarea className="u-full-width" id="description" value={podcast.description} onChange={handleAllInput}></textarea>
+				<label htmlFor="author">Auteur du podcast*</label>
 				<input className="u-full-width" type="text" id="author" value={podcast.author} onChange={handleAllInput}/>
-				<label htmlFor="email">Email du flux</label>
+				<label htmlFor="email">Email du flux*</label>
 				<input className="u-full-width" type="email" id="email" value={podcast.email} onChange={handleAllInput}/>
 				
-				<label for="itunes_category">Categorie iTunes</label>
-				<select class="u-full-width" id="itunes_category" value={currentCategory} onChange={handleChangeCategory}>
+				<label htmlFor="itunes_category">Categorie iTunes*</label>
+				<select className="u-full-width" id="itunes_category" value={currentCategory} onChange={handleChangeCategory}>
 					{Object.keys(itunes_category).map((category) => (
-						<option value={category}>{category}</option>
+						<option key={category} value={category}>{category}</option>
 					))}
 				</select>
 
 				{currentCategorySub.length !== 0 ?
 					<>
-						<label for="itunes_subcategory">Sous-catégorie iTunes</label>
-						<select class="u-full-width" id="itunes_subcategory" value={currentSub} onChange={handleChangeSub}>
+						<label htmlFor="itunes_subcategory">Sous-catégorie iTunes*</label>
+						<select className="u-full-width" id="itunes_subcategory" value={currentSub} onChange={handleChangeSub}>
 							{currentCategorySub.map((category) => (
-								<option value={category}>{category}</option>
+								<option key={category} value={category}>{category}</option>
 							))}
 						</select>
 					</>
 				:<></>}
+
+				<label htmlFor="prefix">Prefix de stats</label>
+				<input className="u-full-width" type="url" id="prefix" value={podcast.prefix} onChange={handleAllInput}/>
+				<p>Collez ici le préfix de statistiques fournit par un service comme Podtrac ou Chartable. Attention, en cas de mauvaise configuration, vos fichiers pourront ne plus être accessibles!</p>
+				{!!errorMessageEdit ? <p className="errorMessageEdit">{errorMessageEdit}</p> : <></>}
+				<button className="button-primary" style={{width: "100%"}}onClick={savePodcast}>Enregistrer</button>
+
 
 				<p className="fakeLabel">Logo</p>
 				<img className="podcastLogo" src={config.host + podcast.logo} alt="Logo du podcast" />
@@ -157,7 +201,7 @@ export default function Podcast() {
 				<h1>Modifier l'image</h1>
 				<input type="file" ref={filepicker_image} accept="image/png, image/jpeg"/>
 				{!!errorMessageImg ? <p className="errorMessageImg">{errorMessageImg}</p> : <></>}
-				<button class="button-primary" onClick={validImage}>Valider</button> <button onClick={() => {setOpenEditImage(false)}}>Annuler</button>
+				<button className="button-primary" onClick={validImage}>Valider</button> <button onClick={() => {setOpenEditImage(false)}}>Annuler</button>
 				{percentCompleted !== 0 ?
 					<progress max="100" value={percentCompleted} />
 				:<></>}

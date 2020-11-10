@@ -21,10 +21,10 @@ app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);
 
 app.get("/api/admin/podcast", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_info_admin);
 app.post("/api/admin/podcast/img", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_pod_img);
+app.post("/api/admin/podcast/info", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_info)
 
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
-
 
 app.get("/*", (req, res) => {
 	res.sendFile(path.join(__dirname, 'build', 'index.html'));

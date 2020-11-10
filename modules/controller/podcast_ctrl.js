@@ -82,8 +82,8 @@ module.exports = {
 				author: podcast.author,
 				email: podcast.email,
 				itunes_category: podcast.itunes_category,
-				itunes_subcategory: podcast.itunes_subcategory,
-				prefix: podcast.prefix,
+				itunes_subcategory: podcast.itunes_subcategory != null ? podcast.itunes_subcategory : "",
+				prefix: podcast.prefix != null ? podcast.prefix : "",
 				logo: podcast.logo
 			}
 
@@ -102,6 +102,26 @@ module.exports = {
 		} else {
 			fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
 			res.send("OK");
+		}
+	},
+	edit_info: (req, res) => {
+		if (!req.body.title || !req.body.slogan || !req.body.description || !req.body.author || !req.body.email || !req.body.itunes_category) {
+			res.status(400).send("Bad request");
+		} else {
+			bdd.Podcast.findOne().then(podcast => {
+				podcast.title = req.body.title;
+				podcast.description = req.body.description;
+				podcast.slogan = req.body.slogan;
+				podcast.author = req.body.author;
+				podcast.email = req.body.email;
+				podcast.itunes_category = req.body.itunes_category;
+				podcast.itunes_subcategory = req.body.itunes_subcategory;
+				podcast.prefix = req.body.prefix;
+
+				podcast.save().then(() => {
+					res.send("OK")
+				})
+			})
 		}
 	}
 }

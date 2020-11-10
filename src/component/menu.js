@@ -55,7 +55,8 @@ export default function Menu() {
 		<>
 			{userState.logged ? 
 				<div className="menu">
-					<p><Link to="/a/podcast">Mon podcast</Link></p>
+					<p><Link to="/">Mon podcast</Link></p>
+					<p><Link to="/a/podcast">Modifier mon podcast</Link></p>
 					<p><Link to="/a/episodes">Mes épisodes</Link></p>
 					<p><Link to="/a/new_episode">Créer un épisode</Link></p>
 					<p><Link to="/a/account">Mon compte</Link></p>

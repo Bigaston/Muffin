@@ -32,6 +32,12 @@
 	margin-bottom: 10px;
 }
 
+.podcastAdminContainer > .errorMessageEdit {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+}
+
 .modal input[type="file"] {
 	display: block;
 	margin-bottom: 10px;
