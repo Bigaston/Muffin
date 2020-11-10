@@ -10,10 +10,13 @@ import Episode from "./page/public/episode"
 import Login from "./page/admin/login"
 
 import Player from "./component/player"
+import Menu from "./component/menu"
 
 function App() {
   return (
     <>
+		<Menu />
+
 		<Router>
 			<Switch>
 				<Route path="/a/login">
@@ -28,6 +31,7 @@ function App() {
 				</Route>
 			</Switch>
 		</Router>
+
 
 		<Player />
     </>

@@ -24,6 +24,15 @@ module.exports = {
 		}
 	},
 	whoami: (req, res) => {
-
+		jwt.verify(req.body.jwt, process.env.JWT_SECRET, function(err, decoded) {
+			if (!err) {
+				bdd.User.findOne({where: {id: decoded.id}}).then((user) => {
+					let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: "2h"})
+					res.send({username: user.username, id: user.id, jwt: token});
+				})
+			} else {
+				res.status(401).send("Bad JWT");
+			}
+		});
 	}
 }
