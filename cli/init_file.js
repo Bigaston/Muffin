@@ -5,7 +5,9 @@ console.log("Création des fichiers de base")
 
 if (!fs.existsSync(path.join(__dirname, "../.env"))) {
     fs.writeFileSync(path.join(__dirname, "../.env"), `
-PORT=6935`)
+PORT=3000	
+SERVER_PORT=6935
+JWT_SECRET=`)
 }
 
 if (!fs.existsSync(path.join(__dirname, "../upload"))) {
