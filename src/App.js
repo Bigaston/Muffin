@@ -4,8 +4,8 @@ import {
 	Route
 } from "react-router-dom";
   
-import Podcast from "./page/podcast"
-import Episode from "./page/episode"
+import Podcast from "./page/public/podcast"
+import Episode from "./page/public/episode"
 
 import Player from "./component/player"
 

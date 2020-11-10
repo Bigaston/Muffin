@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 
 import axios from "axios";
-import config from "../config.json"
+import config from "../../config.json"
 
-import Episode from "../component/episode";
+import Episode from "../../component/episode";
 
 import "./podcast.css";
 

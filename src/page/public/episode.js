@@ -1,14 +1,14 @@
 import React, {useEffect, useState, useRef} from "react";
 
 import axios from "axios";
-import config from "../config.json"
+import config from "../../config.json"
 import {Link, useHistory} from "react-router-dom"
 
-import Loader from "../component/loader"
+import Loader from "../../component/loader"
 
 import {useParams} from "react-router-dom";
 
-import playerAtom from "../stores/player";
+import playerAtom from "../../stores/player";
 import {useRecoilState} from "recoil";
 
 import "./episode.css";
