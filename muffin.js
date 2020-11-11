@@ -4,9 +4,11 @@ const express = require('express')
 var cors = require('cors')
 const path = require("path")
 const m = require("./modules")
+var compression = require('compression');
 
 var app = express()
 
+app.use(compression());
 app.use(express.json({limit: '1000mb'}));
 app.use(cors({
 	origin: "http://localhost:3000"
