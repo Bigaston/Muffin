@@ -305,6 +305,18 @@ module.exports = {
 				res.send("OK")
 			})
 		})
+	},
+	delete_episode: (req, res) => {
+		bdd.Episode.findByPk(req.params.id).then(episode => {
+			if (episode.img !== "/img/pod.jpg" && fs.existsSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"));
+			}
+
+			fs.unlinkSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+			episode.destroy().then(() => {
+				res.send("OK");
+			})
+		})
 	}
 }
 
