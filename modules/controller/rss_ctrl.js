@@ -52,7 +52,7 @@ module.exports = {
 								href: process.env.HOST_SITE + "/img/pod.jpg"
 							}}
 						]},
-						{"itunes:explicit" : podcast.explicit}
+						{"itunes:explicit" : podcast.explicit ? "yes" : "no"}
 					]
 				})
 
@@ -74,7 +74,7 @@ module.exports = {
 							}},
 							{'itunes:duration': ep.duration},
 							{"itunes:episodeType": ep.type},
-							{"itunes:explicit" : ep.explicit},
+							{"itunes:explicit" : ep.explicit ? "yes" : "no"},
 							{"itunes:season": ep.saison},
 							{"itunes:episode": ep.episode},
 							{"enclosure" : {

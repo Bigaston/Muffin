@@ -12,7 +12,7 @@ import {toBase64} from "../../utils"
 import userAtom from "../../stores/user";
 import {useRecoilState} from "recoil";
 
-import {useHistory} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 
 export default function Podcast() {
 	let history = useHistory()

@@ -12,6 +12,7 @@ import PodcastAdmin from "./page/admin/podcast"
 import NewEpisode from "./page/admin/add_episode"
 import EpisodeList from "./page/admin/ep_list"
 import EditEpisode from "./page/admin/edit_episode"
+import ImportPodcast from "./page/admin/import_podcast"
 
 import Player from "./component/player"
 import Menu from "./component/menu"

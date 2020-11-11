@@ -11,6 +11,8 @@ const getMP3Duration = require('get-mp3-duration')
 const dayjs = require('dayjs')
 dayjs.extend(require('dayjs/plugin/customParseFormat'))
 const { Op } = require("sequelize");
+let Parser = require('rss-parser');
+const download = require('download');
 
 module.exports = {
 	get_info: (req, res) => {
@@ -317,6 +319,67 @@ module.exports = {
 				res.send("OK");
 			})
 		})
+	},
+	import_podcast: (req, res) => {
+		let parser = new Parser();
+
+		parser.parseURL(req.body.url)
+		.then(feed => {
+			res.send("OK");
+			console.log("Importation : Feed OK")
+
+			bdd.Podcast.findOne().then(podcast => {
+				podcast.title = feed.title;
+				podcast.description = feed.description;
+				podcast.slogan = feed.itunes.subtitle;
+				podcast.author = feed.itunes.author;
+				podcast.email = feed.itunes.owner.email;
+				podcast.itunes_category = feed.itunes.categories[0];
+				podcast.explicit = feed.itunes.explicit === "yes";
+
+				podcast.save().then(() => {
+					download(feed.image.url).then(img_buffer => {
+						fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
+
+						console.log("Importation : Podcast importé")
+
+						for (const ep of feed.items) {
+							bdd.Episode.create({
+								title: ep.title,
+								description: ep.content,
+								desc_parsed: ep.content,
+								pub_date: new Date(ep.pubDate),
+								author: ep.itunes.author,
+								guid: ep.guid,
+								episode: parseInt(ep.itunes.episode),
+								saison: parseInt(ep.itunes.saison),
+								slug: ep.guid,
+								small_desc: ep.content.substr(0, 250) + "...",
+								explicit: ep.itunes.explicit === "yes"
+							}).then(episode => {
+								download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/"), {filename: episode.id + ".mp3"}).then(() => {
+									episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3")))/1000));
+									episode.enclosure = "/audio/" + episode.id + ".mp3"
+							
+									let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+									episode.size = stats.size;
+	
+									download(ep.itunes.image, path.join(__dirname, "../../upload/img/"), {filename: episode.id + ".jpg"}).then(() => {
+										episode.img = "/img/" + episode.id + ".jpg";
+										episode.save().then(() => {
+											console.log("Importation : Episode " + ep.title + " importé")
+										});
+									})
+								})
+							})
+						}
+					})
+				})
+			})
+		}).catch(err => {
+			res.status(400).send("Bad feed")
+		})
+
 	}
 }
 
