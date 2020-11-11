@@ -22,7 +22,7 @@ export default function Player() {
 			return;
 		}
 
-		if (audioPlayer.current.src !== config.host + playerStore.audio) {audioPlayer.current.src = config.host + playerStore.audio;}
+		if (audioPlayer.current.src !== playerStore.audio) {audioPlayer.current.src = playerStore.audio;}
 
 		if (playerStore.paused) {
 			audioPlayer.current.pause()

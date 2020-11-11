@@ -7,7 +7,8 @@ if (!fs.existsSync(path.join(__dirname, "../.env"))) {
     fs.writeFileSync(path.join(__dirname, "../.env"), `
 PORT=3000	
 SERVER_PORT=6935
-JWT_SECRET=`)
+JWT_SECRET=
+HOST=http://localhost:6935`)
 }
 
 if (!fs.existsSync(path.join(__dirname, "../upload"))) {
