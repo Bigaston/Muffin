@@ -18,8 +18,7 @@ module.exports = {
 			pub_date: {
 				[Op.lte]: new Date(),
 			}
-		},
-		logging: console.log}).then(episodes => {
+		}}).then(episodes => {
 			bdd.Podcast.findOne().then(podcast => {
 				let return_obj = {
 					title: podcast.title,
@@ -201,6 +200,22 @@ module.exports = {
 				res.send("OK")
 			})
 		}
+	},
+	get_ep_list: (req, res) => {
+		bdd.Episode.findAll().then(episodes => {
+			let return_obj = [];
+			episodes.forEach(ep => {
+				let ep_obj = {
+					id: ep.id,
+					title: ep.title
+				}
+
+				return_obj.push(ep_obj);
+			})
+
+			return_obj.sort(orderById)
+			res.json(return_obj);
+		})
 	}
 }
 
@@ -227,4 +242,8 @@ function orderTableByDate(a, b) {
 
 function orderTableByDateInvert(a, b) {
 	return new Date(a.pub_date).getTime() - new Date(b.pub_date).getTime();
+}
+
+function orderById(a, b) {
+	return b.id - a.id;
 }

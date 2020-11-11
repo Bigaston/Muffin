@@ -1,0 +1,2 @@
+- Loader propre
+- Vérification si le slug n'est pas en double
