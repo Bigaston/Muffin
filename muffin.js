@@ -34,6 +34,8 @@ app.delete("/api/admin/podcast/episode/:id", m.user_ctrl.check_if_logged, m.podc
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
 
+app.get("/rss", m.rss_ctrl.create_rss);
+
 app.get("/*", (req, res) => {
 	res.sendFile(path.join(__dirname, 'build', 'index.html'));
 })
