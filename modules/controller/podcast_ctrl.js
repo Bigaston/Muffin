@@ -10,10 +10,16 @@ var md = require('markdown-it')({
 const getMP3Duration = require('get-mp3-duration')
 const dayjs = require('dayjs')
 dayjs.extend(require('dayjs/plugin/customParseFormat'))
+const { Op } = require("sequelize");
 
 module.exports = {
 	get_info: (req, res) => {
-		bdd.Episode.findAll().then(episodes => {
+		bdd.Episode.findAll({where: {
+			pub_date: {
+				[Op.lte]: new Date(),
+			}
+		},
+		logging: console.log}).then(episodes => {
 			bdd.Podcast.findOne().then(podcast => {
 				let return_obj = {
 					title: podcast.title,
@@ -42,7 +48,14 @@ module.exports = {
 					return_obj.episodes.push(ep_obj);
 				})
 
-				res.json(return_obj);
+				if (podcast.type === "episodic") {
+					return_obj.episodes.sort(orderTableByDate)
+					res.json(return_obj);
+				} else if (podcast.type = "serial") {
+					return_obj.episodes.sort(orderTableByDateInvert)
+					res.json(return_obj);
+				}
+
 			})
 		})
 	},
@@ -92,7 +105,8 @@ module.exports = {
 				itunes_category: podcast.itunes_category,
 				itunes_subcategory: podcast.itunes_subcategory != null ? podcast.itunes_subcategory : "",
 				prefix: podcast.prefix != null ? podcast.prefix : "",
-				logo: podcast.logo
+				logo: podcast.logo,
+				type: podcast.type
 			}
 
 			res.json(return_obj);
@@ -125,6 +139,7 @@ module.exports = {
 				podcast.itunes_category = req.body.itunes_category;
 				podcast.itunes_subcategory = req.body.itunes_subcategory;
 				podcast.prefix = req.body.prefix;
+				podcast.type = req.body.type;
 
 				podcast.save().then(() => {
 					res.send("OK")
@@ -204,4 +219,12 @@ function convertHMS(pSec) {
     if (sortie.seconde < 10) {sortie.seconde = "0"+sortie.seconde}
 
     return sortie.heure + ":" + sortie.minute + ":" + sortie.seconde
+}
+
+function orderTableByDate(a, b) {
+	return new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime();
+}
+
+function orderTableByDateInvert(a, b) {
+	return new Date(a.pub_date).getTime() - new Date(b.pub_date).getTime();
 }

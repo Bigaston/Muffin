@@ -33,7 +33,7 @@ export default function Podcast() {
 
 				let new_info = {
 					author: res.data.author,
-					pub_date: p(date.getDate()) + "/" + p(date.getMonth()) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes()),
+					pub_date: p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes()),
 					episode: 0,
 					saison: 0,
 					explicit: true,
@@ -77,6 +77,8 @@ export default function Podcast() {
 			return;
 		}
 
+		setDuring(true);
+
 		setErrorMessage("")
 
 		// Vérification de si l'image est de la bonne taille
@@ -94,6 +96,7 @@ export default function Podcast() {
 					})
 				} else {
 					setErrorMessage("Votre image doit être au format 1400x1400 pour être acceptée par iTunes et les lecteurs de podcasts")
+					setDuring(false);
 					return;
 				}
 			}
@@ -107,8 +110,6 @@ export default function Podcast() {
 
 				data_ep.enclosure = base64audio;
 				data_ep.img = base64img
-
-				setDuring(true);
 
 				axios({
 					method: "POST",
@@ -126,9 +127,11 @@ export default function Podcast() {
 					}
 				}).catch(err => {
 					console.log(err)
+					setDuring(false);
 				})
 			}).catch(err => {
 				console.log(err)
+				setDuring(false);
 			})
 		}
 	}

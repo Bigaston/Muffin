@@ -185,6 +185,12 @@ export default function Podcast() {
 					</>
 				:<></>}
 
+				<label htmlFor="type">Type de podcast*</label>
+				<select className="u-full-width" id="type" value={podcast.type} onChange={handleAllInput}>
+					<option value="episodic">Du plus récent au plus vieux</option>
+					<option value="serial">Du plus vieux au plus récent</option>
+				</select>
+
 				<label htmlFor="prefix">Prefix de stats</label>
 				<input className="u-full-width" type="url" id="prefix" value={podcast.prefix} onChange={handleAllInput}/>
 				<p>Collez ici le préfix de statistiques fournit par un service comme Podtrac ou Chartable. Attention, en cas de mauvaise configuration, vos fichiers pourront ne plus être accessibles!</p>

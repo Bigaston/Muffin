@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
 		itunes_subcategory: DataTypes.STRING,
 		logo: DataTypes.STRING,
 		prefix: DataTypes.STRING,
-		explicit: DataTypes.BOOLEAN
+		explicit: DataTypes.BOOLEAN,
+		type: DataTypes.STRING
     }, {
 
     });
