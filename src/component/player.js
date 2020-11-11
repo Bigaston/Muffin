@@ -84,6 +84,23 @@ export default function Player() {
 		updateTime();
 	}
 
+	function stopPlay() {
+		let played_ep = {
+			displayed: false,
+			paused: false,
+			img: "",
+			title: "",
+			slug: "",
+			duration: "",
+			audio: ""
+		}
+
+		audioPlayer.current.pause()
+		audioPlayer.current.src = ""
+
+		setPlayerStore(played_ep);
+	}
+
 	return (
 		<>
 			<div className={"playerDiv " + (playerStore.displayed ? "opened" : "closed")}>
@@ -104,6 +121,7 @@ export default function Player() {
 							alt={playerStore.paused ? "Reprendre " + playerStore.title : "Mettre en pause " + playerStore.title} 
 							onClick={playPauseEp} />
 						<img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15}/>
+						<img src={config.host + "/public/stop.svg"} alt="Arrêter" onClick={stopPlay}/>
 					</div>
 				</div>
 			</div>
