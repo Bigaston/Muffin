@@ -1,3 +1,5 @@
 - Loader propre
 - Vérification si le slug n'est pas en double
 - Support de toutes les langues
+- Edition du Explicit sur la page du podcast (pas fait encore)
+- Modification des métadonnés de index.html (avec mustache)
