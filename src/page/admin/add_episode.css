@@ -1,0 +1,58 @@
+.addEpisodeContainer {
+	position: absolute;
+	width: 900px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+	border-radius: 5px;
+	padding: 20px;
+	background-color: white;
+	margin-bottom: 150px;
+}
+
+.addEpisodeContainer > h1 {
+	text-align: center;
+	margin-top:0px;
+}
+
+.addEpisodeContainer  label {
+	margin-top: 5px;
+}
+.addEpisodeContainer .info {
+	color: #566573;
+	font-style: italic;
+	text-align: center;
+	margin: 10px;
+}
+
+.addEpisodeContainer .label-body {
+	margin-left: 10px;
+	font-weight: bold;
+}
+
+#description {
+	height: 300px;
+}
+
+#small_desc {
+	height: 150px;
+}
+
+.addEpisodeContainer .button-primary {
+	display: block;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.addEpisodeContainer progress {
+	width: 100%;
+}
+
+.addEpisodeContainer .errorMessage {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}

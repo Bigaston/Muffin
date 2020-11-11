@@ -9,6 +9,7 @@ import Episode from "./page/public/episode"
 
 import Login from "./page/admin/login"
 import PodcastAdmin from "./page/admin/podcast"
+import NewEpisode from "./page/admin/add_episode"
 
 import Player from "./component/player"
 import Menu from "./component/menu"
@@ -27,6 +28,11 @@ function App() {
 				<Route path="/a/podcast">
 					<CheckLogged>
 						<PodcastAdmin />
+					</CheckLogged>
+				</Route>
+				<Route path="/a/new_episode">
+					<CheckLogged>
+						<NewEpisode/>
 					</CheckLogged>
 				</Route>
 

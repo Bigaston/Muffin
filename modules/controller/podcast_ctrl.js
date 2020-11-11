@@ -2,6 +2,14 @@ const bdd = require("../../models")
 const fs = require("fs");
 const path = require("path");
 const pngToJpeg = require('png-to-jpeg');
+var md = require('markdown-it')({
+	html: true,
+	breaks: true,
+	linkify: true
+});
+const getMP3Duration = require('get-mp3-duration')
+const dayjs = require('dayjs')
+dayjs.extend(require('dayjs/plugin/customParseFormat'))
 
 module.exports = {
 	get_info: (req, res) => {
@@ -90,7 +98,7 @@ module.exports = {
 			res.json(return_obj);
 		})
 	},
-	get_pod_img: (req, res) => {
+	edit_pod_img: (req, res) => {
 		let img_buffer = new Buffer.from(req.body.image.split(/,\s*/)[1], "base64");
 
 		if (req.body.image.startsWith("data:image/png;")) {
@@ -123,5 +131,77 @@ module.exports = {
 				})
 			})
 		}
+	},
+	add_episode: (req, res) => {
+
+
+		bdd.Episode.create({
+			title: req.body.title,
+			description: req.body.description,
+			desc_parsed: md.render(req.body.description),
+			small_desc: req.body.small_desc,
+			pub_date: dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm"),
+			author: req.body.author,
+			guid: Date.now(),
+			type: req.body.type,
+			episode: req.body.episode,
+			saison: req.body.saison,
+			slug: req.body.slug,
+			explicit: req.body.explicit	
+		}).then(ep => {
+			if (req.body.img !== null) {
+				let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
+
+				if (req.body.img.startsWith("data:image/png;")) {
+					pngToJpeg({quality: 90})(img_buffer)
+					.then(output => {
+						fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), output);
+						
+						ep.img = "/img/" + ep.id + ".jpg";
+						continueTraitementAddEp(ep)
+					});
+				} else {
+					fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), img_buffer);
+					
+					ep.img = "/img/" + ep.id + ".jpg";
+					continueTraitementAddEp(ep)
+				}
+			} else {
+				ep.img = "/img/pod.jpg";
+				continueTraitementAddEp(ep)
+			}
+		})
+
+		function continueTraitementAddEp(ep) {
+			let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
+
+			fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"), audio_buffer);
+			ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer)/1000));
+			ep.enclosure = "/audio/" + ep.id + ".mp3"
+
+			let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"));
+			ep.size = stats.size;
+
+			ep.save().then(() => {
+				res.send("OK")
+			})
+		}
 	}
+}
+
+function convertHMS(pSec) {
+    let nbSec = pSec;
+    let sortie = {};
+    sortie.heure = Math.trunc(nbSec/3600);
+    if (sortie.heure < 10) {sortie.heure = "0"+sortie.heure}
+
+    nbSec = nbSec%3600;
+    sortie.minute = Math.trunc(nbSec/60);
+    if (sortie.minute < 10) {sortie.minute = "0"+sortie.minute}
+
+    nbSec = nbSec%60;
+    sortie.seconde = Math.trunc(nbSec);
+    if (sortie.seconde < 10) {sortie.seconde = "0"+sortie.seconde}
+
+    return sortie.heure + ":" + sortie.minute + ":" + sortie.seconde
 }
