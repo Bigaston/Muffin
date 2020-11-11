@@ -11,8 +11,8 @@ export default function Modal(props) {
 		<>
 			{props.open ?
 				<>
-					<div class="darkZone" onClick={quit}></div>
-					<div class="modal">
+					<div className="darkZone" onClick={quit}></div>
+					<div className="modal">
 						{props.children}
 					</div>
 				</>

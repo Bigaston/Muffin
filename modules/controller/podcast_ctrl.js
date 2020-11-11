@@ -40,7 +40,7 @@ module.exports = {
 						duration: ep.duration,
 						img: ep.img,
 						ep_number: ep.episode,
-						season_number: ep.season,
+						saison_number: ep.saison,
 						slug: ep.slug
 					}
 
@@ -84,7 +84,7 @@ module.exports = {
 						duration: ep.duration,
 						img: ep.img,
 						ep_number: ep.episode,
-						season_number: ep.season,
+						saison_number: ep.saison,
 						slug: ep.slug
 					}
 
@@ -147,8 +147,6 @@ module.exports = {
 		}
 	},
 	add_episode: (req, res) => {
-
-
 		bdd.Episode.create({
 			title: req.body.title,
 			description: req.body.description,
@@ -215,6 +213,97 @@ module.exports = {
 
 			return_obj.sort(orderById)
 			res.json(return_obj);
+		})
+	},
+	get_ep_info_admin: (req, res) => {
+		bdd.Episode.findAll({where: {id: req.params.id}}).then(episode => {
+			let ep = episode[0];
+
+			let return_ep = {
+				id: ep.id,
+				title: ep.title,
+				description: ep.description,
+				small_desc: ep.small_desc,
+				pub_date: ep.pub_date,
+				author: ep.author,
+				audio: ep.enclosure,
+				img: ep.img,
+				episode: ep.episode,
+				saison: ep.saison,
+				slug: ep.slug,
+				explicit: ep.explicit
+			}
+
+			res.json(return_ep)
+		})
+	},
+	edit_ep_info: (req, res) => {
+		bdd.Episode.findOne({where: {id: req.body.id}}).then(episode => {
+			episode.title = req.body.title
+			episode.description = req.body.description
+			episode.desc_parsed = md.render(req.body.description)
+			episode.small_desc = req.body.small_desc
+			episode.pub_date = dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm")
+			episode.author = req.body.author
+			episode.type = req.body.type
+			episode.episode = req.body.episode
+			episode.saison = req.body.saison
+			episode.slug = req.body.slug
+			episode.explicit = req.body.explicit
+			
+			episode.save().then(() => {
+				res.send("OK");
+			})
+		})
+	},
+	edit_ep_img: (req, res) => {
+		bdd.Episode.findByPk(req.params.id).then(episode => {
+			let img_buffer = new Buffer.from(req.body.image.split(/,\s*/)[1], "base64");
+
+			if (req.body.image.startsWith("data:image/png;")) {
+				pngToJpeg({quality: 90})(img_buffer)
+				.then(output => {
+					fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), output);
+					episode.img = "/img/" + episode.id + ".jpg";
+					episode.save().then(() => {
+						res.send("OK");
+					})
+				});
+			} else {
+				fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), img_buffer);
+				episode.img = "/img/" + episode.id + ".jpg";
+				episode.save().then(() => {
+					res.send("OK");
+				})
+			}
+		})
+	},
+	delete_ep_img: (req, res) => {
+		bdd.Episode.findByPk(req.params.id).then(episode => {
+			if (fs.existsSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"));
+			}
+
+			episode.img = "/img/pod.jpg";
+			episode.save().then(() => {
+				res.send("OK");
+			})
+		})
+	},
+	edit_ep_audio: (req, res) => {
+		bdd.Episode.findByPk(req.params.id).then(episode => {
+			let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
+
+			fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"), audio_buffer);
+			episode.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer)/1000));
+			episode.enclosure = "/audio/" + episode.id + ".mp3"
+	
+			let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+			episode.size = stats.size;
+	
+			episode.save().then(() => {
+				res.send("OK")
+			})
 		})
 	}
 }

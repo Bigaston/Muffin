@@ -24,6 +24,11 @@ app.post("/api/admin/podcast/img", m.user_ctrl.check_if_logged, m.podcast_ctrl.e
 app.post("/api/admin/podcast/info", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_info);
 app.post("/api/admin/podcast/new_episode", m.user_ctrl.check_if_logged, m.podcast_ctrl.add_episode)
 app.get("/api/admin/podcast/ep_list", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_ep_list);
+app.get("/api/admin/podcast/episode/:id", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_ep_info_admin);
+app.post("/api/admin/podcast/save", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_ep_info);
+app.post("/api/admin/podcast/edit_ep_img/:id", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_ep_img);
+app.delete("/api/admin/podcast/delete_ep_img/:id", m.user_ctrl.check_if_logged, m.podcast_ctrl.delete_ep_img);
+app.post("/api/admin/podcast/edit_ep_audio/:id", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_ep_audio)
 
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
