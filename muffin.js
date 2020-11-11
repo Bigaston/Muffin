@@ -34,6 +34,8 @@ app.delete("/api/admin/podcast/episode/:id", m.user_ctrl.check_if_logged, m.podc
 
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
+app.post("/api/admin/user/change_username", m.user_ctrl.check_if_logged, m.user_ctrl.change_username);
+app.post("/api/admin/user/change_password", m.user_ctrl.check_if_logged, m.user_ctrl.change_password)
 
 app.get("/rss", m.rss_ctrl.create_rss);
 

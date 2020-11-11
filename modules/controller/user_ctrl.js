@@ -43,5 +43,31 @@ module.exports = {
 				res.status(401).send("Must be logged");
 			}
 		});
+	},
+	change_username: (req, res) => {
+		bdd.User.findOne().then(user => {
+			user.username = req.body.username;
+			user.save().then(() => {
+				res.send("OK");
+			})
+		})
+	},
+	change_password: (req, res) => {
+		bdd.User.findOne().then(user => {
+			bcrypt.compare(req.body.password, user.password, function(err, result) {
+				if (result) {
+					if (req.body.new_pass === req.body.repeat_new_pass) {
+						bcrypt.hash(req.body.new_pass, 12, function(err, hash) {
+							user.password = hash;
+							user.save().then(() => {
+								res.send("OK");
+							})
+						});
+					}
+				} else {
+					res.status(401).send("Bad Password")
+				}
+			});	
+		})
 	}
 }
