@@ -68,8 +68,10 @@ export default function Podcast() {
 	let filepicker_audio = useRef(undefined);
 	let [percentCompleted, setPercentCompleted] = useState(0);
 	let [errorMessage, setErrorMessage] = useState("");
+	let [during, setDuring] = useState(false);
 
 	function uploadEpisode() {
+		if (during) return;
 		if (!episode.title || !episode.slug || !episode.small_desc || !episode.author || !episode.pub_date || !episode.type || episode.episode === undefined || episode.saison === undefined || !episode.description || filepicker_audio.current.files.length !== 1) {
 			setErrorMessage("L'un des champs obligatoire n'est pas remplis! Merci de complêter tous les champs avec *");
 			return;
@@ -105,6 +107,8 @@ export default function Podcast() {
 
 				data_ep.enclosure = base64audio;
 				data_ep.img = base64img
+
+				setDuring(true);
 
 				axios({
 					method: "POST",
@@ -184,7 +188,7 @@ export default function Podcast() {
 
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
 				<button className="button-primary" onClick={uploadEpisode}>Créer l'épisode</button>
-				{percentCompleted !== 0 ?
+				{during ?
 					<progress max="100" value={percentCompleted} />
 				:<></>}
 			</div>

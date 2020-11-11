@@ -7,7 +7,7 @@ const m = require("./modules")
 
 var app = express()
 
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({limit: '1000mb'}));
 app.use(cors({
 	origin: "http://localhost:3000"
 }))
