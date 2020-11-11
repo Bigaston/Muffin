@@ -36,7 +36,7 @@ module.exports = {
 						small_desc: ep.small_desc,
 						pub_date: ep.pub_date,
 						author: ep.author,
-						audio: podcast.prefix + process.env.HOST + ep.enclosure,
+						audio: podcast.prefix + process.env.HOST_SITE + ep.enclosure,
 						duration: ep.duration,
 						img: ep.img,
 						ep_number: ep.episode,

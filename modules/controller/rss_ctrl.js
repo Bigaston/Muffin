@@ -20,9 +20,9 @@ module.exports = {
 					title: podcast.title,
 					description: podcast.description,
 					generator: "Muffin (https://muffin.pm)",
-					feed_url: process.env.HOST + "/rss",
-					site_url: process.env.HOST,
-					image_url: process.env.HOST + "/img/pod.jpg",
+					feed_url: process.env.HOST_SITE + "/rss",
+					site_url: process.env.HOST_SITE,
+					image_url: process.env.HOST_SITE + "/img/pod.jpg",
 					copyright: podcast.author,
 					language: "fr",
 					custom_namespaces: {
@@ -49,7 +49,7 @@ module.exports = {
 						{"itunes:type" : podcast.type},
 						{"itunes:image": [
 							{_attr: {
-								href: process.env.HOST + "/img/pod.jpg"
+								href: process.env.HOST_SITE + "/img/pod.jpg"
 							}}
 						]},
 						{"itunes:explicit" : podcast.explicit}
@@ -60,7 +60,7 @@ module.exports = {
 					feed.item({
 						title: ep.title,
 						description: ep.desc_parsed,
-						url: process.env.HOST + "/" + ep.slug,
+						url: process.env.HOST_SITE + "/" + ep.slug,
 						guid: ep.guid,
 						author: ep.author,
 						date: new Date(ep.pub_date),
@@ -69,7 +69,7 @@ module.exports = {
 							{'itunes:summary': ep.description},
 							{'itunes:image': {
 							_attr: {
-								href: process.env.HOST + ep.img
+								href: process.env.HOST_SITE + ep.img
 							}
 							}},
 							{'itunes:duration': ep.duration},
@@ -79,7 +79,7 @@ module.exports = {
 							{"itunes:episode": ep.episode},
 							{"enclosure" : {
 								_attr: {
-									url: podcast.prefix + process.env.HOST + ep.enclosure,
+									url: podcast.prefix + process.env.HOST_SITE + ep.enclosure,
 									type: "audio/mpeg",
 									length: ep.size
 								}

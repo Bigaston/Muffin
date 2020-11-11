@@ -40,6 +40,9 @@ export default function Podcast() {
 					<p className="description">{podcast.description}</p>
 				</div>
 			</div>
+			<div className="buttonDiv">
+				<a href={config.host + "/rss"}><img src={config.host + "/public/logo/rss.svg"} alt="RSS" /></a>
+			</div>
 			{podcast.episodes !== undefined ?
 				<div>
 					{podcast.episodes.map((episode) => (

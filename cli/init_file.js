@@ -8,7 +8,7 @@ if (!fs.existsSync(path.join(__dirname, "../.env"))) {
 PORT=3000	
 SERVER_PORT=6935
 JWT_SECRET=
-HOST=http://localhost:6935`)
+HOST_SITE=http://localhost:6935`)
 }
 
 if (!fs.existsSync(path.join(__dirname, "../upload"))) {
