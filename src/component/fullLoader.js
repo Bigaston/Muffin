@@ -1,7 +1,18 @@
 import React from "react";
 
-export default function FullLoader() {
+import "./fullLoader.css"
+
+import config from "../config.json"
+
+export default function FullLoader({ loading }) {
 	return (
-		<p>Ca charge</p>
+		<>
+			{loading ?
+				<div class="fullLoad">
+					<img src={config.host + "/public/loader.gif"} alt="Chargement..."></img>
+				</div>
+				: <></>}
+		</>
+
 	)
 }
