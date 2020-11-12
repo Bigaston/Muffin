@@ -18,7 +18,9 @@ export default function Podcast() {
 			url: config.host + "/api/podcast/get_info"
 		}).then(res => {
 			if (res.status === 200) {
-				setIsLoading(false)
+				setInterval(() => {
+					setIsLoading(false)
+				}, 200)
 				setPodcast(res.data);
 			}
 		}).catch(err => {

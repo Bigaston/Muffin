@@ -41,11 +41,15 @@ export default function EpisodePage() {
 
 				let pub_date = new Date(res.data.episode.pub_date);
 				setPubDateString("Publié le " + pub_date.getDate() === 1 ? "1er" : pub_date.getDate() + " " + month_tab[pub_date.getMonth()] + " " + pub_date.getFullYear())
-				setIsLoading(false);
+				setInterval(() => {
+					setIsLoading(false)
+				}, 200)
 			} else {
 				setPodcast(res.data.podcast);
 				setIsNotFound(true);
-				setIsLoading(false);
+				setInterval(() => {
+					setIsLoading(false)
+				}, 200)
 			}
 
 		}).catch(err => {

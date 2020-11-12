@@ -22,3 +22,9 @@
 	margin-bottom: auto;
 	margin-top: auto;
 }
+
+.fadeOut {
+	transition-property: opacity;
+	transition-duration: 0.5s;
+	opacity: 0;
+}
