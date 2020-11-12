@@ -5,7 +5,4 @@
 - Modification des métadonnés de index.html (avec mustache)
 - Mettre des feedback sur l'édition et tout
 - Lors de l'install, automatiquement générer un jwt_secret
-- Login quand mauvais mot de passe, on peut pas en resaisir un 
-- Image du flux pas obligatoirement 1400x1400, mais au moins 1400x1400
-- Image d'épisode pas forcément 1400x1400
 - Faire un écran de player fullscreen
