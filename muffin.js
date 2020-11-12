@@ -2,19 +2,18 @@ require("dotenv").config();
 
 const express = require('express')
 var cors = require('cors')
-const path = require("path")
 const m = require("./modules")
 var compression = require('compression');
 
 var app = express()
 
 app.use(compression());
-app.use(express.json({limit: '1000mb'}));
+app.use(express.json({ limit: '1000mb' }));
 app.use(cors({
 	origin: "http://localhost:3000"
 }))
-app.use("/public", express.static('./public'));
 app.use(express.static('build'))
+app.use("/public", express.static('./public'));
 app.use("/img", express.static("./upload/img"))
 app.use("/audio", express.static("./upload/audio"))
 
@@ -41,8 +40,6 @@ app.post("/api/admin/user/change_password", m.user_ctrl.check_if_logged, m.user_
 
 app.get("/rss", m.rss_ctrl.create_rss);
 
-app.get("/*", (req, res) => {
-	res.sendFile(path.join(__dirname, 'build', 'index.html'));
-})
+app.get("/*", m.podcast_ctrl.send_index);
 
 app.listen(process.env.SERVER_PORT, () => console.log(`Serveur lancé sur le port ${process.env.SERVER_PORT}`))

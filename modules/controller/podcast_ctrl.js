@@ -16,11 +16,13 @@ const download = require('download');
 
 module.exports = {
 	get_info: (req, res) => {
-		bdd.Episode.findAll({where: {
-			pub_date: {
-				[Op.lte]: new Date(),
+		bdd.Episode.findAll({
+			where: {
+				pub_date: {
+					[Op.lte]: new Date(),
+				}
 			}
-		}}).then(episodes => {
+		}).then(episodes => {
 			bdd.Podcast.findOne().then(podcast => {
 				let return_obj = {
 					title: podcast.title,
@@ -61,7 +63,7 @@ module.exports = {
 		})
 	},
 	get_ep_info: (req, res) => {
-		bdd.Episode.findAll({where: {slug: req.params.slug}}).then(episode => {
+		bdd.Episode.findAll({ where: { slug: req.params.slug } }).then(episode => {
 			bdd.Podcast.findOne().then(podcast => {
 				let return_pod = {
 					title: podcast.title,
@@ -72,10 +74,10 @@ module.exports = {
 				}
 
 				if (episode.length === 0) {
-					res.json({podcast: return_pod, episode: undefined})
+					res.json({ podcast: return_pod, episode: undefined })
 				} else {
 					let ep = episode[0];
-	
+
 					let return_ep = {
 						title: ep.title,
 						description: ep.desc_parsed,
@@ -90,7 +92,7 @@ module.exports = {
 						slug: ep.slug
 					}
 
-					res.json({episode: return_ep, podcast: return_pod})
+					res.json({ episode: return_ep, podcast: return_pod })
 				}
 			})
 		})
@@ -117,11 +119,11 @@ module.exports = {
 		let img_buffer = new Buffer.from(req.body.image.split(/,\s*/)[1], "base64");
 
 		if (req.body.image.startsWith("data:image/png;")) {
-			pngToJpeg({quality: 90})(img_buffer)
-			.then(output => {
-				fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), output);
-				res.send("OK");
-			});
+			pngToJpeg({ quality: 90 })(img_buffer)
+				.then(output => {
+					fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), output);
+					res.send("OK");
+				});
 		} else {
 			fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
 			res.send("OK");
@@ -161,22 +163,22 @@ module.exports = {
 			episode: req.body.episode,
 			saison: req.body.saison,
 			slug: req.body.slug,
-			explicit: req.body.explicit	
+			explicit: req.body.explicit
 		}).then(ep => {
 			if (req.body.img !== null) {
 				let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
 
 				if (req.body.img.startsWith("data:image/png;")) {
-					pngToJpeg({quality: 90})(img_buffer)
-					.then(output => {
-						fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), output);
-						
-						ep.img = "/img/" + ep.id + ".jpg";
-						continueTraitementAddEp(ep)
-					});
+					pngToJpeg({ quality: 90 })(img_buffer)
+						.then(output => {
+							fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), output);
+
+							ep.img = "/img/" + ep.id + ".jpg";
+							continueTraitementAddEp(ep)
+						});
 				} else {
 					fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), img_buffer);
-					
+
 					ep.img = "/img/" + ep.id + ".jpg";
 					continueTraitementAddEp(ep)
 				}
@@ -190,7 +192,7 @@ module.exports = {
 			let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
 
 			fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"), audio_buffer);
-			ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer)/1000));
+			ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
 			ep.enclosure = "/audio/" + ep.id + ".mp3"
 
 			let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"));
@@ -218,7 +220,7 @@ module.exports = {
 		})
 	},
 	get_ep_info_admin: (req, res) => {
-		bdd.Episode.findAll({where: {id: req.params.id}}).then(episode => {
+		bdd.Episode.findAll({ where: { id: req.params.id } }).then(episode => {
 			let ep = episode[0];
 
 			let return_ep = {
@@ -240,7 +242,7 @@ module.exports = {
 		})
 	},
 	edit_ep_info: (req, res) => {
-		bdd.Episode.findOne({where: {id: req.body.id}}).then(episode => {
+		bdd.Episode.findOne({ where: { id: req.body.id } }).then(episode => {
 			episode.title = req.body.title
 			episode.description = req.body.description
 			episode.desc_parsed = md.render(req.body.description)
@@ -252,7 +254,7 @@ module.exports = {
 			episode.saison = req.body.saison
 			episode.slug = req.body.slug
 			episode.explicit = req.body.explicit
-			
+
 			episode.save().then(() => {
 				res.send("OK");
 			})
@@ -263,14 +265,14 @@ module.exports = {
 			let img_buffer = new Buffer.from(req.body.image.split(/,\s*/)[1], "base64");
 
 			if (req.body.image.startsWith("data:image/png;")) {
-				pngToJpeg({quality: 90})(img_buffer)
-				.then(output => {
-					fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), output);
-					episode.img = "/img/" + episode.id + ".jpg";
-					episode.save().then(() => {
-						res.send("OK");
-					})
-				});
+				pngToJpeg({ quality: 90 })(img_buffer)
+					.then(output => {
+						fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), output);
+						episode.img = "/img/" + episode.id + ".jpg";
+						episode.save().then(() => {
+							res.send("OK");
+						})
+					});
 			} else {
 				fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), img_buffer);
 				episode.img = "/img/" + episode.id + ".jpg";
@@ -297,12 +299,12 @@ module.exports = {
 			let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
 
 			fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"), audio_buffer);
-			episode.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer)/1000));
+			episode.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
 			episode.enclosure = "/audio/" + episode.id + ".mp3"
-	
+
 			let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
 			episode.size = stats.size;
-	
+
 			episode.save().then(() => {
 				res.send("OK")
 			})
@@ -324,80 +326,83 @@ module.exports = {
 		let parser = new Parser();
 
 		parser.parseURL(req.body.url)
-		.then(feed => {
-			res.send("OK");
-			console.log("Importation : Feed OK")
+			.then(feed => {
+				res.send("OK");
+				console.log("Importation : Feed OK")
 
-			bdd.Podcast.findOne().then(podcast => {
-				podcast.title = feed.title;
-				podcast.description = feed.description;
-				podcast.slogan = feed.itunes.subtitle;
-				podcast.author = feed.itunes.author;
-				podcast.email = feed.itunes.owner.email;
-				podcast.itunes_category = feed.itunes.categories[0];
-				podcast.explicit = feed.itunes.explicit === "yes";
+				bdd.Podcast.findOne().then(podcast => {
+					podcast.title = feed.title;
+					podcast.description = feed.description;
+					podcast.slogan = feed.itunes.subtitle;
+					podcast.author = feed.itunes.author;
+					podcast.email = feed.itunes.owner.email;
+					podcast.itunes_category = feed.itunes.categories[0];
+					podcast.explicit = feed.itunes.explicit === "yes";
 
-				podcast.save().then(() => {
-					download(feed.image.url).then(img_buffer => {
-						fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
+					podcast.save().then(() => {
+						download(feed.image.url).then(img_buffer => {
+							fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
 
-						console.log("Importation : Podcast importé")
+							console.log("Importation : Podcast importé")
 
-						for (const ep of feed.items) {
-							bdd.Episode.create({
-								title: ep.title,
-								description: ep.content,
-								desc_parsed: ep.content,
-								pub_date: new Date(ep.pubDate),
-								author: ep.itunes.author,
-								guid: ep.guid,
-								episode: parseInt(ep.itunes.episode),
-								saison: parseInt(ep.itunes.saison),
-								slug: ep.guid,
-								small_desc: ep.content.substr(0, 250) + "...",
-								explicit: ep.itunes.explicit === "yes"
-							}).then(episode => {
-								download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/"), {filename: episode.id + ".mp3"}).then(() => {
-									episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3")))/1000));
-									episode.enclosure = "/audio/" + episode.id + ".mp3"
-							
-									let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
-									episode.size = stats.size;
-	
-									download(ep.itunes.image, path.join(__dirname, "../../upload/img/"), {filename: episode.id + ".jpg"}).then(() => {
-										episode.img = "/img/" + episode.id + ".jpg";
-										episode.save().then(() => {
-											console.log("Importation : Episode " + ep.title + " importé")
-										});
+							for (const ep of feed.items) {
+								bdd.Episode.create({
+									title: ep.title,
+									description: ep.content,
+									desc_parsed: ep.content,
+									pub_date: new Date(ep.pubDate),
+									author: ep.itunes.author,
+									guid: ep.guid,
+									episode: parseInt(ep.itunes.episode),
+									saison: parseInt(ep.itunes.saison),
+									slug: ep.guid,
+									small_desc: ep.content.substr(0, 250) + "...",
+									explicit: ep.itunes.explicit === "yes"
+								}).then(episode => {
+									download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/"), { filename: episode.id + ".mp3" }).then(() => {
+										episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"))) / 1000));
+										episode.enclosure = "/audio/" + episode.id + ".mp3"
+
+										let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+										episode.size = stats.size;
+
+										download(ep.itunes.image, path.join(__dirname, "../../upload/img/"), { filename: episode.id + ".jpg" }).then(() => {
+											episode.img = "/img/" + episode.id + ".jpg";
+											episode.save().then(() => {
+												console.log("Importation : Episode " + ep.title + " importé")
+											});
+										})
 									})
 								})
-							})
-						}
+							}
+						})
 					})
 				})
+			}).catch(err => {
+				res.status(400).send("Bad feed")
 			})
-		}).catch(err => {
-			res.status(400).send("Bad feed")
-		})
 
+	},
+	send_index: (req, res) => {
+		res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 	}
 }
 
 function convertHMS(pSec) {
-    let nbSec = pSec;
-    let sortie = {};
-    sortie.heure = Math.trunc(nbSec/3600);
-    if (sortie.heure < 10) {sortie.heure = "0"+sortie.heure}
+	let nbSec = pSec;
+	let sortie = {};
+	sortie.heure = Math.trunc(nbSec / 3600);
+	if (sortie.heure < 10) { sortie.heure = "0" + sortie.heure }
 
-    nbSec = nbSec%3600;
-    sortie.minute = Math.trunc(nbSec/60);
-    if (sortie.minute < 10) {sortie.minute = "0"+sortie.minute}
+	nbSec = nbSec % 3600;
+	sortie.minute = Math.trunc(nbSec / 60);
+	if (sortie.minute < 10) { sortie.minute = "0" + sortie.minute }
 
-    nbSec = nbSec%60;
-    sortie.seconde = Math.trunc(nbSec);
-    if (sortie.seconde < 10) {sortie.seconde = "0"+sortie.seconde}
+	nbSec = nbSec % 60;
+	sortie.seconde = Math.trunc(nbSec);
+	if (sortie.seconde < 10) { sortie.seconde = "0" + sortie.seconde }
 
-    return sortie.heure + ":" + sortie.minute + ":" + sortie.seconde
+	return sortie.heure + ":" + sortie.minute + ":" + sortie.seconde
 }
 
 function orderTableByDate(a, b) {
