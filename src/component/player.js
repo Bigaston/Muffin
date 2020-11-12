@@ -1,12 +1,12 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import playerAtom from "../stores/player";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
 import "./player.css"
 import config from "../config.json"
 
-import {convertHMS} from "../utils"
+import { convertHMS } from "../utils"
 
 export default function Player() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -17,12 +17,12 @@ export default function Player() {
 	let progressbar = useRef(undefined)
 	let intervalCheck = undefined
 
-	useEffect(()=> {
+	useEffect(() => {
 		if (!playerStore.displayed) {
 			return;
 		}
 
-		if (audioPlayer.current.src !== playerStore.audio) {audioPlayer.current.src = playerStore.audio;}
+		if (audioPlayer.current.src !== playerStore.audio) { audioPlayer.current.src = playerStore.audio; }
 
 		if (playerStore.paused) {
 			audioPlayer.current.pause()
@@ -38,7 +38,7 @@ export default function Player() {
 		let durationObj = convertHMS(audioPlayer.current.currentTime);
 		setCurrentTime(durationObj.heure + ":" + durationObj.minute + ":" + durationObj.seconde)
 
-		setPourcentageProgression(Math.trunc((audioPlayer.current.currentTime/audioPlayer.current.duration)*10000)/100)
+		setPourcentageProgression(Math.trunc((audioPlayer.current.currentTime / audioPlayer.current.duration) * 10000) / 100)
 	}
 
 	function changeTime(event) {
@@ -109,19 +109,19 @@ export default function Player() {
 				<div className="rightDivPlayer">
 					<p>{playerStore.title}</p>
 					<div id="progressbar" ref={progressbar} onClick={changeTime}>
-						<div id="prog" style={{width: pourcentageProgression + "%"}}></div>
+						<div id="prog" style={{ width: pourcentageProgression + "%" }}></div>
 					</div>
 					<div className="time">
 						<p id="audio-time">{currentTime}</p>
 						<p id="audio-duration">{playerStore.duration}</p>
 					</div>
 					<div className="controls">
-						<img src={config.host + "/public/backward.svg"} alt="-15s" onClick={moins15}/>
-						<img src={playerStore.paused ? config.host + "/public/play.svg" : config.host + "/public/pause.svg"}
-							alt={playerStore.paused ? "Reprendre " + playerStore.title : "Mettre en pause " + playerStore.title} 
+						<img src={config.host + "/public/backward.svg"} alt="-15s" onClick={moins15} />
+						<img id="playButton" src={playerStore.paused ? config.host + "/public/play.svg" : config.host + "/public/pause.svg"}
+							alt={playerStore.paused ? "Reprendre " + playerStore.title : "Mettre en pause " + playerStore.title}
 							onClick={playPauseEp} />
-						<img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15}/>
-						<img src={config.host + "/public/stop.svg"} alt="Arrêter" onClick={stopPlay}/>
+						<img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15} />
+						<img src={config.host + "/public/stop.svg"} alt="Arrêter" onClick={stopPlay} />
 					</div>
 				</div>
 			</div>

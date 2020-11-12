@@ -64,14 +64,20 @@
 
 .controls {
     display: flex;
-    justify-content: center;
+	justify-content: center;
+	align-items: baseline;
 }
 
-.controls > img {
+.controls > :not( #playButton) {
     margin-top: -15px;
     margin-left: 10px;
     margin-right: 10px;
-    width: 40px;
+    width: 30px;
+}
+
+.controls > #playButton {
+	width: 40px;
+	height: 40px;
 }
 
 @media screen and (max-width: 490px) {
