@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import "./podcast.css"
 
@@ -7,16 +7,16 @@ import config from "../../config.json";
 import itunes_category from "./itunes_category.json"
 import Modal from "../../component/modal"
 
-import {toBase64} from "../../utils"
+import { toBase64 } from "../../utils"
 
 import userAtom from "../../stores/user";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
-import {Link, useHistory} from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
 export default function Podcast() {
 	let history = useHistory()
-	let [userState, ] = useRecoilState(userAtom);
+	let [userState,] = useRecoilState(userAtom);
 	let [podcast, setPodcast] = useState({})
 	let [currentCategory, setCurrentCategory] = useState("");
 	let [currentCategorySub, setCurrentCategorySub] = useState([]);
@@ -42,7 +42,7 @@ export default function Podcast() {
 	}, [userState])
 
 	function handleAllInput(event) {
-		let new_info = {...podcast};
+		let new_info = { ...podcast };
 
 		new_info[event.target.attributes.id.nodeValue] = event.target.value;
 		setPodcast(new_info)
@@ -85,7 +85,7 @@ export default function Podcast() {
 		img.src = window.URL.createObjectURL(file)
 
 		img.onload = () => {
-			if (img.naturalHeight === 1400 && img.naturalWidth === 1400) {
+			if (img.naturalHeight >= 1400 && img.naturalWidth >= 1400 && img.naturalWidth === img.naturalHeight) {
 				toBase64(file).then(base64 => {
 					axios({
 						method: "POST",
@@ -103,9 +103,9 @@ export default function Podcast() {
 						if (res.status === 200) {
 							setOpenEditImage(false);
 
-							let reload_img = {...podcast}
+							let reload_img = { ...podcast }
 							reload_img.logo = config.host + "/img/pod.jpg#" + Date.now()
-							
+
 							setPodcast(reload_img)
 						}
 					}).catch(err => {
@@ -115,7 +115,7 @@ export default function Podcast() {
 					console.log(err)
 				})
 			} else {
-				setErrorMessageImg("Votre image doit être au format 1400x1400 pour être acceptée par iTunes et les lecteurs de podcasts")
+				setErrorMessageImg("Votre image doit être au format carré et au moins de 1400x1400 pour être acceptée par iTunes et les lecteurs de podcasts")
 				return;
 			}
 		}
@@ -131,7 +131,7 @@ export default function Podcast() {
 
 		setErrorMessageEdit("");
 
-		let edited_podcast = {...podcast};
+		let edited_podcast = { ...podcast };
 		edited_podcast.itunes_category = currentCategory;
 		edited_podcast.itunes_subcategory = currentSub;
 
@@ -157,16 +157,16 @@ export default function Podcast() {
 				<h1>Modifier mon podcast</h1>
 
 				<label htmlFor="title">Titre du podcast*</label>
-				<input className="u-full-width" type="text" id="title" value={podcast.title} onChange={handleAllInput}/>
+				<input className="u-full-width" type="text" id="title" value={podcast.title} onChange={handleAllInput} />
 				<label htmlFor="slogan">Slogan du podcast*</label>
-				<input className="u-full-width" type="text" id="slogan" value={podcast.slogan} onChange={handleAllInput}/>
+				<input className="u-full-width" type="text" id="slogan" value={podcast.slogan} onChange={handleAllInput} />
 				<label htmlFor="description">Description*</label>
 				<textarea className="u-full-width" id="description" value={podcast.description} onChange={handleAllInput}></textarea>
 				<label htmlFor="author">Auteur du podcast*</label>
-				<input className="u-full-width" type="text" id="author" value={podcast.author} onChange={handleAllInput}/>
+				<input className="u-full-width" type="text" id="author" value={podcast.author} onChange={handleAllInput} />
 				<label htmlFor="email">Email du flux*</label>
-				<input className="u-full-width" type="email" id="email" value={podcast.email} onChange={handleAllInput}/>
-				
+				<input className="u-full-width" type="email" id="email" value={podcast.email} onChange={handleAllInput} />
+
 				<label htmlFor="itunes_category">Categorie iTunes*</label>
 				<select className="u-full-width" id="itunes_category" value={currentCategory} onChange={handleChangeCategory}>
 					{Object.keys(itunes_category).map((category) => (
@@ -183,7 +183,7 @@ export default function Podcast() {
 							))}
 						</select>
 					</>
-				:<></>}
+					: <></>}
 
 				<label htmlFor="type">Type de podcast*</label>
 				<select className="u-full-width" id="type" value={podcast.type} onChange={handleAllInput}>
@@ -192,25 +192,25 @@ export default function Podcast() {
 				</select>
 
 				<label htmlFor="prefix">Prefix de stats</label>
-				<input className="u-full-width" type="url" id="prefix" value={podcast.prefix} onChange={handleAllInput}/>
+				<input className="u-full-width" type="url" id="prefix" value={podcast.prefix} onChange={handleAllInput} />
 				<p>Collez ici le préfix de statistiques fournit par un service comme Podtrac ou Chartable. Attention, en cas de mauvaise configuration, vos fichiers pourront ne plus être accessibles!</p>
 				{!!errorMessageEdit ? <p className="errorMessageEdit">{errorMessageEdit}</p> : <></>}
-				<button className="button-primary" style={{width: "100%"}}onClick={savePodcast}>Enregistrer</button>
+				<button className="button-primary" style={{ width: "100%" }} onClick={savePodcast}>Enregistrer</button>
 
 
 				<p className="fakeLabel">Logo</p>
 				<img className="podcastLogo" src={config.host + podcast.logo} alt="Logo du podcast" />
 				<button onClick={editImage}>Modifier l'image</button>
 			</div>
-			
-			<Modal open={openEditImage} onCancel={() => {setOpenEditImage(false)}}>
+
+			<Modal open={openEditImage} onCancel={() => { setOpenEditImage(false) }}>
 				<h1>Modifier l'image</h1>
-				<input type="file" ref={filepicker_image} accept="image/png, image/jpeg"/>
+				<input type="file" ref={filepicker_image} accept="image/png, image/jpeg" />
 				{!!errorMessageImg ? <p className="errorMessageImg">{errorMessageImg}</p> : <></>}
-				<button className="button-primary" onClick={validImage}>Valider</button> <button onClick={() => {setOpenEditImage(false)}}>Annuler</button>
+				<button className="button-primary" onClick={validImage}>Valider</button> <button onClick={() => { setOpenEditImage(false) }}>Annuler</button>
 				{percentCompleted !== 0 ?
 					<progress max="100" value={percentCompleted} />
-				:<></>}
+					: <></>}
 			</Modal>
 		</>
 	)

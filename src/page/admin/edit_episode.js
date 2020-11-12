@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import "./edit_episode.css"
 
@@ -7,16 +7,16 @@ import config from "../../config.json";
 import Modal from "../../component/modal"
 
 import userAtom from "../../stores/user";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
-import {toBase64} from "../../utils"
+import { toBase64 } from "../../utils"
 
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 export default function Podcast() {
-	let [userState, ] = useRecoilState(userAtom);
+	let [userState,] = useRecoilState(userAtom);
 	let [episode, setEpisode] = useState({});
-	let {id} = useParams();
+	let { id } = useParams();
 
 	function p(date) {
 		return date < 10 ? "0" + date : date
@@ -31,12 +31,12 @@ export default function Podcast() {
 			url: config.host + "/api/admin/podcast/episode/" + id,
 		}).then(res => {
 			if (res.status === 200) {
-				let data_ep = {...res.data};
+				let data_ep = { ...res.data };
 				let date = new Date(data_ep.pub_date);
 
 				data_ep.pub_date = p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes());
 				data_ep.audio = data_ep.audio + "#" + Date.now();
-				
+
 				setEpisode(data_ep)
 			}
 		}).catch(err => {
@@ -45,14 +45,14 @@ export default function Podcast() {
 	}, [userState, id])
 
 	function handleAllInput(event) {
-		let new_info = {...episode};
+		let new_info = { ...episode };
 
 		new_info[event.target.attributes.id.nodeValue] = event.target.value;
 		setEpisode(new_info)
 	}
 
 	function handleCheckbox(event) {
-		let new_info = {...episode};
+		let new_info = { ...episode };
 
 		new_info.explicit = event.target.checked;
 
@@ -98,7 +98,7 @@ export default function Podcast() {
 		img.src = window.URL.createObjectURL(file)
 
 		img.onload = () => {
-			if (img.naturalHeight === 1400 && img.naturalWidth === 1400) {
+			if (img.naturalHeight === img.naturalWidth) {
 				toBase64(file).then(base64 => {
 					axios({
 						method: "POST",
@@ -116,9 +116,9 @@ export default function Podcast() {
 						if (res.status === 200) {
 							setOpenEditImage(false);
 
-							let reload_img = {...episode}
+							let reload_img = { ...episode }
 							reload_img.img = config.host + "/img/" + id + ".jpg#" + Date.now()
-							
+
 							setEpisode(reload_img)
 						}
 					}).catch(err => {
@@ -128,7 +128,7 @@ export default function Podcast() {
 					console.log(err)
 				})
 			} else {
-				setErrorMessageImg("Votre image doit être au format 1400x1400 pour être acceptée par iTunes et les lecteurs de podcasts")
+				setErrorMessageImg("Votre image doit être au format carré!")
 				return;
 			}
 		}
@@ -143,9 +143,9 @@ export default function Podcast() {
 			url: config.host + "/api/admin/podcast/delete_ep_img/" + id,
 		}).then(res => {
 			if (res.status === 200) {
-				let reload_img = {...episode}
+				let reload_img = { ...episode }
 				reload_img.img = config.host + "/img/pod.jpg#" + Date.now()
-				
+
 				setEpisode(reload_img)
 			}
 		}).catch(err => {
@@ -156,7 +156,7 @@ export default function Podcast() {
 	let [openEditAudio, setOpenEditAudio] = useState(false);
 	let filepicker_audio = useRef(undefined)
 	let [percentCompletedAudio, setPercentCompletedAudio] = useState(0);
-	let [errorMessageAudio, setErrorMessageAudio] = useState(""); 
+	let [errorMessageAudio, setErrorMessageAudio] = useState("");
 	let [during, setDuring] = useState(false)
 
 	function editAudio() {
@@ -209,12 +209,12 @@ export default function Podcast() {
 				<h1>Modifier un épisode</h1>
 
 				<label htmlFor="title">Titre de l'épisode*</label>
-				<input className="u-full-width" type="text" id="title" value={episode.title} onChange={handleAllInput}/>
+				<input className="u-full-width" type="text" id="title" value={episode.title} onChange={handleAllInput} />
 				<label htmlFor="author">Auteur de épisode*</label>
-				<input className="u-full-width" type="text" id="author" value={episode.author} onChange={handleAllInput}/>
+				<input className="u-full-width" type="text" id="author" value={episode.author} onChange={handleAllInput} />
 				<label htmlFor="pub_date">Date de publication*</label>
-				<input className="u-full-width" type="text" id="pub_date" value={episode.pub_date} onChange={handleAllInput}/>
-			
+				<input className="u-full-width" type="text" id="pub_date" value={episode.pub_date} onChange={handleAllInput} />
+
 				<div className="row">
 					<div className="four columns">
 						<label htmlFor="type">Type d'épisode*</label>
@@ -226,11 +226,11 @@ export default function Podcast() {
 					</div>
 					<div className="four columns">
 						<label htmlFor="episode">N° D'épisode*</label>
-						<input className="u-full-width" type="number" id="episode" value={episode.episode} onChange={handleAllInput}/>
+						<input className="u-full-width" type="number" id="episode" value={episode.episode} onChange={handleAllInput} />
 					</div>
 					<div className="four columns">
 						<label htmlFor="saison">N° De Saison*</label>
-						<input className="u-full-width" type="number" id="saison" value={episode.saison} onChange={handleAllInput}/>
+						<input className="u-full-width" type="number" id="saison" value={episode.saison} onChange={handleAllInput} />
 					</div>
 				</div>
 				<p className="info">(Mettez 0 comme numéro de saison ou d'épisode si cela ne correspond pas à votre podcast)</p>
@@ -246,7 +246,7 @@ export default function Podcast() {
 				<p className="info">({episode.small_desc ? episode.small_desc.length : "0"}/255)</p>
 
 				<label htmlFor="slug">Lien de l'épisode*</label>
-				<input className="u-full-width" type="text" id="slug" value={episode.slug} onChange={handleAllInput}/>
+				<input className="u-full-width" type="text" id="slug" value={episode.slug} onChange={handleAllInput} />
 				<p className="info">(Le lien pour accèter à votre épisode, exemple : muffin.pm/<span className="bold">episode1</span>)</p>
 
 				<button className="button-primary" onClick={saveEp}>Enregistrer</button>
@@ -254,30 +254,30 @@ export default function Podcast() {
 				<p className="fakeLabel">Logo</p>
 				<img className="podcastLogo" src={config.host + episode.img} alt="Logo de l'épisode" />
 				<button onClick={editImage}>Modifier l'image</button> <button className="button-delete" onClick={deleteImage}>Supprimer l'image</button>
-			
+
 				<p className="fakeLabel">Audio de l'épisode</p>
-				<audio className="podcastAudio" src={config.host + episode.audio} alt="Audio de l'épisode" controls/>
+				<audio className="podcastAudio" src={config.host + episode.audio} alt="Audio de l'épisode" controls />
 				<button onClick={editAudio}>Modifier l'audio</button>
 			</div>
 
-			<Modal open={openEditImage} onCancel={() => {setOpenEditImage(false)}}>
+			<Modal open={openEditImage} onCancel={() => { setOpenEditImage(false) }}>
 				<h1>Modifier l'image</h1>
-				<input type="file" ref={filepicker_image} accept="image/png, image/jpeg"/>
+				<input type="file" ref={filepicker_image} accept="image/png, image/jpeg" />
 				{!!errorMessageImg ? <p className="errorMessageImg">{errorMessageImg}</p> : <></>}
-				<button className="button-primary" onClick={validImage}>Valider</button> <button onClick={() => {setOpenEditImage(false)}}>Annuler</button>
+				<button className="button-primary" onClick={validImage}>Valider</button> <button onClick={() => { setOpenEditImage(false) }}>Annuler</button>
 				{percentCompleted !== 0 ?
 					<progress max="100" value={percentCompleted} />
-				:<></>}
+					: <></>}
 			</Modal>
 
-			<Modal open={openEditAudio} onCancel={() => {setOpenEditAudio(false)}}>
+			<Modal open={openEditAudio} onCancel={() => { setOpenEditAudio(false) }}>
 				<h1>Modifier l'audio</h1>
-				<input type="file" ref={filepicker_audio} accept="audio/mpeg"/>
+				<input type="file" ref={filepicker_audio} accept="audio/mpeg" />
 				{!!errorMessageAudio ? <p className="errorMessageImg">{errorMessageAudio}</p> : <></>}
-				<button className="button-primary" onClick={validAudio}>Valider</button> <button onClick={() => {setOpenEditAudio(false)}}>Annuler</button>
+				<button className="button-primary" onClick={validAudio}>Valider</button> <button onClick={() => { setOpenEditAudio(false) }}>Annuler</button>
 				{percentCompletedAudio !== 0 ?
 					<progress max="100" value={percentCompletedAudio} />
-				:<></>}
+					: <></>}
 			</Modal>
 		</>
 	)
