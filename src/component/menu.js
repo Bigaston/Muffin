@@ -1,14 +1,14 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 import "./menu.css";
 
 import userAtom from "../stores/user";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
 import axios from "axios";
 import config from "../config.json"
 
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export default function Menu() {
 	let [userState, setUserState] = useRecoilState(userAtom);
@@ -30,7 +30,7 @@ export default function Menu() {
 						id: res.data.id,
 						jwt: res.data.jwt
 					}
-	
+
 					setUserState(new_user)
 					localStorage.setItem("jwt", res.data.jwt);
 				}
@@ -53,15 +53,16 @@ export default function Menu() {
 
 	return (
 		<>
-			{userState.logged ? 
+			{userState.logged ?
 				<div className="menu">
+					<a href="https://muffin.pm" alt="Vers le site de muffin" target="_blank"><img src={config.host + "/public/logo_small.png"} alt="Logo de Muffin" /></a>
 					<p><Link to="/">Mon podcast</Link></p>
 					<p><Link to="/a/podcast">Modifier mon podcast</Link></p>
 					<p><Link to="/a/episodes">Mes épisodes</Link></p>
 					<p><Link to="/a/new_episode">Créer un épisode</Link></p>
 					<p><Link to="/a/account">Mon compte</Link></p>
 				</div>
-			:<></>}
+				: <></>}
 
 		</>
 

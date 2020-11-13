@@ -14,5 +14,15 @@
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
+}
+
+.menu p {
 	margin-left: 20px;
+}
+
+.menu img {
+	height: 40px;
+	width: 40px;
+	margin-left: 5px;
+	margin-top: 2px
 }
