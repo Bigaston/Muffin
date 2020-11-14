@@ -55,7 +55,7 @@ export default function Menu() {
 		<>
 			{userState.logged ?
 				<div className="menu">
-					<a href="https://muffin.pm" alt="Vers le site de muffin" target="_blank"><img src={config.host + "/public/logo_small.png"} alt="Logo de Muffin" /></a>
+					<a href="https://muffin.pm" alt="Vers le site de muffin" target="_blank" rel="noreferrer"><img src={config.host + "/public/logo_small.png"} alt="Logo de Muffin" /></a>
 					<p><Link to="/">Mon podcast</Link></p>
 					<p><Link to="/a/podcast">Modifier mon podcast</Link></p>
 					<p><Link to="/a/episodes">Mes épisodes</Link></p>

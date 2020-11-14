@@ -201,6 +201,9 @@ export default function Podcast() {
 				<p className="fakeLabel">Logo</p>
 				<img className="podcastLogo" src={config.host + podcast.logo} alt="Logo du podcast" />
 				<button onClick={editImage}>Modifier l'image</button>
+
+				<h2>Avancés</h2>
+				<Link to="/a/import" className="button">Importer un podcast</Link>
 			</div>
 
 			<Modal open={openEditImage} onCancel={() => { setOpenEditImage(false) }}>

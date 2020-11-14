@@ -12,7 +12,7 @@ const dayjs = require('dayjs')
 dayjs.extend(require('dayjs/plugin/customParseFormat'))
 const { Op } = require("sequelize");
 let Parser = require('rss-parser');
-const download = require('download');
+const axios = require("axios");
 
 module.exports = {
 	get_info: (req, res) => {
@@ -340,36 +340,50 @@ module.exports = {
 					podcast.explicit = feed.itunes.explicit === "yes";
 
 					podcast.save().then(() => {
-						download(feed.image.url).then(img_buffer => {
-							fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
-
+						download(feed.image.url, path.join(__dirname, "../../upload/img/pod.jpg")).then(() => {
 							console.log("Importation : Podcast importé")
 
-							for (const ep of feed.items) {
+							downloadEp(feed.items.reverse(), () => {
+								console.log("Importation : Terminée!")
+							})
+
+							function downloadEp(ep_tab, cb) {
+								let ep = ep_tab[0];
+
+								console.log(ep)
+
 								bdd.Episode.create({
 									title: ep.title,
-									description: ep.content,
+									description: ep.itunes.summary,
 									desc_parsed: ep.content,
 									pub_date: new Date(ep.pubDate),
 									author: ep.itunes.author,
 									guid: ep.guid,
 									episode: parseInt(ep.itunes.episode),
-									saison: parseInt(ep.itunes.saison),
+									saison: parseInt(ep.itunes.season),
 									slug: ep.guid,
-									small_desc: ep.content.substr(0, 250) + "...",
+									small_desc: ep.itunes.summary.substr(0, 250) + "...",
 									explicit: ep.itunes.explicit === "yes"
 								}).then(episode => {
-									download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/"), { filename: episode.id + ".mp3" }).then(() => {
+									download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3")).then(() => {
 										episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"))) / 1000));
 										episode.enclosure = "/audio/" + episode.id + ".mp3"
 
 										let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
 										episode.size = stats.size;
 
-										download(ep.itunes.image, path.join(__dirname, "../../upload/img/"), { filename: episode.id + ".jpg" }).then(() => {
+										download(ep.itunes.image, path.join(__dirname, "../../upload/img/" + episode.id + ".jpg")).then(() => {
 											episode.img = "/img/" + episode.id + ".jpg";
 											episode.save().then(() => {
 												console.log("Importation : Episode " + ep.title + " importé")
+
+												ep_tab.shift();
+
+												if (ep_tab.length != 0) {
+													downloadEp(ep_tab, cb)
+												} else {
+													cb();
+												}
 											});
 										})
 									})
@@ -378,7 +392,8 @@ module.exports = {
 						})
 					})
 				})
-			}).catch(err => {
+			})
+			.catch(err => {
 				res.status(400).send("Bad feed")
 			})
 
@@ -416,3 +431,23 @@ function orderTableByDateInvert(a, b) {
 function orderById(a, b) {
 	return b.id - a.id;
 }
+
+var download = function (url, dest) {
+	return new Promise((resolve, reject) => {
+		axios({
+			method: 'GET',
+			url: url,
+			responseType: 'stream'
+		}).then(response => {
+			response.data.pipe(fs.createWriteStream(dest))
+
+			response.data.on('end', () => {
+				resolve()
+			})
+
+			response.data.on('error', () => {
+				reject()
+			})
+		})
+	})
+};
