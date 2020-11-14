@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import config from "../../config.json"
 import { Link, useHistory } from "react-router-dom"
+import { Helmet } from "react-helmet";
 
 import Loader from "../../component/loader"
 
@@ -123,11 +124,25 @@ export default function EpisodePage() {
 					<div className="content">
 						{isNotFound ?
 							<>
+								<Helmet>
+									<title>{"Episode non trouvé - " + podcast.title}</title>
+									<meta property="og:title" content={"Episode non trouvé - " + podcast.title}></meta>
+									<meta property="og:description" content={podcast.description}></meta>
+									<meta name="description" content={podcast.description}></meta>
+									<meta property="og:image" content={window.location.protocol + "//" + window.location.hostname + "/img/pod.jpg"}></meta>
+								</Helmet>
 								<h2 className="contentHeader">Cet épisode n'existe pas :/</h2>
 								<p className="backToMenu"><Link to="/">Retourner au menu</Link></p>
 							</>
 							:
 							<>
+								<Helmet>
+									<title>{episode.title + " - " + podcast.title}</title>
+									<meta property="og:title" content={episode.title + " - " + podcast.title}></meta>
+									<meta property="og:description" content={episode.small_desc}></meta>
+									<meta name="description" content={episode.small_desc}></meta>
+									<meta property="og:image" content={window.location.protocol + "//" + window.location.hostname + episode.img}></meta>
+								</Helmet>
 								<h2 className="contentHeader">{episode.title}</h2>
 								<div className="buttonBar">
 									<img src={

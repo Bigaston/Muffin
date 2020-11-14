@@ -13,6 +13,8 @@ import { toBase64 } from "../../utils"
 
 import { useParams } from "react-router-dom"
 
+import { Helmet } from "react-helmet";
+
 export default function Podcast() {
 	let [userState,] = useRecoilState(userAtom);
 	let [episode, setEpisode] = useState({});
@@ -205,6 +207,9 @@ export default function Podcast() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Modifier un épisode - Muffin</title>
+			</Helmet>
 			<div className="episodeEditContainer">
 				<h1>Modifier un épisode</h1>
 

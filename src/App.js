@@ -1,8 +1,11 @@
+import React from "react";
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route
 } from "react-router-dom";
+
+import { Helmet } from "react-helmet";
 
 import Podcast from "./page/public/podcast"
 import Episode from "./page/public/episode"
@@ -22,6 +25,10 @@ import CheckLogged from "./component/checkLogged"
 function App() {
 	return (
 		<>
+			<Helmet>
+				<title>Muffin</title>
+			</Helmet>
+
 			<Router>
 				<Menu />
 

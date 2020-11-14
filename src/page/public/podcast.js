@@ -6,6 +6,8 @@ import config from "../../config.json"
 import Episode from "../../component/episode";
 import FullLoad from "../../component/fullLoader";
 
+import { Helmet } from "react-helmet";
+
 import "./podcast.css";
 
 export default function Podcast() {
@@ -30,6 +32,18 @@ export default function Podcast() {
 
 	return (
 		<>
+			<Helmet>
+				<title>{podcast.title}</title>
+				<meta property="og:title" content={podcast.title}></meta>
+				<meta property="og:site_name" content={podcast.title}></meta>
+				<meta property="og:description" content={podcast.description}></meta>
+				<meta name="description" content={podcast.description}></meta>
+				<meta property="og:type" content="blog"></meta>
+				<meta property="og:image" content={window.location.protocol + "//" + window.location.hostname + "/img/pod.jpg"}></meta>
+				<meta property="og:url" content={window.location.protocol + "//" + window.location.hostname}></meta>
+				<meta property="theme-color" content="#edbb9a"></meta>
+			</Helmet>
+
 			<FullLoad loading={isLoading} />
 			<div className="headerBox">
 				<div className="header" style={{ backgroundImage: "url(" + config.host + podcast.logo + ")" }}></div>

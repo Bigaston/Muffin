@@ -1,61 +1,66 @@
 {
-  "name": "muffin",
-  "version": "0.1.0",
-  "private": true,
-  "repository": "https://github.com/Bigaston/OwnCast.git",
-  "author": "Bigaston",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.1",
-    "@testing-library/user-event": "^12.2.0",
-    "axios": "^0.21.0",
-    "bcrypt": "^5.0.0",
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
-    "dayjs": "^1.9.6",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "get-mp3-duration": "^1.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "markdown-it": "^12.0.2",
-    "png-to-jpeg": "^1.0.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
-    "recoil": "^0.1.2",
-    "rss": "^1.2.2",
-    "rss-parser": "^3.9.0",
-    "sequelize": "^6.3.5",
-    "sequelize-cli": "^6.2.0",
-    "sqlite3": "^5.0.0",
-    "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "node ./cli/resetConfig.js && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "node ./cli/init_file.js && npm run bdd",
-    "bdd": "node ./cli/bdd.js",
-    "server": "node muffin.js"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "muffin",
+	"version": "0.1.0",
+	"private": true,
+	"repository": "https://github.com/Bigaston/OwnCast.git",
+	"author": "Bigaston",
+	"dependencies": {
+		"@babel/preset-env": "^7.12.1",
+		"@babel/preset-react": "^7.12.5",
+		"@babel/register": "^7.12.1",
+		"@testing-library/jest-dom": "^5.11.5",
+		"@testing-library/react": "^11.1.1",
+		"@testing-library/user-event": "^12.2.0",
+		"axios": "^0.21.0",
+		"bcrypt": "^5.0.0",
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"dayjs": "^1.9.6",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"get-mp3-duration": "^1.0.0",
+		"ignore-styles": "^5.0.1",
+		"jsonwebtoken": "^8.5.1",
+		"markdown-it": "^12.0.2",
+		"png-to-jpeg": "^1.0.1",
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1",
+		"react-helmet": "^6.1.0",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.0",
+		"recoil": "^0.1.2",
+		"rss": "^1.2.2",
+		"rss-parser": "^3.9.0",
+		"sequelize": "^6.3.5",
+		"sequelize-cli": "^6.2.0",
+		"sqlite3": "^5.0.0",
+		"web-vitals": "^0.2.4"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "node ./cli/resetConfig.js && react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"postinstall": "node ./cli/init_file.js && npm run bdd",
+		"bdd": "node ./cli/bdd.js",
+		"server": "node ./muffin.js"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

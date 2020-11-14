@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import "./ep_list.css"
 
@@ -6,13 +6,15 @@ import axios from "axios";
 import config from "../../config.json";
 
 import userAtom from "../../stores/user";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
-import {Link, useHistory} from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+
+import { Helmet } from "react-helmet";
 
 export default function Podcast() {
 	let history = useHistory();
-	let [userState, ] = useRecoilState(userAtom);
+	let [userState,] = useRecoilState(userAtom);
 	let [episodes, setEpisodes] = useState([]);
 	useEffect(() => {
 		axios({
@@ -64,6 +66,9 @@ export default function Podcast() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Liste des épisodes - Muffin</title>
+			</Helmet>
 			<div className="episodeListContainer">
 				<h1>Liste des épisodes</h1>
 

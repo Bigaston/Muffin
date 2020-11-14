@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import './import_podcast.css'
 
@@ -6,14 +6,16 @@ import axios from "axios";
 import config from "../../config.json"
 
 import userAtom from "../../stores/user";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom"
+
+import { Helmet } from "react-helmet";
 
 export default function ImportPodcast() {
 	let history = useHistory();
 	let [newRSS, setNewRSS] = useState("");
-	let [userState, ] = useRecoilState(userAtom);
+	let [userState,] = useRecoilState(userAtom);
 
 	function importPodcast() {
 		axios({
@@ -35,6 +37,9 @@ export default function ImportPodcast() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Importer un podcast - Muffin</title>
+			</Helmet>
 			<div className="podcastImportContainer">
 				<h1>Importer un podcast</h1>
 
@@ -45,7 +50,7 @@ export default function ImportPodcast() {
 				<p>Si vous souhaitez continuer, entrez le lien du flux RSS que vous souhaitez importer dans le champ ci dessous</p>
 
 				<label htmlFor="new_rss">Nouveau RSS</label>
-				<input className="u-full-width" type="url" id="new_rss" value={newRSS} onChange={(event) => {setNewRSS(event.target.value)}}/>
+				<input className="u-full-width" type="url" id="new_rss" value={newRSS} onChange={(event) => { setNewRSS(event.target.value) }} />
 
 				<button className="button-delete" onClick={importPodcast}>Importer le podcast</button>
 			</div>

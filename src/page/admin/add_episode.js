@@ -11,6 +11,8 @@ import { useRecoilState } from "recoil";
 
 import { useHistory } from "react-router-dom"
 
+import { Helmet } from "react-helmet";
+
 export default function Podcast() {
 	let history = useHistory();
 	let [userState,] = useRecoilState(userAtom);
@@ -138,6 +140,9 @@ export default function Podcast() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Créer un épisode - Muffin</title>
+			</Helmet>
 			<div className="addEpisodeContainer">
 				<h1>Créer un épisode</h1>
 

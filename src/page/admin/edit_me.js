@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import './edit_me.css'
 
@@ -6,7 +6,9 @@ import axios from "axios";
 import config from "../../config.json"
 
 import userAtom from "../../stores/user";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
+
+import { Helmet } from "react-helmet";
 
 export default function ImportPodcast() {
 	let [userState, setUserState] = useRecoilState(userAtom);
@@ -32,7 +34,7 @@ export default function ImportPodcast() {
 			}
 		}).then(res => {
 			if (res.status === 200) {
-				let new_user = {...userState}
+				let new_user = { ...userState }
 				new_user.username = username;
 
 				setUserState(new_user);
@@ -79,20 +81,23 @@ export default function ImportPodcast() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Mon compte - Muffin</title>
+			</Helmet>
 			<div className="editMe">
 				<h1>Modifier mon compte</h1>
 
 				<label htmlFor="username">Nouveau nom d'utilisateur</label>
-				<input className="u-full-width" type="url" id="username" value={username} onChange={(event) => {setUsername(event.target.value)}}/>
+				<input className="u-full-width" type="url" id="username" value={username} onChange={(event) => { setUsername(event.target.value) }} />
 				<button className="button-primary" onClick={changeUsername}>Changer mon nom d'utilisateur</button>
 
-				<hr/>
+				<hr />
 				<label htmlFor="password">Mot de passe actuel</label>
-				<input className="u-full-width" type="password" id="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
+				<input className="u-full-width" type="password" id="password" value={password} onChange={(event) => { setPassword(event.target.value) }} />
 				<label htmlFor="new_pass">Nouveau mot de passe</label>
-				<input className="u-full-width" type="password" id="new_pass" value={new_pass} onChange={(event) => {setNewPass(event.target.value)}}/>
+				<input className="u-full-width" type="password" id="new_pass" value={new_pass} onChange={(event) => { setNewPass(event.target.value) }} />
 				<label htmlFor="repeat_new_pass">Répétez le nouveau mot de passe</label>
-				<input className="u-full-width" type="password" id="repeat_new_pass" value={repeat_new_pass} onChange={(event) => {setRepeatNewPass(event.target.value)}}/>
+				<input className="u-full-width" type="password" id="repeat_new_pass" value={repeat_new_pass} onChange={(event) => { setRepeatNewPass(event.target.value) }} />
 				{!!errorMessagePass ? <p className="errorMessage">{errorMessagePass}</p> : <></>}
 				<button className="button-primary" onClick={changePassword}>Changer mon mot de passe</button>
 			</div>

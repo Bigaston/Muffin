@@ -14,6 +14,8 @@ import { useHistory } from "react-router-dom"
 
 import Loader from "../../component/loader"
 
+import { Helmet } from "react-helmet";
+
 export default function Login() {
 	let history = useHistory();
 	let [, setUserState] = useRecoilState(userAtom);
@@ -70,6 +72,9 @@ export default function Login() {
 
 	return (
 		<div className="loginContainer">
+			<Helmet>
+				<title>Se connecter - Muffin</title>
+			</Helmet>
 			<h1>Se Connecter</h1>
 			<form onSubmit={handleConnect}>
 				<label htmlFor="login">Nom d'utilisateur</label>
