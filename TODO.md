@@ -9,3 +9,5 @@
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
 - Le PLAYER
 - Des playlists
+- Générer automatiquement une sitemap
+- Pouvoir mettre des épisodes en non répertorié/draft
