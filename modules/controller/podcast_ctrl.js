@@ -350,8 +350,6 @@ module.exports = {
 							function downloadEp(ep_tab, cb) {
 								let ep = ep_tab[0];
 
-								console.log(ep)
-
 								bdd.Episode.create({
 									title: ep.title,
 									description: ep.itunes.summary,
