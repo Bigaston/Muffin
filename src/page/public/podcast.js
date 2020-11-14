@@ -42,6 +42,7 @@ export default function Podcast() {
 				<meta property="og:image" content={window.location.protocol + "//" + window.location.hostname + "/img/pod.jpg"}></meta>
 				<meta property="og:url" content={window.location.protocol + "//" + window.location.hostname}></meta>
 				<meta property="theme-color" content="#edbb9a"></meta>
+				<link href={window.location.protocol + "//" + window.location.hostname + "/rss"} rel="alternate" type="application/rss+xml" title={podcast.title}></link>
 			</Helmet>
 
 			<FullLoad loading={isLoading} />

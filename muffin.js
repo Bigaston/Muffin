@@ -12,7 +12,6 @@ app.use(express.json({ limit: '1000mb' }));
 app.use(cors({
 	origin: "http://localhost:3000"
 }))
-app.use(express.static('build'))
 app.use("/public", express.static('./public'));
 app.use("/img", express.static("./upload/img"))
 app.use("/audio", express.static("./upload/audio"))
@@ -40,6 +39,13 @@ app.post("/api/admin/user/change_password", m.user_ctrl.check_if_logged, m.user_
 
 app.get("/rss", m.rss_ctrl.create_rss);
 
-app.get("/*", m.podcast_ctrl.send_index);
+// SSR
+app.get("/a/*", m.ssr_ctrl.send_index);
+app.get("/", m.ssr_ctrl.send_index_podcast);
+app.get("/:slug", m.ssr_ctrl.send_index_epispde);
+
+app.use(express.static('build'))
+
+app.get("/*", m.ssr_ctrl.send_index);
 
 app.listen(process.env.SERVER_PORT, () => console.log(`Serveur lancé sur le port ${process.env.SERVER_PORT}`))

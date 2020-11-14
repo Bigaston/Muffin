@@ -395,9 +395,6 @@ module.exports = {
 				res.status(400).send("Bad feed")
 			})
 
-	},
-	send_index: (req, res) => {
-		res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 	}
 }
 
