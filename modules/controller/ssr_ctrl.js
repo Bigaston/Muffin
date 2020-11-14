@@ -12,10 +12,10 @@ module.exports = {
 			<meta property="og:description" content="${podcast.description.replace(/\n/g, " ")}"></meta>
 			<meta name="description" content="${podcast.description.replace(/\n/g, " ")}"></meta>
 			<meta property="og:type" content="blog"></meta>
-			<meta property="og:image" content="${process.env.HOST + "/img/pod.jpg"}"></meta>
-			<meta property="og:url" content="${process.env.HOST}"></meta>
+			<meta property="og:image" content="${process.env.HOST_SITE + "/img/pod.jpg"}"></meta>
+			<meta property="og:url" content="${process.env.HOST_SITE}"></meta>
 			<meta property="theme-color" content="#edbb9a"></meta>
-			<link href="${process.env.HOST + "/rss"}" rel="alternate" type="application/rss+xml" title="${podcast.title}"></link>`
+			<link href="${process.env.HOST_SITE + "/rss"}" rel="alternate" type="application/rss+xml" title="${podcast.title}"></link>`
 
 			base_index = base_index.replace('<title>Muffin</title>', `<title>${podcast.title}</title>\n${tags}`);
 
@@ -34,10 +34,10 @@ module.exports = {
 					<meta property="og:description" content="${podcast.description.replace(/\n/g, " ")}"></meta>
 					<meta name="description" content="${podcast.description.replace(/\n/g, " ")}"></meta>
 					<meta property="og:type" content="blog"></meta>
-					<meta property="og:image" content="${process.env.HOST + "/img/pod.jpg"}"></meta>
-					<meta property="og:url" content="${process.env.HOST}"></meta>
+					<meta property="og:image" content="${process.env.HOST_SITE + "/img/pod.jpg"}"></meta>
+					<meta property="og:url" content="${process.env.HOST_SITE}"></meta>
 					<meta property="theme-color" content="#edbb9a"></meta>
-					<link href="${process.env.HOST + "/rss"}" rel="alternate" type="application/rss+xml" title="${podcast.title}"></link>`
+					<link href="${process.env.HOST_SITE + "/rss"}" rel="alternate" type="application/rss+xml" title="${podcast.title}"></link>`
 
 					base_index = base_index.replace('<title>Muffin</title>', `<title>${"Episode non trouvé - " + podcast.title}</title>\n${tags}`);
 
@@ -49,10 +49,10 @@ module.exports = {
 					<meta property="og:description" content="${episode.small_desc.replace(/\n/g, " ")}"></meta>
 					<meta name="description" content="${episode.small_desc.replace(/\n/g, " ")}"></meta>
 					<meta property="og:type" content="blog"></meta>
-					<meta property="og:image" content="${process.env.HOST + episode.img}"></meta>
-					<meta property="og:url" content="${process.env.HOST}"></meta>
+					<meta property="og:image" content="${process.env.HOST_SITE + episode.img}"></meta>
+					<meta property="og:url" content="${process.env.HOST_SITE}"></meta>
 					<meta property="theme-color" content="#edbb9a"></meta>
-					<link href="${process.env.HOST + "/rss"}" rel="alternate" type="application/rss+xml" title="${podcast.title}"></link>`
+					<link href="${process.env.HOST_SITE + "/rss"}" rel="alternate" type="application/rss+xml" title="${podcast.title}"></link>`
 
 					base_index = base_index.replace('<title>Muffin</title>', `<title>${episode.title + " - " + podcast.title}</title>\n${tags}`);
 
