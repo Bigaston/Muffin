@@ -16,16 +16,16 @@
 	background-color: white;
 }
 
-.loginContainer > h1 {
+.loginContainer h1 {
 	text-align: center;
 	margin-top:0px;
 }
 
-.loginContainer > label {
+.loginContainer label {
 	margin-top: 5px;
 }
 
-.loginContainer > button {
+.loginContainer .submitButton {
 	width: 100%;
 	margin-top: 10px;
 }

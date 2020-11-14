@@ -22,7 +22,9 @@ export default function Login() {
 	let [errorMessage, setErrorMessage] = useState("");
 	let [isLoading, setIsLoading] = useState(false);
 
-	const handleConnect = () => {
+	const handleConnect = (e) => {
+		e.preventDefault();
+
 		if (!login || !password) {
 			setErrorMessage("Les deux champs ne sont pas remplis!")
 			return
@@ -69,14 +71,16 @@ export default function Login() {
 	return (
 		<div className="loginContainer">
 			<h1>Se Connecter</h1>
-			<label htmlFor="login">Nom d'utilisateur</label>
-			<input className="u-full-width" type="text" id="login" value={login} onChange={(e) => { setLogin(e.target.value) }} />
-			<label htmlFor="password">Mot de passe</label>
-			<input className="u-full-width" type="password" id="password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
+			<form onSubmit={handleConnect}>
+				<label htmlFor="login">Nom d'utilisateur</label>
+				<input className="u-full-width" type="text" id="login" value={login} onChange={(e) => { setLogin(e.target.value) }} />
+				<label htmlFor="password">Mot de passe</label>
+				<input className="u-full-width" type="password" id="password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
 
-			{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
-			<button className="button-primary" onClick={handleConnect}>Se connecter</button>
-			<Loader loading={isLoading} />
+				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
+				<input type="submit" className="button-primary submitButton" value="Se connecter" />
+				<Loader loading={isLoading} />
+			</form>
 		</div>
 	)
 }
