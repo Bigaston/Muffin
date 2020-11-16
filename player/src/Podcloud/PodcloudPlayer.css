@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+body {
+	font-family: 'Lato', sans-serif;
+}
+
+.player {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+.playerHead{
+	display: flex;
+	flex-direction: row;
+	padding: 10px;
+	background-color: #1C2833;
+}
+
+.playerHead > img {
+	width: 75px;
+	height: 75px;
+	border-radius: 4px;
+}
+
+.rightDivPlayer {
+	margin-left: 10px;
+	margin-top: 0px;
+	width: 100%;
+}
+
+.rightDivPlayer > #eptitle {
+	margin-top: 3px;
+	margin-bottom: 0px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #F7F9F9;
+}
+
+#eptitle > a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.rightDivPlayer > #podtitle {
+	margin-top: 3px;
+	margin-bottom: 0px;
+	font-size: 15px;
+	font-style: italic;
+	color: #B3B6B7;
+}
+
+#podtitle > a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 490px) {
+	.playerHead{
+		flex-direction: column;
+	}
+
+	.playerHead > img {
+		width: 250px;
+		height: 250px;
+		border-radius: 4px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 10px;
+	}
+
+	.rightDivPlayer > #eptitle {
+		text-align: center;
+	}
+
+	.rightDivPlayer > #podtitle {
+		text-align: center;
+	}
+
+	.rightDivPlayer {
+		width: auto;
+	}
+}
+
+#download {
+	width: 15px;
+	margin-left: 5px;
+}
+
+#progressbar {
+	text-align: left;
+    height: 10px;
+    background-color: #5D6D7E;
+    border-radius: 3px;
+    margin-top: 3px;
+}
+
+#progressbar:hover {
+    cursor: pointer;
+}
+
+#prog {
+    background-color: #3498DB;
+    height: 10px;
+	border-radius: 3px;
+	width: 0;
+}
+.time {
+    display: flex;
+    justify-content: space-between;
+}
+    
+.time > p {
+    margin-top: 1px;
+    color: #AEB6BF;
+    margin-bottom: 0px;
+}
+
+.controls {
+    display: flex;
+	justify-content: center;
+	align-items: baseline;
+}
+
+.controls {
+	margin-top: -15px;
+}
+.controls > :not( #playButton) {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 30px;
+}
+
+.controls > #playButton {
+	width: 40px;
+	height: 40px;
+}
+
+.controls > img:hover {
+	cursor: pointer;
+}

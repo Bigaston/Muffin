@@ -1,0 +1,21 @@
+@keyframes pulse {
+  0% {
+    transform: scale(0.99);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0.99);
+    opacity: 0.3;
+  }
+}
+
+.pulse-animation {
+  transition: opacity 0.5s, transform 0.5s;
+}
+.pulse-animation.on {
+  animation: pulse 2s infinite ease-in-out;
+}

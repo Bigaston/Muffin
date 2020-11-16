@@ -1,0 +1,44 @@
+.oneEpisode {
+	display: flex;
+	flex-direction: row;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	align-items: center;
+}
+
+.oneEpisode > img {
+	width: 25px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.oneEpisode > img:hover {
+	cursor: pointer;
+}
+
+.OneEpTitle {
+	margin: 0px;
+	color: #F7F9F9;
+}
+
+.OneEpDuration {
+	margin-left: auto;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	color: #B3B6B7;
+}
+
+.oneEpisode:nth-child(even) {
+	background-color: #34495E;
+}
+
+.oneEpisode:nth-child(odd) {
+	background-color: #2C3E50;
+}
+
+@media screen and (max-width: 490px) {
+	.OneEpDuration {
+		display: none;
+	}
+}
