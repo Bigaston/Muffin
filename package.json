@@ -41,7 +41,7 @@
 		"build": "node ./cli/resetConfig.js && react-scripts build && cd ./player && react-scripts build && cd ..",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"postinstall": "node ./cli/init_file.js && npm run bdd",
+		"postinstall": "node ./cli/init_file.js && npm run bdd && cd ./player && npm install && cd ..",
 		"bdd": "node ./cli/bdd.js",
 		"server": "node ./muffin.js"
 	},
