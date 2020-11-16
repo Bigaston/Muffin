@@ -14,3 +14,9 @@ export function convertHMS(pSec) {
 
 	return sortie.heure + ":" + sortie.minute + ":" + sortie.seconde
 }
+
+export function toSeconds(pHMS) {
+	const temps = pHMS.split(":");
+
+	return parseInt(temps[0]) * 3600 + parseInt(temps[1]) * 60 + parseInt(temps[2]);
+}

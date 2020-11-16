@@ -39,6 +39,11 @@ app.post("/api/admin/user/change_password", m.user_ctrl.check_if_logged, m.user_
 
 app.get("/rss", m.rss_ctrl.create_rss);
 
+// API du player
+app.get("/api/player/episode/:slug", m.player_ctrl.episode_by_slug)
+app.use("/player", express.static('./player/build'))
+app.get("/player/*", m.player_ctrl.send_index)
+
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
 app.get("/", m.ssr_ctrl.send_index_podcast);
