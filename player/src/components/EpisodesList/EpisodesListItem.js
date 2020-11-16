@@ -28,7 +28,7 @@ const EpisodesListItem = ({ episode, setCurrentEpisode }) => {
 		<div className="oneEpisode">
 			<img
 				onClick={playPauseMe}
-				src={currently_me && playing ? config.host_assets + "/pause.svg" : host_assets + "/play.svg"}
+				src={currently_me && playing ? config.host_assets + "/pause.svg" : config.host_assets + "/play.svg"}
 				alt={currently_me && playing ? "Mettre en pause" : "Reprendre"}
 			/>
 			<p className="OneEpTitle">{episode.title}</p>
