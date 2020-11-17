@@ -26,6 +26,19 @@ const Player = ({
 	const player = useRef();
 
 	const [, setPlayerState] = useRecoilState(playerStore);
+	const playerDiv = useRef(undefined);
+
+	const [episodesListVisible, setEpisodesListVisible] = useState(false);
+
+	useEffect(() => {
+		window.onresize = () => {
+			window.parent.postMessage({ height: playerDiv.current.offsetHeight }, "*");
+		}
+	}, [playerDiv?.current?.offsetHeight])
+
+	useEffect(() => {
+		window.parent.postMessage({ height: playerDiv.current.offsetHeight }, "*");
+	}, [episodesListVisible])
 
 	useEffect(() => {
 		const ref = player.current;
@@ -117,11 +130,10 @@ const Player = ({
 		}
 	}, [player, currentEpisode.enclosure_url]);
 
-	const [episodesListVisible, setEpisodesListVisible] = useState(false);
 	const showEpisodesList = episodesList?.loading || episodesList?.length > 0;
 
 	return (
-		<div className="player">
+		<div className="player" ref={playerDiv}>
 			<div className="playerHead">
 				<video ref={player} hidden preload="none" />
 				<EpisodeCover currentEpisode={currentEpisode} />
