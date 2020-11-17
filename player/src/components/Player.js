@@ -140,7 +140,7 @@ const Player = ({
 	const showEpisodesList = episodesList?.loading || episodesList?.length > 0;
 
 	return (
-		<div className="player" ref={playerDiv} className={classname({ white: themeColor === "white" }, { black: themeColor === "black" })}>
+		<div ref={playerDiv} className={classname("player", { white: themeColor === "white" }, { black: themeColor === "black" })}>
 			<div className="playerHead">
 				<video ref={player} hidden preload="none" />
 				<EpisodeCover currentEpisode={currentEpisode} />
