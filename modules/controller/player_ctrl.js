@@ -15,6 +15,20 @@ module.exports = {
 			})
 		})
 	},
+	last_episode: (req, res) => {
+		bdd.Episode.findAll({ limit: 1, order: [['createdAt', 'DESC']], attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] }).then(episodes => {
+			let episode = episodes[0];
+			bdd.Episode.findAll({ attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] }).then(episode_list => {
+				bdd.Podcast.findOne({ attributes: ["title", "type"] }).then(podcast => {
+					if (podcast.type === "episodic") {
+						episode_list = episode_list.reverse()
+					}
+
+					res.json({ episode: episode, episode_list: episode_list, podcast: podcast });
+				})
+			})
+		})
+	},
 	send_index: (req, res) => {
 		res.sendFile(path.join(__dirname, "../../player/build/index.html"));
 	}
