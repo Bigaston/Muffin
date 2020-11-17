@@ -1,5 +1,12 @@
 .epList {
 	max-height: 215px;
 	overflow-y: scroll;
+}
+
+.white .epList {
+	background-color: #CACFD2;
+}
+
+.black .epList {
 	background-color: #2C3E50;
 }

@@ -4,7 +4,7 @@ import EpisodesListItem from "./EpisodesListItem";
 
 import "./EpisodesList.css";
 
-const EpisodesList = ({ episodesList, setCurrentEpisode, style }) => {
+const EpisodesList = ({ episodesList, setCurrentEpisode, style, themeColor }) => {
 	return Array.isArray(episodesList) && episodesList.length > 0 ? (
 		<div className="epList" style={style}>
 			{episodesList.map((ep) => (
@@ -12,6 +12,7 @@ const EpisodesList = ({ episodesList, setCurrentEpisode, style }) => {
 					key={ep._id}
 					episode={ep}
 					setCurrentEpisode={setCurrentEpisode}
+					themeColor={themeColor}
 				/>
 			))}
 		</div>

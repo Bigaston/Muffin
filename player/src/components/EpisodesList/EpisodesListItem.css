@@ -18,6 +18,13 @@
 
 .OneEpTitle {
 	margin: 0px;
+}
+
+.white .OneEpTitle {
+	color: black;
+}
+
+.black .OneEpTitle {
 	color: #F7F9F9;
 }
 
@@ -29,11 +36,27 @@
 	color: #B3B6B7;
 }
 
-.oneEpisode:nth-child(even) {
+.white .OneEpDuration {
+	color: #34495E;
+}
+
+.black .OneEpDuration {
+	color: #B3B6B7;
+}
+
+.white .oneEpisode:nth-child(even) {
+	background-color: white;
+}
+
+.black .oneEpisode:nth-child(even) {
 	background-color: #34495E;
 }
 
-.oneEpisode:nth-child(odd) {
+.white .oneEpisode:nth-child(odd) {
+	background-color: #E5E7E9;
+}
+
+.black .oneEpisode:nth-child(odd) {
 	background-color: #2C3E50;
 }
 

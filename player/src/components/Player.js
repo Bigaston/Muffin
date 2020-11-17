@@ -6,6 +6,8 @@ import { useRecoilState } from "recoil";
 
 import EpisodesList from "./EpisodesList";
 
+import classname from "classnames";
+
 import PodcastTitle from "./PodcastTitle";
 import EpisodeTitle from "./EpisodeTitle";
 import EpisodeCover from "./EpisodeCover";
@@ -21,7 +23,8 @@ const Player = ({
 	currentPodcast,
 	episodesList,
 	setCurrentEpisode,
-	displayEpList
+	displayEpList,
+	themeColor
 }) => {
 	const player = useRef();
 
@@ -39,6 +42,10 @@ const Player = ({
 	useEffect(() => {
 		window.parent.postMessage({ height: playerDiv.current.offsetHeight }, "*");
 	}, [episodesListVisible])
+
+	useEffect(() => {
+		window.parent.postMessage({ height: playerDiv.current.offsetHeight }, "*");
+	}, [])
 
 	useEffect(() => {
 		const ref = player.current;
@@ -133,7 +140,7 @@ const Player = ({
 	const showEpisodesList = episodesList?.loading || episodesList?.length > 0;
 
 	return (
-		<div className="player" ref={playerDiv}>
+		<div className="player" ref={playerDiv} className={classname({ white: themeColor === "white" }, { black: themeColor === "black" })}>
 			<div className="playerHead">
 				<video ref={player} hidden preload="none" />
 				<EpisodeCover currentEpisode={currentEpisode} />
@@ -149,6 +156,7 @@ const Player = ({
 						initialDuration={currentEpisode.duration}
 					/>
 					<PlayerControls
+						themeColor={themeColor}
 						playerRef={player}
 						episodesListLoading={episodesList?.loading}
 						showEpisodesListButtonFn={
@@ -169,6 +177,7 @@ const Player = ({
 					episodesList={episodesList}
 					setCurrentEpisode={setCurrentEpisode}
 					style={episodesListVisible ? {} : { display: "none" }}
+					themeColor={themeColor}
 				/>
 			) : null}
 		</div>

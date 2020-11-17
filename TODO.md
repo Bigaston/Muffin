@@ -7,7 +7,7 @@
 - Faire un écran de player fullscreen
 - Installation simple
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
-- Le PLAYER
 - Des playlists
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
+- Bug de la favicon, pas envoyée

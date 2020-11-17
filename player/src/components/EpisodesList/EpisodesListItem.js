@@ -9,7 +9,7 @@ import { convertHMS } from "../../utils";
 
 import config from "../../config.json";
 
-const EpisodesListItem = ({ episode, setCurrentEpisode }) => {
+const EpisodesListItem = ({ episode, setCurrentEpisode, themeColor }) => {
 	const [playerState] = useRecoilState(playerStore);
 
 	const { src: playerSrc, playing, playPause } = playerState;
@@ -28,7 +28,7 @@ const EpisodesListItem = ({ episode, setCurrentEpisode }) => {
 		<div className="oneEpisode">
 			<img
 				onClick={playPauseMe}
-				src={currently_me && playing ? config.host_assets + "/pause.svg" : config.host_assets + "/play.svg"}
+				src={currently_me && playing ? config.host_assets + "/" + themeColor + "/pause.svg" : config.host_assets + "/" + themeColor + "/play.svg"}
 				alt={currently_me && playing ? "Mettre en pause" : "Reprendre"}
 			/>
 			<p className="OneEpTitle">{episode.title}</p>

@@ -12,6 +12,7 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 	const [episodesList, setEpisodeList] = useState();
 	const [loading, setLoading] = useState(true);
 	const [displayEpList, setDisplayEpList] = useState(true);
+	const [themeColor, setThemeColor] = useState("white");
 
 	useEffect(() => {
 		const url = window.location.pathname.split("/");
@@ -20,6 +21,15 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 		const urlParams = new URLSearchParams(window.location.search);
 
 		if (urlParams.get("hide_list") !== null) { setDisplayEpList(false) }
+		if (urlParams.get("theme") !== null) {
+			if (urlParams.get("theme") === "white") {
+				setThemeColor("white")
+			} else if (urlParams.get("theme") === "black") {
+				setThemeColor("black")
+			} else {
+				setThemeColor("white")
+			}
+		}
 
 		axios({
 			method: "GET",
@@ -77,6 +87,7 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 					episodesList={episodesList}
 					setCurrentEpisode={setCurrentEpisode}
 					displayEpList={displayEpList}
+					themeColor={themeColor}
 				/>
 			}
 		</>
