@@ -10,4 +10,3 @@
 - Des playlists
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
-- Bug de la favicon, pas envoyée
