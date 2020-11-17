@@ -60,6 +60,7 @@ export default function Menu() {
 					<p><Link to="/a/podcast">Modifier mon podcast</Link></p>
 					<p><Link to="/a/episodes">Mes épisodes</Link></p>
 					<p><Link to="/a/new_episode">Créer un épisode</Link></p>
+					<p><Link to="/a/widget">Intégrer un épisode</Link></p>
 					<p><Link to="/a/account">Mon compte</Link></p>
 				</div>
 				: <></>}

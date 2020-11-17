@@ -209,7 +209,8 @@ module.exports = {
 			episodes.forEach(ep => {
 				let ep_obj = {
 					id: ep.id,
-					title: ep.title
+					title: ep.title,
+					slug: ep.slug
 				}
 
 				return_obj.push(ep_obj);

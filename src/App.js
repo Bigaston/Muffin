@@ -17,6 +17,7 @@ import EpisodeList from "./page/admin/ep_list"
 import EditEpisode from "./page/admin/edit_episode"
 import Account from "./page/admin/edit_me"
 import ImportPodcast from "./page/admin/import_podcast"
+import Widget from "./page/admin/widget"
 
 import Player from "./component/player"
 import Menu from "./component/menu"
@@ -64,6 +65,11 @@ function App() {
 					<Route path="/a/import">
 						<CheckLogged>
 							<ImportPodcast />
+						</CheckLogged>
+					</Route>
+					<Route path="/a/widget">
+						<CheckLogged>
+							<Widget />
 						</CheckLogged>
 					</Route>
 
