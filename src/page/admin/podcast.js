@@ -63,6 +63,14 @@ export default function Podcast() {
 		setCurrentSub(event.target.value);
 	}
 
+	function handleCheckbox(event) {
+		let new_info = { ...podcast };
+
+		new_info.explicit = event.target.checked;
+
+		setPodcast(new_info)
+	}
+
 	let [openEditImage, setOpenEditImage] = useState(false);
 	let filepicker_image = useRef(undefined)
 	let [errorMessageImg, setErrorMessageImg] = useState("");
@@ -195,6 +203,9 @@ export default function Podcast() {
 					<option value="episodic">Du plus récent au plus vieux</option>
 					<option value="serial">Du plus vieux au plus récent</option>
 				</select>
+
+				<input type="checkbox" id="explicit" defaultChecked={podcast.explicit} value={podcast.explicit} onChange={handleCheckbox} />
+				<span className="label-body">Contenu explicite</span>
 
 				<label htmlFor="prefix">Prefix de stats</label>
 				<input className="u-full-width" type="url" id="prefix" value={podcast.prefix} onChange={handleAllInput} />

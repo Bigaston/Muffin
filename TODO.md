@@ -1,6 +1,5 @@
 - Loader propre et sur toutes les requetes
 - Support de toutes les langues
-- Edition du Explicit sur la page du podcast (pas fait encore)
 - Mettre des feedback sur l'édition et tout
 - Faire un écran de player fullscreen
 - Installation simple

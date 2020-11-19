@@ -109,7 +109,8 @@ module.exports = {
 				itunes_subcategory: podcast.itunes_subcategory != null ? podcast.itunes_subcategory : "",
 				prefix: podcast.prefix != null ? podcast.prefix : "",
 				logo: podcast.logo,
-				type: podcast.type
+				type: podcast.type,
+				explicit: podcast.explicit
 			}
 
 			res.json(return_obj);
@@ -143,6 +144,7 @@ module.exports = {
 				podcast.itunes_subcategory = req.body.itunes_subcategory;
 				podcast.prefix = req.body.prefix;
 				podcast.type = req.body.type;
+				podcast.explicit = req.body.explicit;
 
 				podcast.save().then(() => {
 					res.send("OK")

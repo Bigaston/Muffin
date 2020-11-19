@@ -64,7 +64,6 @@ export default function Podcast() {
 		setEpisode(new_info)
 	}
 
-
 	let [isSlugOk, setIsSlugOk] = useState(true);
 	function handleSlug(event) {
 		let new_info = { ...episode };
