@@ -59,6 +59,22 @@ module.exports = {
 			}
 		})
 	},
+	get_playlist_list: (req, res) => {
+		bdd.Playlist.findAll({ attributes: ["id", "title", "slug"], orderById: [["id", "DESC"]] }).then(playlists => {
+			res.json(playlists);
+		})
+	},
+	delete_playlist: (req, res) => {
+		bdd.Playlist.findByPk(req.params.id).then(playlist => {
+			if (playlist.img !== "/img/pod.jpg" && fs.existsSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"));
+			}
+
+			playlist.destroy().then(() => {
+				res.send("OK");
+			})
+		})
+	}
 }
 
 function checkSlug(slug) {
