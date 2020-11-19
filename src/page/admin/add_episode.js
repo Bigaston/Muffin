@@ -19,6 +19,7 @@ export default function Podcast() {
 	let history = useHistory();
 	let [userState,] = useRecoilState(userAtom);
 	let [episode, setEpisode] = useState({})
+	const [playlists, setPlaylists] = useState([]);
 
 	function p(date) {
 		return date < 10 ? "0" + date : date
@@ -50,6 +51,18 @@ export default function Podcast() {
 
 				setEpisode(new_info)
 			}
+		})
+
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/playlist/get_all_playlist",
+		}).then(res => {
+			setPlaylists(res.data)
+		}).catch(err => {
+			console.log(err);
 		})
 	}, [userState])
 
@@ -176,22 +189,10 @@ export default function Podcast() {
 		}
 	}
 
-	const [playlists, setPlaylists] = useState([]);
 	const [openAddPlaylist, setOpenAddPlaylist] = useState(false)
 
 	function handleOpenAddPlaylist() {
-		axios({
-			method: "GET",
-			headers: {
-				"Authorization": "Bearer " + userState.jwt
-			},
-			url: config.host + "/api/admin/playlist/get_all_playlist",
-		}).then(res => {
-			setPlaylists(res.data)
-			setOpenAddPlaylist(true);
-		}).catch(err => {
-			console.log(err);
-		})
+		setOpenAddPlaylist(true);
 	}
 
 	function handleChangePlaylist(checked, index) {
@@ -273,7 +274,7 @@ export default function Podcast() {
 						<ul>
 							{playlists.map((pl, index) => (
 								<li key={pl.id}>
-									<input type="checkbox" id="explicit" value={pl.added} onChange={(event) => { handleChangePlaylist(event.target.checked, index) }} />
+									<input type="checkbox" id="explicit" value={pl.added} defaultChecked={pl.added} onChange={(event) => { handleChangePlaylist(event.target.checked, index) }} />
 									<span className="labelCheck">{pl.title}</span>
 								</li>
 							))}
