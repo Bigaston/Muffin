@@ -21,7 +21,12 @@ export default function Podcast() {
 	let history = useHistory()
 	let [userState,] = useRecoilState(userAtom);
 	let [playlist, setPlaylist] = useState({});
+	let [playlistEpisodes, setPlaylistEpisode] = useState([]);
 	let { id } = useParams();
+
+	function orderEpisodeByPlace(a, b) {
+		return a.EpisodePlaylist.place - b.EpisodePlaylist.place;
+	}
 
 	useEffect(() => {
 		axios({
@@ -32,6 +37,8 @@ export default function Podcast() {
 			url: config.host + "/api/admin/playlist/get_playlist/" + id,
 		}).then(res => {
 			if (res.status === 200) {
+				res.data.Episodes.sort(orderEpisodeByPlace)
+				setPlaylistEpisode(res.data.Episodes)
 				setPlaylist(res.data);
 			}
 		}).catch(err => {
@@ -176,6 +183,75 @@ export default function Podcast() {
 		})
 	}
 
+	const [openEpisodeAdd, setOpenEpisodeAdd] = useState(false);
+
+	function validAddEpisode() {
+
+	}
+
+	function upEpisode(index) {
+		if (index === 0) return;
+
+		setPlaylistEpisode(current => {
+			const tab = [...current.slice(0, index), ...current.slice(index + 1)]
+			tab.splice(index - 1, 0, current[index]);
+
+			return tab;
+		})
+	}
+
+	function downEpisode(index) {
+		if (index === playlistEpisodes.length - 1) return;
+		setPlaylistEpisode(current => {
+			const tab = [...current.slice(0, index), ...current.slice(index + 1)]
+			tab.splice(index + 1, 0, current[index]);
+
+			return tab;
+		})
+	}
+
+	function deleteEpisode(id_ep) {
+		axios({
+			method: "DELETE",
+			url: config.host + "/api/admin/playlist/delete_playlist_ep/" + id + "/" + id_ep,
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+		}).then(res => {
+			axios({
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + userState.jwt
+				},
+				url: config.host + "/api/admin/playlist/get_playlist/" + id,
+			}).then(res => {
+				if (res.status === 200) {
+					res.data.Episodes.sort(orderEpisodeByPlace)
+					setPlaylistEpisode(res.data.Episodes)
+				}
+			}).catch(err => {
+				console.log(err)
+			})
+		}).catch(err => {
+			console.log(err)
+		})
+	}
+
+	function saveEpOrder() {
+		axios({
+			method: "POST",
+			url: config.host + "/api/admin/playlist/change_episode_order/" + id,
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			data: playlistEpisodes
+		}).then(res => {
+			console.log(res)
+		}).catch(err => {
+			console.log(err)
+		})
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -202,6 +278,28 @@ export default function Podcast() {
 				<img className="podcastLogo" src={config.host + playlist.img} alt="Logo de la playlist" />
 				<button onClick={editImage}>Modifier l'image</button> <button className="button-delete" onClick={deleteImage}>Supprimer l'image</button>
 
+				<h2>Episodes de la playlist</h2>
+				<button className="button-primary" onClick={saveEpOrder}>Sauvegarder l'ordre</button>
+				<table className="u-full-width">
+					<thead>
+						<tr>
+							<th>Nom de l'épisode</th>
+							<th>Monter</th>
+							<th>Descendre</th>
+							<th>Supprimer</th>
+						</tr>
+					</thead>
+					<tbody>
+						{playlistEpisodes.map((ep, index) => (
+							<tr key={ep.id}>
+								<td>{ep.title}</td>
+								<td><button onClick={() => { upEpisode(index) }}>▲</button></td>
+								<td><button onClick={() => { downEpisode(index) }}>▼</button></td>
+								<td><button onClick={() => { deleteEpisode(ep.id) }}>🗑️</button></td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 
 			<Modal open={openEditImage} onCancel={() => { setOpenEditImage(false) }}>
@@ -212,6 +310,12 @@ export default function Podcast() {
 				{percentCompleted !== 0 ?
 					<progress max="100" value={percentCompleted} />
 					: <></>}
+			</Modal>
+
+			<Modal open={openEpisodeAdd} onCancel={() => { setOpenEpisodeAdd(false) }}>
+				<h1>Ajouter un épisode</h1>
+
+				<button className="button-primary" onClick={validAddEpisode}>Ajouter</button> <button onClick={() => { setOpenEpisodeAdd(false) }}>Annuler</button>
 			</Modal>
 		</>
 	)

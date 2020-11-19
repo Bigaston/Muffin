@@ -76,7 +76,7 @@ module.exports = {
 		})
 	},
 	get_playlist_admin: (req, res) => {
-		bdd.Playlist.findByPk(req.params.id).then(playlist => {
+		bdd.Playlist.findOne({ where: { id: req.params.id }, include: bdd.Episode }).then(playlist => {
 			res.json(playlist)
 		})
 	},
@@ -132,6 +132,46 @@ module.exports = {
 			})
 		})
 	},
+	delete_episode_playlist: (req, res) => {
+		bdd.EpisodePlaylist.findOne({ where: { EpisodeId: req.params.episode, PlaylistId: req.params.playlist } }).then(episodeplaylist => {
+			episodeplaylist.destroy().then(() => {
+				res.send("OK")
+			})
+		})
+	},
+	save_order: (req, res) => {
+		let i = 0;
+
+		function checkEpPlace(_cb) {
+			if (i === req.body.length) {
+				_cb()
+				return;
+			};
+
+			let ep = req.body[i];
+
+			bdd.EpisodePlaylist.findOne({ where: { EpisodeId: ep.EpisodePlaylist.EpisodeId, PlaylistId: ep.EpisodePlaylist.PlaylistId } }).then(episodeplaylist => {
+				if (episodeplaylist.place !== i) {
+					episodeplaylist.place = i;
+					episodeplaylist.save().then(() => {
+						i++;
+						checkEpPlace(_cb);
+					})
+				} else {
+					i++;
+					checkEpPlace(_cb);
+				}
+			})
+		}
+
+		checkEpPlace(() => {
+			res.send("OK");
+		})
+	}
+}
+
+function orderEpisodeByPlace(a, b) {
+	return a.place - b.place;
 }
 
 function checkSlug(slug) {
