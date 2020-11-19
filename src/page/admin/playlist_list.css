@@ -26,3 +26,8 @@
 	background-color: #E74C3C;
 	color: white;
 }
+
+.playlistListContainer > .button-primary {
+	display: block;
+	width: 100%;
+}

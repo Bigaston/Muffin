@@ -20,6 +20,7 @@ import ImportPodcast from "./page/admin/import_podcast"
 import Widget from "./page/admin/widget"
 import PlaylistList from "./page/admin/playlist_list"
 import NewPlaylist from "./page/admin/add_playlist"
+import EditPlaylist from "./page/admin/edit_playlist"
 
 import Player from "./component/player"
 import Menu from "./component/menu"
@@ -82,6 +83,11 @@ function App() {
 					<Route path="/a/new_playlist">
 						<CheckLogged>
 							<NewPlaylist />
+						</CheckLogged>
+					</Route>
+					<Route path="/a/edit_playlist/:id">
+						<CheckLogged>
+							<EditPlaylist />
 						</CheckLogged>
 					</Route>
 

@@ -1,0 +1,96 @@
+.episodeEditContainer {
+	position: absolute;
+	width: 900px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+	border-radius: 5px;
+	padding: 20px;
+	background-color: white;
+	margin-bottom: 150px;
+}
+
+.episodeEditContainer > h1 {
+	text-align: center;
+	margin-top:0px;
+}
+
+.episodeEditContainer  label {
+	margin-top: 5px;
+}
+.episodeEditContainer .info {
+	color: #566573;
+	font-style: italic;
+	text-align: center;
+	margin: 10px;
+}
+
+.episodeEditContainer .label-body {
+	margin-left: 10px;
+	font-weight: bold;
+}
+
+#description {
+	height: 300px;
+}
+
+#small_desc {
+	height: 150px;
+}
+
+.episodeEditContainer .button-primary {
+	display: block;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.episodeEditContainer .button-delete {
+	background-color: #E74C3C;
+	color: white;
+}
+
+.episodeEditContainer .errorMessage {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+
+.episodeEditContainer .bold {
+	font-weight: bold;
+}
+
+.episodeEditContainer > .podcastLogo {
+	width: 200px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.episodeEditContainer > .podcastAudio {
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.episodeEditContainer > .fakeLabel {
+	font-weight: bold;
+}
+
+.modal input[type="file"] {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.modal .errorMessageImg {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+
+.modal progress {
+	display: block;
+	width: 100%;
+}
