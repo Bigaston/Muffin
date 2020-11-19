@@ -1,0 +1,58 @@
+.addPlaylistContainer {
+	position: absolute;
+	width: 900px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+	border-radius: 5px;
+	padding: 20px;
+	background-color: white;
+	margin-bottom: 150px;
+}
+
+.addPlaylistContainer > h1 {
+	text-align: center;
+	margin-top:0px;
+}
+
+.addPlaylistContainer  label {
+	margin-top: 5px;
+}
+.addPlaylistContainer .info {
+	color: #566573;
+	font-style: italic;
+	text-align: center;
+	margin: 10px;
+}
+
+.addPlaylistContainer .label-body {
+	margin-left: 10px;
+	font-weight: bold;
+}
+
+#description {
+	height: 150px;
+}
+
+.addPlaylistContainer .button-primary {
+	display: block;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.addPlaylistContainer progress {
+	width: 100%;
+}
+
+.addPlaylistContainer .errorMessage {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+}
+
+.addPlaylistContainer .bold {
+	font-weight: bold;
+}

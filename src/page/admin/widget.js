@@ -68,10 +68,10 @@ export default function ImportPodcast() {
 	return (
 		<>
 			<Helmet>
-				<title>Intégrer un épisode - Muffin</title>
+				<title>Intégration - Muffin</title>
 			</Helmet>
 			<div className="widgetContainer">
-				<h1>Intégrer un épisode</h1>
+				<h1>Intégration</h1>
 				<p>Ici vous pourrez générer un player de podcast que vous pourrez intégrer sur d'autres sites internets. Le player va automatiquement s'adapter à la largeur qu'il dispose.</p>
 				<p>Si il a plus que 490px de large, il sera au format horizontal, si il a moins, il sera au format vertical.</p>
 				<p>Vous pouvez définir vous mêmes la largeur du player, ou alors la laisser à 100% et laisser le script joint. Celui-ci permet de modifier la hauteur de l'intégration en fonction du format, automatiquement.</p>

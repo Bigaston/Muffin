@@ -18,6 +18,7 @@ import EditEpisode from "./page/admin/edit_episode"
 import Account from "./page/admin/edit_me"
 import ImportPodcast from "./page/admin/import_podcast"
 import Widget from "./page/admin/widget"
+import NewPlaylist from "./page/admin/add_playlist"
 
 import Player from "./component/player"
 import Menu from "./component/menu"
@@ -70,6 +71,11 @@ function App() {
 					<Route path="/a/widget">
 						<CheckLogged>
 							<Widget />
+						</CheckLogged>
+					</Route>
+					<Route path="/a/new_playlist">
+						<CheckLogged>
+							<NewPlaylist />
 						</CheckLogged>
 					</Route>
 

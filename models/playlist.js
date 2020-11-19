@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	});
 	Playlist.associate = function (models) {
-		models.Playlist.belongsToMany(models.Episode, { through: 'EpisodePlaylist' })
+		models.Playlist.belongsToMany(models.Episode, { through: models.EpisodePlaylist })
 	};
 	return Playlist;
 };

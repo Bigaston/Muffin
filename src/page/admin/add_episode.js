@@ -211,7 +211,7 @@ export default function Podcast() {
 
 				<label htmlFor="slug">Lien de l'épisode*</label>
 				<input className="u-full-width" style={{ borderColor: !isSlugOk ? "red" : undefined }} type="text" id="slug" value={episode.slug} onChange={handleSlug} />
-				<p className="info">(Le lien pour accèter à votre épisode, exemple : muffin.pm/<span className="bold">episode1</span>)</p>
+				<p className="info">(Le lien pour accéder à votre épisode, exemple : muffin.pm/<span className="bold">episode1</span>)</p>
 
 				<label htmlFor="img">Image de l'épisode</label>
 				<input type="file" id="img" ref={filepicker_img} accept="image/png, image/jpeg" />

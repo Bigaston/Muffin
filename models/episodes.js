@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	});
 	Episode.associate = function (models) {
-		models.Episode.belongsToMany(models.Playlist, { through: 'EpisodePlaylist' })
+		models.Episode.belongsToMany(models.Playlist, { through: models.EpisodePlaylist })
 	};
 	return Episode;
 };

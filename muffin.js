@@ -33,6 +33,9 @@ app.delete("/api/admin/podcast/episode/:id", m.user_ctrl.check_if_logged, m.podc
 app.post("/api/admin/podcast/import", m.user_ctrl.check_if_logged, m.podcast_ctrl.import_podcast);
 app.get("/api/admin/podcast/check_slug/:slug", m.user_ctrl.check_if_logged, m.podcast_ctrl.check_slug);
 
+app.get("/api/admin/playlist/check_slug/:slug", m.user_ctrl.check_if_logged, m.playlist_ctrl.check_slug)
+app.post("/api/admin/playlist/new_playlist", m.user_ctrl.check_if_logged, m.playlist_ctrl.add_playlist);
+
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
 app.post("/api/admin/user/change_username", m.user_ctrl.check_if_logged, m.user_ctrl.change_username);
