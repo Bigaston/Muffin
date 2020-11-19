@@ -24,7 +24,7 @@ const PlayerProgressBar = ({ playerRef }) => {
 				);
 			};
 
-			if (player.readyState === 1) {
+			if (player.readyState > 0) {
 				jump();
 			} else {
 				player.play().then(() => {

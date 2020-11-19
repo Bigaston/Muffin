@@ -3,10 +3,10 @@
 - Support de toutes les langues
 - Edition du Explicit sur la page du podcast (pas fait encore)
 - Mettre des feedback sur l'édition et tout
-- Lors de l'install, automatiquement générer un jwt_secret
 - Faire un écran de player fullscreen
 - Installation simple
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
 - Des playlists
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
+- Changer le fait que quand un épisode est programmé, il est juste en non répertorié (pareil pour le player)
