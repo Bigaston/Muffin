@@ -178,6 +178,11 @@ module.exports = {
 		checkEpPlace(() => {
 			res.send("OK");
 		})
+	},
+	get_all_playlist_admin: (req, res) => {
+		bdd.Playlist.findAll({ attributes: ["title", "id"] }).then(playlists => {
+			res.json(playlists);
+		})
 	}
 }
 

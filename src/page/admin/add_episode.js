@@ -6,6 +6,8 @@ import axios from "axios";
 import config from "../../config.json";
 import { toBase64 } from "../../utils"
 
+import Modal from "../../component/modal";
+
 import userAtom from "../../stores/user";
 import { useRecoilState } from "recoil";
 
@@ -139,6 +141,16 @@ export default function Podcast() {
 				data_ep.enclosure = base64audio;
 				data_ep.img = base64img
 
+				let my_playlist = [];
+
+				playlists.forEach(pl => {
+					if (pl.added) {
+						my_playlist.push(pl.id);
+					}
+				})
+
+				data_ep.playlists = my_playlist;
+
 				axios({
 					method: "POST",
 					headers: {
@@ -162,6 +174,32 @@ export default function Podcast() {
 				setDuring(false);
 			})
 		}
+	}
+
+	const [playlists, setPlaylists] = useState([]);
+	const [openAddPlaylist, setOpenAddPlaylist] = useState(false)
+
+	function handleOpenAddPlaylist() {
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/playlist/get_all_playlist",
+		}).then(res => {
+			setPlaylists(res.data)
+			setOpenAddPlaylist(true);
+		}).catch(err => {
+			console.log(err);
+		})
+	}
+
+	function handleChangePlaylist(checked, index) {
+		setPlaylists(current => {
+			current[index].added = checked;
+
+			return current;
+		})
 	}
 
 	return (
@@ -198,6 +236,7 @@ export default function Podcast() {
 					</div>
 				</div>
 				<p className="info">(Mettez 0 comme numéro de saison ou d'épisode si cela ne correspond pas à votre podcast)</p>
+
 				<input type="checkbox" id="explicit" value={episode.explicit} onChange={handleCheckbox} />
 				<span className="label-body">Contenu explicite</span>
 
@@ -220,11 +259,29 @@ export default function Podcast() {
 				<label htmlFor="enclosure">Audio de l'épisode*</label>
 				<input type="file" id="enclosure" ref={filepicker_audio} accept="audio/mpeg" />
 
+				<button className="full" onClick={handleOpenAddPlaylist}>Ajouter à une playlist</button>
+
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
 				<button className="button-primary" onClick={uploadEpisode}>Créer l'épisode</button>
 				{during ?
 					<progress max="100" value={percentCompleted} />
 					: <></>}
+
+				<Modal open={openAddPlaylist} onCancel={() => { setOpenAddPlaylist(false) }}>
+					<h1>Ajouter à une/plusieurs playlists</h1>
+					<div class="playlistContainer">
+						<ul>
+							{playlists.map((pl, index) => (
+								<li key={pl.id}>
+									<input type="checkbox" id="explicit" value={pl.added} onChange={(event) => { handleChangePlaylist(event.target.checked, index) }} />
+									<span className="labelCheck">{pl.title}</span>
+								</li>
+							))}
+						</ul>
+
+					</div>
+					<button onClick={() => { setOpenAddPlaylist(false) }}>Fermer</button>
+				</Modal>
 			</div>
 		</>
 	)

@@ -210,7 +210,34 @@ module.exports = {
 					ep.size = stats.size;
 
 					ep.save().then(() => {
-						res.send("OK")
+						let playlist_array = []
+
+						let i = 0;
+
+						function appendPlaylistArray(_cb) {
+							if (i == req.body.playlists.length) {
+								_cb();
+								return;
+							}
+
+							bdd.EpisodePlaylist.findAll({ where: { PlaylistId: req.body.playlists[i] }, order: [["place", "DESC"]] }).then(last_ep_pl => {
+								let place = last_ep_pl.length === 0 ? 0 : last_ep_pl[0].place + 1
+								let obj = {
+									EpisodeId: ep.id,
+									PlaylistId: req.body.playlists[i],
+									place: place
+								}
+								playlist_array.push(obj);
+								i++;
+								appendPlaylistArray(_cb);
+							})
+						}
+
+						appendPlaylistArray(() => {
+							bdd.EpisodePlaylist.bulkCreate(playlist_array).then((episode_playlists) => {
+								res.send("OK")
+							})
+						})
 					})
 				}
 			} else {

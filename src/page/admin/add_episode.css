@@ -60,3 +60,18 @@
 .addEpisodeContainer .bold {
 	font-weight: bold;
 }
+
+.addEpisodeContainer .full {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.addEpisodeContainer .playlistContainer {
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+.addEpisodeContainer .labelCheck {
+	margin-left: 10px;
+}

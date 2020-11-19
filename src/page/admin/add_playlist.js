@@ -142,7 +142,7 @@ export default function Podcast() {
 				<p className="info">(Si vous n'en entrez pas, l'image utilisée sera celle du podcast)</p>
 
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
-				<button className="button-primary" onClick={uploadEpisode}>Créer l'épisode</button>
+				<button className="button-primary" onClick={uploadEpisode}>Créer la playlist</button>
 				{during ?
 					<progress max="100" value={percentCompleted} />
 					: <></>}

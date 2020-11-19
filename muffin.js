@@ -43,7 +43,8 @@ app.post("/api/admin/playlist/edit_playlist_img/:id", m.user_ctrl.check_if_logge
 app.delete("/api/admin/playlist/delete_playlist_img/:id", m.user_ctrl.check_if_logged, m.playlist_ctrl.delete_playlist_img);
 app.delete("/api/admin/playlist/delete_playlist_ep/:playlist/:episode", m.user_ctrl.check_if_logged, m.playlist_ctrl.delete_episode_playlist);
 app.post("/api/admin/playlist/add_playlist_ep/:playlist/:episode", m.user_ctrl.check_if_logged, m.playlist_ctrl.add_episode_playlist);
-app.post("/api/admin/playlist/change_episode_order/:id", m.user_ctrl.check_if_logged, m.playlist_ctrl.save_order)
+app.post("/api/admin/playlist/change_episode_order/:id", m.user_ctrl.check_if_logged, m.playlist_ctrl.save_order);
+app.get("/api/admin/playlist/get_all_playlist", m.user_ctrl.check_if_logged, m.playlist_ctrl.get_all_playlist_admin);
 
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
