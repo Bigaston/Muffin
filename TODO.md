@@ -4,6 +4,6 @@
 - Faire un écran de player fullscreen
 - Installation simple
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
-- Des playlists
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
+- Finir le player playlist (pouvoir choisir l'épisode de la playlist, et mettre à jour la page widget)

@@ -48,7 +48,13 @@ module.exports = {
 			}
 		}).then(episodes => {
 			let episode = episodes[0];
-			bdd.Episode.findAll({ attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] }).then(episode_list => {
+			bdd.Episode.findAll({
+				attributes: ['title', 'slug', 'enclosure', 'duration', 'img'], where: {
+					pub_date: {
+						[Op.lte]: new Date(),
+					}
+				}
+			}).then(episode_list => {
 				bdd.Podcast.findOne({ attributes: ["title", "type"] }).then(podcast => {
 					if (podcast.type === "episodic") {
 						episode_list = episode_list.reverse()
@@ -59,7 +65,18 @@ module.exports = {
 			})
 		})
 	},
+	last_episode_playlist: (req, res) => {
+		bdd.Playlist.findOne({ where: { slug: req.params.slug_playlist }, include: { model: bdd.Episode, attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] } }).then(playlist => {
+			playlist.Episodes.sort(sortEpisode);
+
+			res.json({ episode: playlist.Episodes[0], episode_list: playlist.Episodes, podcast: { title: playlist.title } });
+		})
+	},
 	send_index: (req, res) => {
 		res.sendFile(path.join(__dirname, "../../player/build/index.html"));
 	}
+}
+
+function sortEpisode(a, b) {
+	return a.EpisodePlaylist.place - b.EpisodePlaylist.place
 }

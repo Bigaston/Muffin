@@ -15,8 +15,8 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 	const [themeColor, setThemeColor] = useState("white");
 
 	useEffect(() => {
-		const url = window.location.pathname.split("/");
-		const slug = url[url.length - 1];
+		const base_url = window.location.pathname.split("/");
+		const slug = base_url[base_url.length - 1];
 
 		const urlParams = new URLSearchParams(window.location.search);
 
@@ -31,9 +31,18 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 			}
 		}
 
+		let url;
+
+		if (urlParams.get("playlist") !== null) {
+			url = config.host + "/api/player/playlist/" + urlParams.get("playlist") + "/latest"
+		} else {
+			url = config.host + "/api/player/episode/" + slug
+		}
+
+		console.log(url)
 		axios({
 			method: "GET",
-			url: config.host + "/api/player/episode/" + slug
+			url: url
 		}).then(res => {
 			if (res.status === 200) {
 				setCurrentEpisode({

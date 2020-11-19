@@ -59,6 +59,7 @@ app.get("/rss", m.rss_ctrl.create_rss);
 // API du player
 app.get("/api/player/episode/latest", m.player_ctrl.last_episode)
 app.get("/api/player/episode/:slug", m.player_ctrl.episode_by_slug)
+app.get("/api/player/playlist/:slug_playlist/latest", m.player_ctrl.last_episode_playlist)
 app.use("/player", express.static('./player/build'))
 app.get("/player/*", m.player_ctrl.send_index)
 
