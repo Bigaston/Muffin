@@ -63,7 +63,13 @@ module.exports = {
 		})
 	},
 	get_ep_info: (req, res) => {
-		bdd.Episode.findAll({ where: { slug: req.params.slug } }).then(episode => {
+		bdd.Episode.findAll({
+			where: {
+				slug: req.params.slug, pub_date: {
+					[Op.lte]: new Date(),
+				}
+			}
+		}).then(episode => {
 			bdd.Podcast.findOne().then(podcast => {
 				let return_pod = {
 					title: podcast.title,

@@ -7,4 +7,3 @@
 - Des playlists
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
-- Changer le fait que quand un épisode est programmé, il est juste en non répertorié (pareil pour le player)
