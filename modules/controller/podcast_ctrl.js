@@ -151,57 +151,64 @@ module.exports = {
 		}
 	},
 	add_episode: (req, res) => {
-		bdd.Episode.create({
-			title: req.body.title,
-			description: req.body.description,
-			desc_parsed: md.render(req.body.description),
-			small_desc: req.body.small_desc,
-			pub_date: dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm"),
-			author: req.body.author,
-			guid: Date.now(),
-			type: req.body.type,
-			episode: req.body.episode,
-			saison: req.body.saison,
-			slug: req.body.slug,
-			explicit: req.body.explicit
-		}).then(ep => {
-			if (req.body.img !== null) {
-				let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
+		checkSlug(req.body.slug).then(ok_slug => {
+			if (ok_slug) {
 
-				if (req.body.img.startsWith("data:image/png;")) {
-					pngToJpeg({ quality: 90 })(img_buffer)
-						.then(output => {
-							fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), output);
+				bdd.Episode.create({
+					title: req.body.title,
+					description: req.body.description,
+					desc_parsed: md.render(req.body.description),
+					small_desc: req.body.small_desc,
+					pub_date: dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm"),
+					author: req.body.author,
+					guid: Date.now(),
+					type: req.body.type,
+					episode: req.body.episode,
+					saison: req.body.saison,
+					slug: req.body.slug,
+					explicit: req.body.explicit
+				}).then(ep => {
+					if (req.body.img !== null) {
+						let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
+
+						if (req.body.img.startsWith("data:image/png;")) {
+							pngToJpeg({ quality: 90 })(img_buffer)
+								.then(output => {
+									fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), output);
+
+									ep.img = "/img/" + ep.id + ".jpg";
+									continueTraitementAddEp(ep)
+								});
+						} else {
+							fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), img_buffer);
 
 							ep.img = "/img/" + ep.id + ".jpg";
 							continueTraitementAddEp(ep)
-						});
-				} else {
-					fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), img_buffer);
+						}
+					} else {
+						ep.img = "/img/pod.jpg";
+						continueTraitementAddEp(ep)
+					}
+				})
 
-					ep.img = "/img/" + ep.id + ".jpg";
-					continueTraitementAddEp(ep)
+				function continueTraitementAddEp(ep) {
+					let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
+
+					fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"), audio_buffer);
+					ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
+					ep.enclosure = "/audio/" + ep.id + ".mp3"
+
+					let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"));
+					ep.size = stats.size;
+
+					ep.save().then(() => {
+						res.send("OK")
+					})
 				}
 			} else {
-				ep.img = "/img/pod.jpg";
-				continueTraitementAddEp(ep)
+				res.status(400).send("Bad Slug")
 			}
 		})
-
-		function continueTraitementAddEp(ep) {
-			let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
-
-			fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"), audio_buffer);
-			ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
-			ep.enclosure = "/audio/" + ep.id + ".mp3"
-
-			let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"));
-			ep.size = stats.size;
-
-			ep.save().then(() => {
-				res.send("OK")
-			})
-		}
 	},
 	get_ep_list: (req, res) => {
 		bdd.Episode.findAll().then(episodes => {
@@ -224,42 +231,34 @@ module.exports = {
 		bdd.Episode.findAll({ where: { id: req.params.id } }).then(episode => {
 			let ep = episode[0];
 
-			let return_ep = {
-				id: ep.id,
-				title: ep.title,
-				description: ep.description,
-				small_desc: ep.small_desc,
-				pub_date: ep.pub_date,
-				author: ep.author,
-				audio: ep.enclosure,
-				img: ep.img,
-				episode: ep.episode,
-				saison: ep.saison,
-				slug: ep.slug,
-				explicit: ep.explicit
-			}
-
-			res.json(return_ep)
+			res.json(ep)
 		})
 	},
 	edit_ep_info: (req, res) => {
-		bdd.Episode.findOne({ where: { id: req.body.id } }).then(episode => {
-			episode.title = req.body.title
-			episode.description = req.body.description
-			episode.desc_parsed = md.render(req.body.description)
-			episode.small_desc = req.body.small_desc
-			episode.pub_date = dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm")
-			episode.author = req.body.author
-			episode.type = req.body.type
-			episode.episode = req.body.episode
-			episode.saison = req.body.saison
-			episode.slug = req.body.slug
-			episode.explicit = req.body.explicit
+		checkSlug(req.body.slug).then(ok_slug => {
+			bdd.Episode.findOne({ where: { id: req.body.id } }).then(episode => {
+				if (ok_slug || req.body.slug === episode.slug) {
+					episode.title = req.body.title
+					episode.description = req.body.description
+					episode.desc_parsed = md.render(req.body.description)
+					episode.small_desc = req.body.small_desc
+					episode.pub_date = dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm")
+					episode.author = req.body.author
+					episode.type = req.body.type
+					episode.episode = req.body.episode
+					episode.saison = req.body.saison
+					episode.slug = req.body.slug
+					episode.explicit = req.body.explicit
 
-			episode.save().then(() => {
-				res.send("OK");
+					episode.save().then(() => {
+						res.send("OK");
+					})
+				} else {
+					res.status(400).send("Bad Slug")
+				}
 			})
 		})
+
 	},
 	edit_ep_img: (req, res) => {
 		bdd.Episode.findByPk(req.params.id).then(episode => {
@@ -362,7 +361,8 @@ module.exports = {
 									saison: parseInt(ep.itunes.season),
 									slug: ep.guid,
 									small_desc: ep.itunes.summary.substr(0, 250) + "...",
-									explicit: ep.itunes.explicit === "yes"
+									explicit: ep.itunes.explicit === "yes",
+									type: "full"
 								}).then(episode => {
 									download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3")).then(() => {
 										episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"))) / 1000));
@@ -395,8 +395,33 @@ module.exports = {
 			.catch(err => {
 				res.status(400).send("Bad feed")
 			})
-
+	},
+	check_slug: (req, res) => {
+		if (!!req.params.slug) {
+			checkSlug(req.params.slug).then(ok_slug => {
+				if (ok_slug) {
+					res.json({ ok: true })
+				} else {
+					res.json({ ok: false })
+				}
+			})
+		} else {
+			res.json({ ok: false })
+		}
 	}
+}
+
+const forbidden_slug = ["a", "about", "p", "favicon.ico", "robot.txt", "api", "rss", "audio", "public", "img"];
+function checkSlug(slug) {
+	return new Promise((resolve, reject) => {
+		if (forbidden_slug.includes(slug)) {
+			resolve(false)
+		} else {
+			bdd.Episode.findOne({ where: { slug: slug } }).then(episode => {
+				resolve(episode === null);
+			})
+		}
+	})
 }
 
 function convertHMS(pSec) {

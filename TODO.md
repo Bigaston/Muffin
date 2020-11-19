@@ -1,5 +1,4 @@
 - Loader propre et sur toutes les requetes
-- Vérification si le slug n'est pas en double
 - Support de toutes les langues
 - Edition du Explicit sur la page du podcast (pas fait encore)
 - Mettre des feedback sur l'édition et tout

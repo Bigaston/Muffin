@@ -66,6 +66,27 @@ export default function Podcast() {
 		setEpisode(new_info)
 	}
 
+	let [isSlugOk, setIsSlugOk] = useState(true);
+	function handleSlug(event) {
+		let new_info = { ...episode };
+
+		new_info.slug = event.target.value;
+
+		setEpisode(new_info)
+
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/podcast/check_slug/" + event.target.value
+		}).then(res => {
+			if (res.status === 200) {
+				setIsSlugOk(res.data.ok);
+			}
+		})
+	}
+
 	let filepicker_img = useRef(undefined);
 	let filepicker_audio = useRef(undefined);
 	let [percentCompleted, setPercentCompleted] = useState(0);
@@ -76,6 +97,11 @@ export default function Podcast() {
 		if (during) return;
 		if (!episode.title || !episode.slug || !episode.small_desc || !episode.author || !episode.pub_date || !episode.type || episode.episode === undefined || episode.saison === undefined || !episode.description || filepicker_audio.current.files.length !== 1) {
 			setErrorMessage("L'un des champs obligatoire n'est pas remplis! Merci de complêter tous les champs avec *");
+			return;
+		}
+
+		if (!isSlugOk) {
+			setErrorMessage("Le lien que vous avez entré n'est pas valide");
 			return;
 		}
 
@@ -184,7 +210,7 @@ export default function Podcast() {
 				<p className="info">({episode.small_desc ? episode.small_desc.length : "0"}/255)</p>
 
 				<label htmlFor="slug">Lien de l'épisode*</label>
-				<input className="u-full-width" type="text" id="slug" value={episode.slug} onChange={handleAllInput} />
+				<input className="u-full-width" style={{ borderColor: !isSlugOk ? "red" : undefined }} type="text" id="slug" value={episode.slug} onChange={handleSlug} />
 				<p className="info">(Le lien pour accèter à votre épisode, exemple : muffin.pm/<span className="bold">episode1</span>)</p>
 
 				<label htmlFor="img">Image de l'épisode</label>

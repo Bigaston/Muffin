@@ -15,7 +15,10 @@ import { useParams } from "react-router-dom"
 
 import { Helmet } from "react-helmet";
 
+import { useHistory } from "react-router-dom"
+
 export default function Podcast() {
+	let history = useHistory()
 	let [userState,] = useRecoilState(userAtom);
 	let [episode, setEpisode] = useState({});
 	let { id } = useParams();
@@ -61,7 +64,42 @@ export default function Podcast() {
 		setEpisode(new_info)
 	}
 
+
+	let [isSlugOk, setIsSlugOk] = useState(true);
+	function handleSlug(event) {
+		let new_info = { ...episode };
+
+		new_info.slug = event.target.value;
+
+		setEpisode(new_info)
+
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/podcast/check_slug/" + event.target.value
+		}).then(res => {
+			if (res.status === 200) {
+				setIsSlugOk(res.data.ok);
+			}
+		})
+	}
+
+	let [errorMessage, setErrorMessage] = useState("");
 	function saveEp() {
+		if (!episode.title || !episode.slug || !episode.small_desc || !episode.author || !episode.pub_date || !episode.type || episode.episode === undefined || episode.saison === undefined || !episode.description) {
+			setErrorMessage("L'un des champs obligatoire n'est pas remplis! Merci de complêter tous les champs avec *");
+			return;
+		}
+
+		if (!isSlugOk) {
+			setErrorMessage("Le lien que vous avez entré n'est pas valide");
+			return;
+		}
+
+		setErrorMessage("");
+
 		axios({
 			method: "POST",
 			headers: {
@@ -70,6 +108,8 @@ export default function Podcast() {
 			url: config.host + "/api/admin/podcast/save",
 			data: episode
 		}).then(res => {
+			alert("Episode sauvegardé!");
+			history.push("/a/episodes")
 			console.log(res)
 		}).catch(err => {
 			console.log(err);
@@ -251,9 +291,10 @@ export default function Podcast() {
 				<p className="info">({episode.small_desc ? episode.small_desc.length : "0"}/255)</p>
 
 				<label htmlFor="slug">Lien de l'épisode*</label>
-				<input className="u-full-width" type="text" id="slug" value={episode.slug} onChange={handleAllInput} />
+				<input className="u-full-width" style={{ borderColor: !isSlugOk ? "red" : undefined }} type="text" id="slug" value={episode.slug} onChange={handleSlug} />
 				<p className="info">(Le lien pour accèter à votre épisode, exemple : muffin.pm/<span className="bold">episode1</span>)</p>
 
+				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
 				<button className="button-primary" onClick={saveEp}>Enregistrer</button>
 
 				<p className="fakeLabel">Logo</p>
