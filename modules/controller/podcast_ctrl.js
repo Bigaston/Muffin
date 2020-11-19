@@ -45,7 +45,7 @@ module.exports = {
 						img: ep.img,
 						ep_number: ep.episode,
 						saison_number: ep.saison,
-						slug: ep.slug
+						slug: ep.slug,
 					}
 
 					return_obj.episodes.push(ep_obj);
@@ -263,7 +263,7 @@ module.exports = {
 		})
 	},
 	get_ep_info_admin: (req, res) => {
-		bdd.Episode.findAll({ where: { id: req.params.id } }).then(episode => {
+		bdd.Episode.findAll({ where: { id: req.params.id }, include: bdd.Playlist }).then(episode => {
 			let ep = episode[0];
 
 			res.json(ep)

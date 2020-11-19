@@ -79,6 +79,12 @@
 	font-weight: bold;
 }
 
+.episodeEditContainer > .full {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+}
+
 .modal input[type="file"] {
 	display: block;
 	margin-bottom: 10px;
@@ -93,4 +99,8 @@
 .modal progress {
 	display: block;
 	width: 100%;
+}
+
+.modal .labelCheck {
+	margin-left: 10px;
 }

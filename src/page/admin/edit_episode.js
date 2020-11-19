@@ -22,6 +22,7 @@ export default function Podcast() {
 	let [userState,] = useRecoilState(userAtom);
 	let [episode, setEpisode] = useState({});
 	let { id } = useParams();
+	const [playlists, setPlaylists] = useState([]);
 
 	function p(date) {
 		return date < 10 ? "0" + date : date
@@ -43,6 +44,28 @@ export default function Podcast() {
 				data_ep.audio = data_ep.audio + "#" + Date.now();
 
 				setEpisode(data_ep)
+
+				axios({
+					method: "GET",
+					headers: {
+						"Authorization": "Bearer " + userState.jwt
+					},
+					url: config.host + "/api/admin/playlist/get_all_playlist",
+				}).then(res_pl => {
+					let my_playlist = [];
+
+					res.data.Playlists.forEach(pl => {
+						my_playlist.push(pl.id);
+					})
+
+					let ze_playlists = res_pl.data.map(pl => {
+						return { ...pl, added: my_playlist.includes(pl.id) }
+					})
+
+					setPlaylists(ze_playlists)
+				}).catch(err => {
+					console.log(err);
+				})
 			}
 		}).catch(err => {
 			console.log(err)
@@ -244,6 +267,50 @@ export default function Podcast() {
 		})
 	}
 
+	const [openAddPlaylist, setOpenAddPlaylist] = useState(false)
+
+	function handleOpenAddPlaylist() {
+		setOpenAddPlaylist(true);
+	}
+
+	function handleChangePlaylist(checked, index) {
+		setPlaylists(current => {
+			current[index].added = checked;
+
+			return current;
+		})
+
+		if (checked) {
+			axios({
+				method: "POST",
+				headers: {
+					"Authorization": "Bearer " + userState.jwt
+				},
+				url: config.host + "/api/admin/playlist/add_playlist_ep/" + playlists[index].id + "/" + id,
+			}).then(res => {
+				if (res.status === 200) {
+					console.log("Added to " + playlists[index].title)
+				}
+			}).catch(err => {
+				console.log(err)
+			})
+		} else {
+			axios({
+				method: "DELETE",
+				headers: {
+					"Authorization": "Bearer " + userState.jwt
+				},
+				url: config.host + "/api/admin/playlist/delete_playlist_ep/" + playlists[index].id + "/" + id,
+			}).then(res => {
+				if (res.status === 200) {
+					console.log("Removed from " + playlists[index].title)
+				}
+			}).catch(err => {
+				console.log(err)
+			})
+		}
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -293,6 +360,7 @@ export default function Podcast() {
 				<input className="u-full-width" style={{ borderColor: !isSlugOk ? "red" : undefined }} type="text" id="slug" value={episode.slug} onChange={handleSlug} />
 				<p className="info">(Le lien pour accéder à votre épisode, exemple : muffin.pm/<span className="bold">episode1</span>)</p>
 
+				<button className="full" onClick={handleOpenAddPlaylist}>Gérer les playlists</button>
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
 				<button className="button-primary" onClick={saveEp}>Enregistrer</button>
 
@@ -323,6 +391,22 @@ export default function Podcast() {
 				{percentCompletedAudio !== 0 ?
 					<progress max="100" value={percentCompletedAudio} />
 					: <></>}
+			</Modal>
+
+			<Modal open={openAddPlaylist} onCancel={() => { setOpenAddPlaylist(false) }}>
+				<h1>Gérer les playlists</h1>
+				<div className="playlistContainer">
+					<ul>
+						{playlists.map((pl, index) => (
+							<li key={pl.id}>
+								<input type="checkbox" id="explicit" value={pl.added} defaultChecked={pl.added} onChange={(event) => { handleChangePlaylist(event.target.checked, index) }} />
+								<span className="labelCheck">{pl.title}</span>
+							</li>
+						))}
+					</ul>
+
+				</div>
+				<button onClick={() => { setOpenAddPlaylist(false) }}>Fermer</button>
 			</Modal>
 		</>
 	)

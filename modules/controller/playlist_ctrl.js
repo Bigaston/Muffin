@@ -141,8 +141,9 @@ module.exports = {
 	},
 	add_episode_playlist: (req, res) => {
 		bdd.EpisodePlaylist.findAll({ where: { PlaylistId: req.params.playlist }, order: [["place", "DESC"]] }).then(last_ep_pl => {
+			let place = last_ep_pl.length === 0 ? 0 : last_ep_pl[0].place + 1;
 			bdd.EpisodePlaylist.create({
-				place: last_ep_pl[0].place + 1,
+				place: place,
 				EpisodeId: req.params.episode,
 				PlaylistId: req.params.playlist
 			}).then(() => {

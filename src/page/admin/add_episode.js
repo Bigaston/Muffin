@@ -270,7 +270,7 @@ export default function Podcast() {
 
 				<Modal open={openAddPlaylist} onCancel={() => { setOpenAddPlaylist(false) }}>
 					<h1>Ajouter à une/plusieurs playlists</h1>
-					<div class="playlistContainer">
+					<div className="playlistContainer">
 						<ul>
 							{playlists.map((pl, index) => (
 								<li key={pl.id}>
