@@ -1,4 +1,4 @@
-.episodeEditContainer {
+.playlistEditContainer {
 	position: absolute;
 	width: 900px;
 	left: 0;
@@ -13,69 +13,70 @@
 	margin-bottom: 150px;
 }
 
-.episodeEditContainer > h1 {
+.playlistEditContainer > h1 {
 	text-align: center;
 	margin-top:0px;
 }
 
-.episodeEditContainer  label {
+.playlistEditContainer  label {
 	margin-top: 5px;
 }
-.episodeEditContainer .info {
+.playlistEditContainer .info {
 	color: #566573;
 	font-style: italic;
 	text-align: center;
 	margin: 10px;
 }
 
-.episodeEditContainer .label-body {
+.playlistEditContainer .label-body {
 	margin-left: 10px;
 	font-weight: bold;
 }
 
 #description {
-	height: 300px;
-}
-
-#small_desc {
 	height: 150px;
 }
 
-.episodeEditContainer .button-primary {
+.playlistEditContainer .button-primary {
 	display: block;
 	margin-top: 10px;
 	width: 100%;
 }
+.playlistEditContainer .full {
+	margin-top: 10px;
+	width: 100%;
+	display: block;
+}
 
-.episodeEditContainer .button-delete {
+.playlistEditContainer .button-delete {
 	background-color: #E74C3C;
 	color: white;
 }
 
-.episodeEditContainer .errorMessage {
+.playlistEditContainer .errorMessage {
 	color: red;
 	text-align: center;
 	font-weight: bold;
 }
 
-.episodeEditContainer .bold {
+.playlistEditContainer .bold {
 	font-weight: bold;
 }
 
-.episodeEditContainer > .podcastLogo {
+.playlistEditContainer > .podcastLogo {
 	width: 200px;
 	border-radius: 5px;
 	display: block;
 	margin-bottom: 10px;
 }
 
-.episodeEditContainer > .podcastAudio {
+.playlistEditContainer > .podcastAudio {
 	display: block;
 	width: 100%;
 	margin-bottom: 10px;
 }
 
-.episodeEditContainer > .fakeLabel {
+.playlistEditContainer > .fakeLabel {
 	font-weight: bold;
 }
 
@@ -93,4 +94,8 @@
 .modal progress {
 	display: block;
 	width: 100%;
+}
+
+.modal button {
+	margin-top: 10px;
 }

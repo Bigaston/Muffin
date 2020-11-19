@@ -139,6 +139,17 @@ module.exports = {
 			})
 		})
 	},
+	add_episode_playlist: (req, res) => {
+		bdd.EpisodePlaylist.findAll({ where: { PlaylistId: req.params.playlist }, order: [["place", "DESC"]] }).then(last_ep_pl => {
+			bdd.EpisodePlaylist.create({
+				place: last_ep_pl[0].place + 1,
+				EpisodeId: req.params.episode,
+				PlaylistId: req.params.playlist
+			}).then(() => {
+				res.send("OK");
+			})
+		})
+	},
 	save_order: (req, res) => {
 		let i = 0;
 
@@ -168,10 +179,6 @@ module.exports = {
 			res.send("OK");
 		})
 	}
-}
-
-function orderEpisodeByPlace(a, b) {
-	return a.place - b.place;
 }
 
 function checkSlug(slug) {

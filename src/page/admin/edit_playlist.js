@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import "./edit_episode.css"
+import "./edit_playlist.css"
 
 import axios from "axios";
 import config from "../../config.json";
@@ -184,9 +184,65 @@ export default function Podcast() {
 	}
 
 	const [openEpisodeAdd, setOpenEpisodeAdd] = useState(false);
+	const [availableEp, setAvailableEp] = useState([]);
+	const [selectedEpisode, setSelectedEpisode] = useState("");
+
+	function handleAddEpisode() {
+		let ep_tab = [];
+		playlistEpisodes.forEach(ep => {
+			ep_tab.push(ep.id);
+		})
+
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/podcast/ep_list"
+		}).then(res => {
+			if (res.status === 200) {
+				let available = [];
+				res.data.forEach(ep => {
+					if (!ep_tab.includes(ep.id)) {
+						available.push(ep);
+					}
+				})
+
+				setSelectedEpisode(available[0].id)
+				setAvailableEp(available);
+				setOpenEpisodeAdd(true);
+			}
+		}).catch(err => {
+			console.log(err)
+		})
+	}
 
 	function validAddEpisode() {
+		axios({
+			method: "POST",
+			url: config.host + "/api/admin/playlist/add_playlist_ep/" + id + "/" + selectedEpisode,
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+		}).then((res) => {
+			axios({
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + userState.jwt
+				},
+				url: config.host + "/api/admin/playlist/get_playlist/" + id,
+			}).then(res => {
+				if (res.status === 200) {
+					res.data.Episodes.sort(orderEpisodeByPlace)
+					setPlaylistEpisode(res.data.Episodes)
+					setOpenEpisodeAdd(false)
+				}
+			}).catch(err => {
+				console.log(err)
+			})
+		}).catch(err => {
 
+		})
 	}
 
 	function upEpisode(index) {
@@ -246,6 +302,7 @@ export default function Podcast() {
 			},
 			data: playlistEpisodes
 		}).then(res => {
+			alert("Ordre sauvegardé!");
 			console.log(res)
 		}).catch(err => {
 			console.log(err)
@@ -257,7 +314,7 @@ export default function Podcast() {
 			<Helmet>
 				<title>Modifier une playlist - Muffin</title>
 			</Helmet>
-			<div className="episodeEditContainer">
+			<div className="playlistEditContainer">
 				<h1>Modifier une playlist</h1>
 
 				<label htmlFor="title">Titre de la playlist*</label>
@@ -280,6 +337,7 @@ export default function Podcast() {
 
 				<h2>Episodes de la playlist</h2>
 				<button className="button-primary" onClick={saveEpOrder}>Sauvegarder l'ordre</button>
+				<button className="full" onClick={handleAddEpisode}>Ajouter un épisode</button>
 				<table className="u-full-width">
 					<thead>
 						<tr>
@@ -295,7 +353,7 @@ export default function Podcast() {
 								<td>{ep.title}</td>
 								<td><button onClick={() => { upEpisode(index) }}>▲</button></td>
 								<td><button onClick={() => { downEpisode(index) }}>▼</button></td>
-								<td><button onClick={() => { deleteEpisode(ep.id) }}>🗑️</button></td>
+								<td><button className="button-delete" onClick={() => { deleteEpisode(ep.id) }}>🗑️</button></td>
 							</tr>
 						))}
 					</tbody>
@@ -314,7 +372,12 @@ export default function Podcast() {
 
 			<Modal open={openEpisodeAdd} onCancel={() => { setOpenEpisodeAdd(false) }}>
 				<h1>Ajouter un épisode</h1>
-
+				<label htmlFor="type">Episode</label>
+				<select className="u-full-width" id="type" value={selectedEpisode} onChange={(event) => { setSelectedEpisode(event.target.value) }}>
+					{availableEp.map(ep => (
+						<option value={ep.id} key={ep.id}>{ep.title}</option>
+					))}
+				</select>
 				<button className="button-primary" onClick={validAddEpisode}>Ajouter</button> <button onClick={() => { setOpenEpisodeAdd(false) }}>Annuler</button>
 			</Modal>
 		</>
