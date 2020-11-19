@@ -19,6 +19,9 @@ app.use("/audio", express.static("./upload/audio"))
 app.get("/api/podcast/get_info", m.podcast_ctrl.get_info);
 app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);
 
+app.get("/api/playlist/get_info", m.playlist_ctrl.get_playlist);
+app.get("/api/playlist/get_one_info/:slug", m.playlist_ctrl.get_one_info)
+
 app.get("/api/admin/podcast", m.user_ctrl.check_if_logged, m.podcast_ctrl.get_info_admin);
 app.post("/api/admin/podcast/img", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_pod_img);
 app.post("/api/admin/podcast/info", m.user_ctrl.check_if_logged, m.podcast_ctrl.edit_info);
@@ -61,6 +64,7 @@ app.get("/player/*", m.player_ctrl.send_index)
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
+app.get("/p/:slug", m.ssr_ctrl.send_index_playlist)
 app.get("/", m.ssr_ctrl.send_index_podcast);
 app.get("/:slug", m.ssr_ctrl.send_index_epispde);
 

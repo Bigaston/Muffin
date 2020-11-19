@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet";
 
 import Podcast from "./page/public/podcast"
 import Episode from "./page/public/episode"
+import Playlist from "./page/public/playlist"
 
 import Login from "./page/admin/login"
 import PodcastAdmin from "./page/admin/podcast"
@@ -91,6 +92,9 @@ function App() {
 						</CheckLogged>
 					</Route>
 
+					<Route path="/p/:slug">
+						<Playlist />
+					</Route>
 					<Route path="/:slug">
 						<Episode />
 					</Route>

@@ -184,7 +184,28 @@ module.exports = {
 		bdd.Playlist.findAll({ attributes: ["title", "id"] }).then(playlists => {
 			res.json(playlists);
 		})
+	},
+	get_playlist: (req, res) => {
+		bdd.Playlist.findAll({ attributes: ["title", "description", "img", "slug"] }).then(playlists => {
+			res.json(playlists)
+		})
+	},
+	get_one_info: (req, res) => {
+		bdd.Playlist.findOne({ where: { slug: req.params.slug }, include: [{ model: bdd.Episode, attributes: ["title", "small_desc", "pub_date", "enclosure", "duration", "img", "slug"] }] }).then(playlist => {
+			if (playlist !== null) {
+				playlist.Episodes.sort(sortEpisode);
+
+				res.json({ playlist: playlist })
+			} else {
+				res.json({ playlist: undefined })
+			}
+
+		})
 	}
+}
+
+function sortEpisode(a, b) {
+	return a.EpisodePlaylist.place - b.EpisodePlaylist.place
 }
 
 function checkSlug(slug) {

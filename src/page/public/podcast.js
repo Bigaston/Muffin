@@ -3,16 +3,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../config.json"
 
+import classnames from "classnames";
+
 import Episode from "../../component/episode";
 import FullLoad from "../../component/fullLoader";
 
 import { Helmet } from "react-helmet";
 
+import Playlist from "../../component/playlist";
+
 import "./podcast.css";
 
 export default function Podcast() {
 	let [podcast, setPodcast] = useState({})
+	const [playlists, setPlaylists] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
+	const [currentTab, setCurrentTab] = useState("episodes")
 
 	useEffect(() => {
 		axios({
@@ -20,9 +26,20 @@ export default function Podcast() {
 			url: config.host + "/api/podcast/get_info"
 		}).then(res => {
 			if (res.status === 200) {
-				setInterval(() => {
-					setIsLoading(false)
-				}, 200)
+				axios({
+					method: "GET",
+					url: config.host + "/api/playlist/get_info"
+				}).then(res => {
+					if (res.status === 200) {
+						setInterval(() => {
+							setIsLoading(false)
+						}, 200)
+
+						setPlaylists(res.data);
+					}
+				}).catch(err => {
+					console.log(err)
+				})
 				setPodcast(res.data);
 			}
 		}).catch(err => {
@@ -64,13 +81,30 @@ export default function Podcast() {
 			<div className="buttonDiv">
 				<a href={config.host + "/rss"}><img src={config.host + "/public/logo/rss.svg"} alt="RSS" /></a>
 			</div>
-			{podcast.episodes !== undefined ?
+
+			<div className="nav">
+				<p className={classnames({ current: currentTab === "episodes" })} onClick={() => { setCurrentTab("episodes") }}>{podcast.episodes?.length} épisode{podcast.episodes?.length > 1 ? "s" : ""}</p>
+				<p className={classnames({ current: currentTab === "playlists" })} onClick={() => { setCurrentTab("playlists") }}>{playlists.length} playlist{playlists.length > 1 ? "s" : ""}</p>
+			</div>
+
+			{currentTab === "episodes" ?
+				<>
+					{podcast.episodes !== undefined ?
+						<div>
+							{podcast.episodes.map((episode) => (
+								<Episode key={episode.slug} episode={episode} podcast={podcast} />
+							))}
+						</div>
+						: <></>}
+				</>
+				:
 				<div>
-					{podcast.episodes.map((episode) => (
-						<Episode key={episode.slug} episode={episode} podcast={podcast} />
+					{playlists?.map((pl) => (
+						<Playlist key={pl.slug} playlist={pl} podcast={podcast} />
 					))}
 				</div>
-				: <></>}
+			}
+
 		</>
 	)
 }
