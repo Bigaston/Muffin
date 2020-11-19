@@ -9,10 +9,10 @@ const PodcastTitle = ({ currentEpisode, currentPodcast }) => {
 
 	return (
 		<p id="podtitle">
-			<a href={url} alt={"Découvrir le podcast " + title}>
+			<a href={url} target="_parent" alt={"Découvrir le podcast " + title}>
 				{title}
 			</a>{" "}
-			<a href={enclosure_url} alt="Télécharger">
+			<a href={enclosure_url} target="_parent" alt="Télécharger">
 				<img id="download" src={config.host_assets + "/download.svg"} alt="Télécharger" />
 			</a>
 		</p>

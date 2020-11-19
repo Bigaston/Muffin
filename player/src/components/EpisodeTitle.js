@@ -5,7 +5,7 @@ const EpisodeTitle = ({ currentEpisode }) => {
 
 	return (
 		<p id="eptitle">
-			<a href={url} alt={"Ecouter " + title}>
+			<a href={url} target="_parent" alt={"Ecouter " + title}>
 				{title}
 			</a>
 		</p>
