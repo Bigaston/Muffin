@@ -48,6 +48,7 @@ app.delete("/api/admin/playlist/delete_playlist_ep/:playlist/:episode", m.user_c
 app.post("/api/admin/playlist/add_playlist_ep/:playlist/:episode", m.user_ctrl.check_if_logged, m.playlist_ctrl.add_episode_playlist);
 app.post("/api/admin/playlist/change_episode_order/:id", m.user_ctrl.check_if_logged, m.playlist_ctrl.save_order);
 app.get("/api/admin/playlist/get_all_playlist", m.user_ctrl.check_if_logged, m.playlist_ctrl.get_all_playlist_admin);
+app.get("/api/admin/playlist/get_playlist_widget", m.user_ctrl.check_if_logged, m.playlist_ctrl.get_playlist_widget);
 
 app.post("/api/user/login", m.user_ctrl.login);
 app.post("/api/user/whoami", m.user_ctrl.whoami);
@@ -60,6 +61,7 @@ app.get("/rss", m.rss_ctrl.create_rss);
 app.get("/api/player/episode/latest", m.player_ctrl.last_episode)
 app.get("/api/player/episode/:slug", m.player_ctrl.episode_by_slug)
 app.get("/api/player/playlist/:slug_playlist/latest", m.player_ctrl.last_episode_playlist)
+app.get("/api/player/playlist/:slug_playlist/:slug", m.player_ctrl.episode_by_slug_playlist)
 app.use("/player", express.static('./player/build'))
 app.get("/player/*", m.player_ctrl.send_index)
 

@@ -201,6 +201,11 @@ module.exports = {
 			}
 
 		})
+	},
+	get_playlist_widget: (req, res) => {
+		bdd.Playlist.findAll({ include: { model: bdd.Episode, attributes: ["id", "title", "slug"] } }).then(playlists => {
+			res.json(playlists);
+		})
 	}
 }
 

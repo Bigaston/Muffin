@@ -34,7 +34,7 @@ module.exports = {
 
 					}
 
-					res.json({ episode: episode, episode_list: episode_list, podcast: podcast });
+					res.json({ episode: episode, episode_list: episode_list, podcast: { slug: "/", title: podcast.title } });
 				})
 			})
 		})
@@ -60,7 +60,7 @@ module.exports = {
 						episode_list = episode_list.reverse()
 					}
 
-					res.json({ episode: episode, episode_list: episode_list, podcast: podcast });
+					res.json({ episode: episode, episode_list: episode_list, podcast: { slug: "/", title: podcast.title } });
 				})
 			})
 		})
@@ -69,7 +69,15 @@ module.exports = {
 		bdd.Playlist.findOne({ where: { slug: req.params.slug_playlist }, include: { model: bdd.Episode, attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] } }).then(playlist => {
 			playlist.Episodes.sort(sortEpisode);
 
-			res.json({ episode: playlist.Episodes[0], episode_list: playlist.Episodes, podcast: { title: playlist.title } });
+			res.json({ episode: playlist.Episodes[0], episode_list: playlist.Episodes, podcast: { title: playlist.title, slug: "/p/" + playlist.slug } });
+		})
+	},
+	episode_by_slug_playlist: (req, res) => {
+		bdd.Playlist.findOne({ where: { slug: req.params.slug_playlist }, include: { model: bdd.Episode, attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] } }).then(playlist => {
+			playlist.Episodes.sort(sortEpisode);
+			bdd.Episode.findOne({ where: { slug: req.params.slug }, attributes: ['title', 'slug', 'enclosure', 'duration', 'img'] }).then((episode) => {
+				res.json({ episode: episode, episode_list: playlist.Episodes, podcast: { title: playlist.title, slug: "/p/" + playlist.slug } });
+			})
 		})
 	},
 	send_index: (req, res) => {

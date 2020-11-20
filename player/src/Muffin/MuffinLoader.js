@@ -34,7 +34,7 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 		let url;
 
 		if (urlParams.get("playlist") !== null) {
-			url = config.host + "/api/player/playlist/" + urlParams.get("playlist") + "/latest"
+			url = config.host + "/api/player/playlist/" + urlParams.get("playlist") + "/" + slug
 		} else {
 			url = config.host + "/api/player/episode/" + slug
 		}
@@ -53,9 +53,11 @@ const MuffinLoader = ({ guid, PlayerComponent }) => {
 					title: res.data.episode.title,
 					url: config.host + "/" + res.data.episode.slug
 				});
+				console.log(res.data.podcast)
+
 				setCurrentPodcast({
 					title: res.data.podcast.title,
-					url: config.host,
+					url: config.host + res.data.podcast.slug,
 					website_url: config.host
 				});
 

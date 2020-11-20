@@ -16,6 +16,7 @@ import { Helmet } from "react-helmet";
 export default function ImportPodcast() {
 	const [userState,] = useRecoilState(userAtom);
 	const [episodes, setEpisodes] = useState([]);
+	const [playlists, setPlaylists] = useState([]);
 	useEffect(() => {
 		axios({
 			method: "GET",
@@ -26,12 +27,35 @@ export default function ImportPodcast() {
 		}).then(res => {
 			if (res.status === 200) {
 				setEpisodes([{ id: 0, slug: "latest", title: "Toujours le dernier épisode" }, ...res.data]);
+				axios({
+					method: "GET",
+					headers: {
+						"Authorization": "Bearer " + userState.jwt
+					},
+					url: config.host + "/api/admin/playlist/get_playlist_widget"
+				}).then(res_pl => {
+					let le_pl = res_pl.data.map(pl => {
+						pl.Episodes = [{ id: 0, slug: "latest", title: "Toujours l'épisode à la position 1" }, ...pl.Episodes]
+						return pl;
+					})
+					setPlaylists([{ id: 0, slug: "no_playlist", title: "Pas de playlists", Episodes: [{ id: 0, slug: "latest", title: "Toujours le dernier épisode" }, ...res.data] }, ...le_pl]);
+				})
 			}
 		}).catch(err => {
 			console.log(err)
 		})
 	}, [userState])
 
+	const [selectedPlaylist, setSelectedPlaylist] = useState("no_playlist");
+	const handleSelectPlaylist = (event) => {
+		setSelectedPlaylist(event.target.value)
+
+		playlists.forEach((pl) => {
+			if (pl.slug === event.target.value) {
+				setEpisodes(pl.Episodes);
+			}
+		})
+	};
 	const [selectedEpisode, setSelectedEpisode] = useState("latest");
 	const handleSelect = (event) => { setSelectedEpisode(event.target.value) }
 	const [selectedTheme, setSelectedTheme] = useState("white")
@@ -44,7 +68,7 @@ export default function ImportPodcast() {
 		let host = window.location.protocol + "//" + window.location.hostname
 
 		if (!!window.location.port) { host = host + ":" + window.location.port }
-		const chaine = `<iframe src="${host}/player/${selectedEpisode}?theme=${selectedTheme}${!displayEpList ? "&hide_list=" : ""}" width="100%" style="border: none;" id="muffin_player_div"></iframe><script src="${host}/public/player.js"></script>`
+		const chaine = `<iframe src="${host}/player/${selectedEpisode}?theme=${selectedTheme}${!displayEpList ? "&hide_list=" : ""}${selectedPlaylist !== "no_playlist" ? "&playlist=" + selectedPlaylist : ""}" width="100%" style="border: none;" id="muffin_player_div"></iframe><script src="${host}/public/player.js"></script>`
 
 		setPlayerString(chaine);
 		divResult.current.innerHTML = chaine;
@@ -75,6 +99,13 @@ export default function ImportPodcast() {
 				<p>Ici vous pourrez générer un player de podcast que vous pourrez intégrer sur d'autres sites internets. Le player va automatiquement s'adapter à la largeur qu'il dispose.</p>
 				<p>Si il a plus que 490px de large, il sera au format horizontal, si il a moins, il sera au format vertical.</p>
 				<p>Vous pouvez définir vous mêmes la largeur du player, ou alors la laisser à 100% et laisser le script joint. Celui-ci permet de modifier la hauteur de l'intégration en fonction du format, automatiquement.</p>
+
+				<label htmlFor="type">Playlists</label>
+				<select className="u-full-width" id="type" value={selectedPlaylist} onChange={handleSelectPlaylist}>
+					{playlists.map((pl) => (
+						<option value={pl.slug} key={pl.id}>{pl.title}</option>
+					))}
+				</select>
 
 				<label htmlFor="type">Episode</label>
 				<select className="u-full-width" id="type" value={selectedEpisode} onChange={handleSelect}>

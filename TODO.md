@@ -6,7 +6,5 @@
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
-- Finir le player playlist (pouvoir choisir l'épisode de la playlist, et mettre à jour la page widget)
 - Cacher la navigation si il n'y a pas de playlists
 - Affichage de la saison de l'épisode
-- Automatiquement mettre l'épisode suivant et la même playlist que le dernier épisode
