@@ -82,11 +82,13 @@ export default function Podcast() {
 				<a href={config.host + "/rss"}><img src={config.host + "/public/logo/rss.svg"} alt="RSS" /></a>
 			</div>
 
-			<div className="nav">
-				<p className={classnames({ current: currentTab === "episodes" })} onClick={() => { setCurrentTab("episodes") }}>{podcast.episodes?.length} épisode{podcast.episodes?.length > 1 ? "s" : ""}</p>
-				<p className={classnames({ current: currentTab === "playlists" })} onClick={() => { setCurrentTab("playlists") }}>{playlists.length} playlist{playlists.length > 1 ? "s" : ""}</p>
-			</div>
-
+			{playlists.length === 0 ? <></>
+				:
+				<div className="nav">
+					<p className={classnames({ current: currentTab === "episodes" })} onClick={() => { setCurrentTab("episodes") }}>{podcast.episodes?.length} épisode{podcast.episodes?.length > 1 ? "s" : ""}</p>
+					<p className={classnames({ current: currentTab === "playlists" })} onClick={() => { setCurrentTab("playlists") }}>{playlists.length} playlist{playlists.length > 1 ? "s" : ""}</p>
+				</div>
+			}
 			{currentTab === "episodes" ?
 				<>
 					{podcast.episodes !== undefined ?
