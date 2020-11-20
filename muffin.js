@@ -8,7 +8,7 @@ var compression = require('compression');
 var app = express()
 
 app.use(compression());
-app.use(express.json({ limit: '1000mb' }));
+app.use(express.json({ limit: '3000mb' }));
 app.use(cors({
 	origin: "http://localhost:3000"
 }))

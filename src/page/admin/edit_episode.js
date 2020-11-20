@@ -41,7 +41,7 @@ export default function Podcast() {
 				let date = new Date(data_ep.pub_date);
 
 				data_ep.pub_date = p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes());
-				data_ep.audio = data_ep.audio + "#" + Date.now();
+				data_ep.audio = data_ep.enclosure + "#" + Date.now();
 
 				setEpisode(data_ep)
 
