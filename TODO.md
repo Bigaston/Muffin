@@ -6,5 +6,4 @@
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
-- Cacher la navigation si il n'y a pas de playlists
 - Affichage de la saison de l'épisode

@@ -49,7 +49,7 @@ export default function Podcast() {
 	return (
 		<>
 			<FullLoad loading={isLoading} />
-			<img className="backToMenuImg" src={config.host + "/public/arrow-left.svg"} alt="Retourner à l'index" onClick={() => { history.push("/") }} />
+			<img className="backToMenuImg" src={config.host + "/public/arrow-left.svg"} alt="Retourner à l'index" onClick={() => { history.push("/#playlist") }} />
 			{playlist !== undefined ?
 				<>
 					<Helmet>

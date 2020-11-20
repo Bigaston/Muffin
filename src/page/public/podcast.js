@@ -36,6 +36,10 @@ export default function Podcast() {
 						}, 200)
 
 						setPlaylists(res.data);
+
+						if (window.location.hash === "#playlist") {
+							setCurrentTab("playlists")
+						}
 					}
 				}).catch(err => {
 					console.log(err)
