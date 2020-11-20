@@ -12,8 +12,14 @@ JWT_SECRET=${generator.generate({ numbers: true, symbols: true, length: 64 })}
 HOST_SITE=http://localhost:6935`)
 }
 
-if (!fs.existsSync(path.join(__dirname, "../upload"))) {
-	fs.mkdirSync(path.join(__dirname, "../upload"));
-	fs.mkdirSync(path.join(__dirname, "../upload/img"));
-	fs.mkdirSync(path.join(__dirname, "../upload/audio"));
+if (!fs.existsSync(path.join(__dirname, "../export"))) {
+	fs.mkdirSync(path.join(__dirname, "../export"));
+}
+
+if (!fs.existsSync(path.join(__dirname, "../export/img"))) {
+	fs.mkdirSync(path.join(__dirname, "../export/img"));
+}
+
+if (!fs.existsSync(path.join(__dirname, "../export/audio"))) {
+	fs.mkdirSync(path.join(__dirname, "../export/audio"));
 }
