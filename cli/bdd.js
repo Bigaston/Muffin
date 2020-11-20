@@ -21,7 +21,7 @@ db.sequelize.sync().then(()=> {
 				explicit: false,
 				type: "episodic"
 			}).then(() => {
-				fs.copyFileSync(path.join(__dirname, "./base_img.jpg"), path.join(__dirname, "../upload/img/pod.jpg"));
+				fs.copyFileSync(path.join(__dirname, "./base_img.jpg"), path.join(__dirname, "../export/img/pod.jpg"));
 			})
 		} 
 	})

@@ -32,7 +32,7 @@ module.exports = {
 						if (req.body.img.startsWith("data:image/png;")) {
 							pngToJpeg({ quality: 90 })(img_buffer)
 								.then(output => {
-									fs.writeFileSync(path.join(__dirname, "../../upload/img/playlist_" + pl.id + ".jpg"), output);
+									fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + pl.id + ".jpg"), output);
 
 									pl.img = "/img/playlist_" + pl.id + ".jpg";
 									pl.save().then(() => {
@@ -40,7 +40,7 @@ module.exports = {
 									})
 								});
 						} else {
-							fs.writeFileSync(path.join(__dirname, "../../upload/img/playlist_" + pl.id + ".jpg"), img_buffer);
+							fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + pl.id + ".jpg"), img_buffer);
 
 							pl.img = "/img/playlist_" + pl.id + ".jpg";
 							pl.save().then(() => {
@@ -66,8 +66,8 @@ module.exports = {
 	},
 	delete_playlist: (req, res) => {
 		bdd.Playlist.findByPk(req.params.id).then(playlist => {
-			if (playlist.img !== "/img/pod.jpg" && fs.existsSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"))) {
-				fs.unlinkSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"));
+			if (playlist.img !== "/img/pod.jpg" && fs.existsSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"));
 			}
 
 			playlist.destroy().then(() => {
@@ -105,14 +105,14 @@ module.exports = {
 			if (req.body.image.startsWith("data:image/png;")) {
 				pngToJpeg({ quality: 90 })(img_buffer)
 					.then(output => {
-						fs.writeFileSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"), output);
+						fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"), output);
 						playlist.img = "/img/playlist_" + playlist.id + ".jpg";
 						playlist.save().then(() => {
 							res.send("OK");
 						})
 					});
 			} else {
-				fs.writeFileSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"), img_buffer);
+				fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"), img_buffer);
 				playlist.img = "/img/playlist_" + playlist.id + ".jpg";
 				playlist.save().then(() => {
 					res.send("OK");
@@ -122,8 +122,8 @@ module.exports = {
 	},
 	delete_playlist_img: (req, res) => {
 		bdd.Playlist.findByPk(req.params.id).then(playlist => {
-			if (fs.existsSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"))) {
-				fs.unlinkSync(path.join(__dirname, "../../upload/img/playlist_" + playlist.id + ".jpg"));
+			if (fs.existsSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"));
 			}
 
 			playlist.img = "/img/pod.jpg";

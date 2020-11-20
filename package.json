@@ -47,7 +47,7 @@
 		"postinstall": "node ./cli/init_file.js && npm run bdd && cd ./player && npm install && cd ..",
 		"bdd": "node ./cli/bdd.js",
 		"server": "node ./muffin.js",
-		"deploy": "npm install && npm run build"
+		"deploy": "npm run build && node ./muffin.js"
 	},
 	"eslintConfig": {
 		"extends": [

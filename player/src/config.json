@@ -1,4 +1,4 @@
 {
-    "host": "http://localhost:6935",
-    "host_assets": "http://localhost:6935/player"
+    "host": "",
+    "host_assets": "/player"
 }

@@ -13,8 +13,8 @@ app.use(cors({
 	origin: "http://localhost:3000"
 }))
 app.use("/public", express.static('./public'));
-app.use("/img", express.static("./upload/img"))
-app.use("/audio", express.static("./upload/audio"))
+app.use("/img", express.static("./export/img"))
+app.use("/audio", express.static("./export/audio"))
 
 app.get("/api/podcast/get_info", m.podcast_ctrl.get_info);
 app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);

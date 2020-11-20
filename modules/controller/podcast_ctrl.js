@@ -128,11 +128,11 @@ module.exports = {
 		if (req.body.image.startsWith("data:image/png;")) {
 			pngToJpeg({ quality: 90 })(img_buffer)
 				.then(output => {
-					fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), output);
+					fs.writeFileSync(path.join(__dirname, "../../export/img/pod.jpg"), output);
 					res.send("OK");
 				});
 		} else {
-			fs.writeFileSync(path.join(__dirname, "../../upload/img/pod.jpg"), img_buffer);
+			fs.writeFileSync(path.join(__dirname, "../../export/img/pod.jpg"), img_buffer);
 			res.send("OK");
 		}
 	},
@@ -182,13 +182,13 @@ module.exports = {
 						if (req.body.img.startsWith("data:image/png;")) {
 							pngToJpeg({ quality: 90 })(img_buffer)
 								.then(output => {
-									fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), output);
+									fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), output);
 
 									ep.img = "/img/" + ep.id + ".jpg";
 									continueTraitementAddEp(ep)
 								});
 						} else {
-							fs.writeFileSync(path.join(__dirname, "../../upload/img/" + ep.id + ".jpg"), img_buffer);
+							fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), img_buffer);
 
 							ep.img = "/img/" + ep.id + ".jpg";
 							continueTraitementAddEp(ep)
@@ -202,11 +202,11 @@ module.exports = {
 				function continueTraitementAddEp(ep) {
 					let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
 
-					fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"), audio_buffer);
+					fs.writeFileSync(path.join(__dirname, "../../export/audio/" + ep.id + ".mp3"), audio_buffer);
 					ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
 					ep.enclosure = "/audio/" + ep.id + ".mp3"
 
-					let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + ep.id + ".mp3"));
+					let stats = fs.statSync(path.join(__dirname, "../../export/audio/" + ep.id + ".mp3"));
 					ep.size = stats.size;
 
 					ep.save().then(() => {
@@ -302,14 +302,14 @@ module.exports = {
 			if (req.body.image.startsWith("data:image/png;")) {
 				pngToJpeg({ quality: 90 })(img_buffer)
 					.then(output => {
-						fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), output);
+						fs.writeFileSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"), output);
 						episode.img = "/img/" + episode.id + ".jpg";
 						episode.save().then(() => {
 							res.send("OK");
 						})
 					});
 			} else {
-				fs.writeFileSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"), img_buffer);
+				fs.writeFileSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"), img_buffer);
 				episode.img = "/img/" + episode.id + ".jpg";
 				episode.save().then(() => {
 					res.send("OK");
@@ -319,8 +319,8 @@ module.exports = {
 	},
 	delete_ep_img: (req, res) => {
 		bdd.Episode.findByPk(req.params.id).then(episode => {
-			if (fs.existsSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"))) {
-				fs.unlinkSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"));
+			if (fs.existsSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"));
 			}
 
 			episode.img = "/img/pod.jpg";
@@ -333,11 +333,11 @@ module.exports = {
 		bdd.Episode.findByPk(req.params.id).then(episode => {
 			let audio_buffer = new Buffer.from(req.body.enclosure.split(/,\s*/)[1], "base64");
 
-			fs.writeFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"), audio_buffer);
+			fs.writeFileSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"), audio_buffer);
 			episode.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
 			episode.enclosure = "/audio/" + episode.id + ".mp3"
 
-			let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+			let stats = fs.statSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"));
 			episode.size = stats.size;
 
 			episode.save().then(() => {
@@ -347,11 +347,11 @@ module.exports = {
 	},
 	delete_episode: (req, res) => {
 		bdd.Episode.findByPk(req.params.id).then(episode => {
-			if (episode.img !== "/img/pod.jpg" && fs.existsSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"))) {
-				fs.unlinkSync(path.join(__dirname, "../../upload/img/" + episode.id + ".jpg"));
+			if (episode.img !== "/img/pod.jpg" && fs.existsSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"))) {
+				fs.unlinkSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"));
 			}
 
-			fs.unlinkSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+			fs.unlinkSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"));
 			episode.destroy().then(() => {
 				res.send("OK");
 			})
@@ -375,7 +375,7 @@ module.exports = {
 					podcast.explicit = feed.itunes.explicit === "yes";
 
 					podcast.save().then(() => {
-						download(feed.image.url, path.join(__dirname, "../../upload/img/pod.jpg")).then(() => {
+						download(feed.image.url, path.join(__dirname, "../../export/img/pod.jpg")).then(() => {
 							console.log("Importation : Podcast importé")
 
 							downloadEp(feed.items.reverse(), () => {
@@ -399,14 +399,14 @@ module.exports = {
 									explicit: ep.itunes.explicit === "yes",
 									type: "full"
 								}).then(episode => {
-									download(ep.enclosure.url, path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3")).then(() => {
-										episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"))) / 1000));
+									download(ep.enclosure.url, path.join(__dirname, "../../export/audio/" + episode.id + ".mp3")).then(() => {
+										episode.duration = convertHMS(Math.trunc(getMP3Duration(fs.readFileSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"))) / 1000));
 										episode.enclosure = "/audio/" + episode.id + ".mp3"
 
-										let stats = fs.statSync(path.join(__dirname, "../../upload/audio/" + episode.id + ".mp3"));
+										let stats = fs.statSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"));
 										episode.size = stats.size;
 
-										download(ep.itunes.image, path.join(__dirname, "../../upload/img/" + episode.id + ".jpg")).then(() => {
+										download(ep.itunes.image, path.join(__dirname, "../../export/img/" + episode.id + ".jpg")).then(() => {
 											episode.img = "/img/" + episode.id + ".jpg";
 											episode.save().then(() => {
 												console.log("Importation : Episode " + ep.title + " importé")

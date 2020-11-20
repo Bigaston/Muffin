@@ -7,7 +7,7 @@ const config = {
 fs.writeFileSync(path.join(__dirname, "../src/config.json"), JSON.stringify(config, undefined, 4));
 
 const config_player = {
-	host: process.env.HOST_SITE,
+	host: process.env.HOST_SITE + "",
 	host_assets: process.env.HOST_SITE + "/player"
 }
 
