@@ -7,3 +7,4 @@
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
 - Affichage de la saison de l'épisode
+- Mettre une valeur par défaut dans le type d'épisode dans l'édition

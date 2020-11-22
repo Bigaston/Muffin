@@ -1,5 +1,6 @@
 #!/bin/bash
-node ./cli/env.js
+node ./cli/init_file.js
+node ./cli/bdd.js
 node ./cli/resetConfig.js
 
 cd ./player
