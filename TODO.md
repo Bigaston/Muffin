@@ -8,3 +8,7 @@
 - Pouvoir mettre des épisodes en non répertorié/draft
 - Affichage de la saison de l'épisode
 - Mettre une valeur par défaut dans le type d'épisode dans l'édition
+- Dans les player, afficher une séparation à chaque saison, genre petite séparation et tout
+- Pareil mais dans la page qui liste les épisodes
+- Ajouter un moyen de mettre le transcript (genre stocké dans la BDD, et affiché si on le demande. Mise en page en markdown)
+- Pouvoir importer des fichiers directement selon leur URL (en gros à la podCloud)

@@ -30,6 +30,7 @@ module.exports = {
 					slogan: podcast.slogan,
 					author: podcast.author,
 					logo: podcast.logo,
+					data: JSON.parse(podcast.data),
 					episodes: []
 				}
 
@@ -116,7 +117,8 @@ module.exports = {
 				prefix: podcast.prefix != null ? podcast.prefix : "",
 				logo: podcast.logo,
 				type: podcast.type,
-				explicit: podcast.explicit
+				explicit: podcast.explicit,
+				data: JSON.parse(podcast.data)
 			}
 
 			res.json(return_obj);
@@ -151,6 +153,7 @@ module.exports = {
 				podcast.prefix = req.body.prefix;
 				podcast.type = req.body.type;
 				podcast.explicit = req.body.explicit;
+				podcast.data = req.body.data;
 
 				podcast.save().then(() => {
 					res.send("OK")

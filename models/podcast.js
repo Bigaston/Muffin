@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-    const Podcast = sequelize.define('Podcast', {
-        title: DataTypes.STRING,
-        description: DataTypes.TEXT,
+	const Podcast = sequelize.define('Podcast', {
+		title: DataTypes.STRING,
+		description: DataTypes.TEXT,
 		slogan: DataTypes.STRING,
 		author: DataTypes.STRING,
 		email: DataTypes.STRING,
@@ -12,12 +12,13 @@ module.exports = (sequelize, DataTypes) => {
 		logo: DataTypes.STRING,
 		prefix: DataTypes.STRING,
 		explicit: DataTypes.BOOLEAN,
-		type: DataTypes.STRING
-    }, {
+		type: DataTypes.STRING,
+		data: DataTypes.JSON
+	}, {
 
-    });
-    Podcast.associate = function(models) {
-    
-    };
-    return Podcast;
+	});
+	Podcast.associate = function (models) {
+
+	};
+	return Podcast;
 };

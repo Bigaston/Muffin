@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 		img: DataTypes.STRING,
 		episode: DataTypes.INTEGER,
 		saison: DataTypes.INTEGER,
-		explicit: DataTypes.BOOLEAN
+		explicit: DataTypes.BOOLEAN,
+		data: DataTypes.JSON
 	}, {
 
 	});

@@ -50,6 +50,13 @@ export default function Podcast() {
 		setPodcast(new_info)
 	}
 
+	function handlePublication(event) {
+		let new_publication = { ...podcast };
+
+		new_publication.data[event.target.attributes.id.nodeValue] = event.target.value;
+		setPodcast(new_publication)
+	}
+
 	function handleChangeCategory(event) {
 		setCurrentCategory(event.target.value);
 		setCurrentCategorySub(itunes_category[event.target.value]);
@@ -211,8 +218,41 @@ export default function Podcast() {
 				<input className="u-full-width" type="url" id="prefix" value={podcast.prefix} onChange={handleAllInput} />
 				<p>Collez ici le préfix de statistiques fournit par un service comme Podtrac ou Chartable. Attention, en cas de mauvaise configuration, vos fichiers pourront ne plus être accessibles!</p>
 				{!!errorMessageEdit ? <p className="errorMessageEdit">{errorMessageEdit}</p> : <></>}
-				<button className="button-primary" style={{ width: "100%" }} onClick={savePodcast}>Enregistrer</button>
 
+				<h2>Social</h2>
+				<label htmlFor="twitter">Twitter</label>
+				<input className="u-full-width" type="url" id="twitter" value={podcast?.data?.twitter} onChange={handlePublication} />
+
+				<label htmlFor="youtube">YouTube</label>
+				<input className="u-full-width" type="url" id="youtube" value={podcast?.data?.youtube} onChange={handlePublication} />
+
+				<label htmlFor="instagram">Instagram</label>
+				<input className="u-full-width" type="url" id="instagram" value={podcast?.data?.instagram} onChange={handlePublication} />
+
+				<label htmlFor="donation">Donation</label>
+				<input className="u-full-width" type="url" id="donation" value={podcast?.data?.donation} onChange={handlePublication} />
+
+				<h2>Publication</h2>
+				<p>Pour savoir comment publier votre podcast sur différentes plateformes, vous pouvez aller voir le site de <a href="https://myriapod.fr/">Myriapod</a> !</p>
+				<label htmlFor="apple_podcast">Apple Podcast</label>
+				<input className="u-full-width" type="url" id="apple_podcast" value={podcast?.data?.apple_podcast} onChange={handlePublication} />
+
+				<label htmlFor="spotify">Spotify</label>
+				<input className="u-full-width" type="url" id="spotify" value={podcast?.data?.spotify} onChange={handlePublication} />
+
+				<label htmlFor="google_podcast">Google Podcast</label>
+				<input className="u-full-width" type="url" id="google_podcast" value={podcast?.data?.google_podcast} onChange={handlePublication} />
+
+				<label htmlFor="deezer">Deezer</label>
+				<input className="u-full-width" type="url" id="deezer" value={podcast?.data?.deezer} onChange={handlePublication} />
+
+				<label htmlFor="podcast_addict">Podcast Addict</label>
+				<input className="u-full-width" type="url" id="podcast_addict" value={podcast?.data?.podcast_addict} onChange={handlePublication} />
+
+				<label htmlFor="podcloud">podCloud</label>
+				<input className="u-full-width" type="url" id="podcloud" value={podcast?.data?.podcloud} onChange={handlePublication} />
+
+				<button className="button-primary" style={{ width: "100%" }} onClick={savePodcast}>Enregistrer</button>
 
 				<p className="fakeLabel">Logo</p>
 				<img className="podcastLogo" src={config.host + podcast.logo} alt="Logo du podcast" />

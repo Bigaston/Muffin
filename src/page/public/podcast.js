@@ -83,7 +83,15 @@ export default function Podcast() {
 				</div>
 			</div>
 			<div className="buttonDiv">
-				<a href={config.host + "/rss"}><img src={config.host + "/public/logo/rss.svg"} alt="RSS" /></a>
+				<a href={config.host + "/rss"}><img src={config.host + "/public/logo/rss.png"} alt="RSS" /></a>
+				{!!podcast.data?.apple_podcast ? <a href={podcast.data.apple_podcast}><img src={config.host + "/public/logo/apple_podcast.png"} alt="Apple Podcast" /></a> : <></>}
+				{!!podcast.data?.spotify ? <a href={podcast.data.spotify}><img src={config.host + "/public/logo/spotify.png"} alt="Spotify" /></a> : <></>}
+				{!!podcast.data?.google_podcast ? <a href={podcast.data.google_podcast}><img src={config.host + "/public/logo/google_podcast.png"} alt="Google Podcast" /></a> : <></>}
+				{!!podcast.data?.deezer ? <a href={podcast.data.deezer}><img src={config.host + "/public/logo/deezer.png"} alt="Deezer" /></a> : <></>}
+				{!!podcast.data?.podcast_addict ? <a href={podcast.data.podcast_addict}><img src={config.host + "/public/logo/podcast_addict.png"} alt="Podcast Addict" /></a> : <></>}
+				{!!podcast.data?.instagram ? <a href={podcast.data.instagram}><img src={config.host + "/public/logo/instagram.png"} alt="Instagram" /></a> : <></>}
+				{!!podcast.data?.donation ? <a href={podcast.data.donation}><img src={config.host + "/public/logo/donation.png"} alt="Donation" /></a> : <></>}
+
 			</div>
 
 			{playlists.length === 0 ? <></>

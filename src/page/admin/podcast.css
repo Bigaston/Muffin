@@ -48,6 +48,10 @@
 	margin-top: 10px;
 }
 
+.podcastAdminContainer .button-primary {
+	margin-top: 15px;
+}
+
 .modal input[type="file"] {
 	display: block;
 	margin-bottom: 10px;
