@@ -2,6 +2,7 @@ const bdd = require("../../models")
 const fs = require("fs");
 const path = require("path")
 const pngToJpeg = require('png-to-jpeg');
+const { Op } = require("sequelize");
 
 module.exports = {
 	check_slug: (req, res) => {
@@ -191,7 +192,15 @@ module.exports = {
 		})
 	},
 	get_one_info: (req, res) => {
-		bdd.Playlist.findOne({ where: { slug: req.params.slug }, include: [{ model: bdd.Episode, attributes: ["title", "small_desc", "pub_date", "enclosure", "duration", "img", "slug"] }] }).then(playlist => {
+		bdd.Playlist.findOne({
+			where: { slug: req.params.slug }, include: [{
+				model: bdd.Episode, attributes: ["title", "small_desc", "pub_date", "enclosure", "duration", "img", "slug"], where: {
+					pub_date: {
+						[Op.lte]: new Date(),
+					}
+				}
+			}]
+		}).then(playlist => {
 			if (playlist !== null) {
 				playlist.Episodes.sort(sortEpisode);
 

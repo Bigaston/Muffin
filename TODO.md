@@ -12,3 +12,4 @@
 - Pareil mais dans la page qui liste les épisodes
 - Ajouter un moyen de mettre le transcript (genre stocké dans la BDD, et affiché si on le demande. Mise en page en markdown)
 - Pouvoir importer des fichiers directement selon leur URL (en gros à la podCloud)
+- BUG: Cacher les épisodes planifiés de la liste des playlists
