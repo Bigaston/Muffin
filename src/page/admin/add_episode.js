@@ -39,8 +39,8 @@ export default function Podcast() {
 				let new_info = {
 					author: res.data.author,
 					pub_date: p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes()),
-					episode: 0,
-					saison: 0,
+					episode: res.data.last_ep,
+					saison: res.data.last_saison,
 					explicit: true,
 					title: "",
 					description: "",

@@ -106,22 +106,28 @@ module.exports = {
 	},
 	get_info_admin: (req, res) => {
 		bdd.Podcast.findOne().then(podcast => {
-			let return_obj = {
-				title: podcast.title,
-				description: podcast.description,
-				slogan: podcast.slogan,
-				author: podcast.author,
-				email: podcast.email,
-				itunes_category: podcast.itunes_category,
-				itunes_subcategory: podcast.itunes_subcategory != null ? podcast.itunes_subcategory : "",
-				prefix: podcast.prefix != null ? podcast.prefix : "",
-				logo: podcast.logo,
-				type: podcast.type,
-				explicit: podcast.explicit,
-				data: JSON.parse(podcast.data)
-			}
+			bdd.Episode.findAll({ where: { saison: { [Op.ne]: 0 }, episode: { [Op.ne]: 0 } }, limit: 1, order: [['createdAt', 'DESC']] }).then(episode => {
+				if (episode.length === 0) episode = [{ saison: null, episode: null }];
 
-			res.json(return_obj);
+				let return_obj = {
+					title: podcast.title,
+					description: podcast.description,
+					slogan: podcast.slogan,
+					author: podcast.author,
+					email: podcast.email,
+					itunes_category: podcast.itunes_category,
+					itunes_subcategory: podcast.itunes_subcategory != null ? podcast.itunes_subcategory : "",
+					prefix: podcast.prefix != null ? podcast.prefix : "",
+					logo: podcast.logo,
+					type: podcast.type,
+					explicit: podcast.explicit,
+					data: JSON.parse(podcast.data),
+					last_saison: episode[0].saison != null ? episode[0].saison : 0,
+					last_ep: episode[0].episode != null ? episode[0].episode + 1 : 0
+				}
+
+				res.json(return_obj);
+			})
 		})
 	},
 	edit_pod_img: (req, res) => {
