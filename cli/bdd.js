@@ -20,7 +20,7 @@ db.sequelize.sync().then(() => {
 				logo: "/img/pod.jpg",
 				explicit: false,
 				type: "episodic",
-				data: '{"twitter":"","youtube":"","instagram":"","donation":"","apple_podcast":"","spotify":"","google_podcast":"","deezer":"", "podcast_addict": "", "podcloud":""}'
+				data: '{"twitter":"","youtube":"","instagram":"","donation":"","apple_podcast":"","spotify":"","google_podcast":"","deezer":"","podcast_addict":"","podcloud":""}'
 			}).then(() => {
 				fs.copyFileSync(path.join(__dirname, "./base_img.jpg"), path.join(__dirname, "../export/img/pod.jpg"));
 			})
