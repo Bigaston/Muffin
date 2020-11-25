@@ -12,3 +12,5 @@
 - Pareil mais dans la page qui liste les épisodes
 - Ajouter un moyen de mettre le transcript (genre stocké dans la BDD, et affiché si on le demande. Mise en page en markdown)
 - Pouvoir importer des fichiers directement selon leur URL (en gros à la podCloud)
+- BUG: Quand pas d'email dans l'import, ça plante. Pareil quand pas de iTunes category
+- Changer le truc quand il y a un prefix de stat, changer pour ne pas mettre le https:// après le prefix

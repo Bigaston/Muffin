@@ -159,7 +159,7 @@ module.exports = {
 				podcast.prefix = req.body.prefix;
 				podcast.type = req.body.type;
 				podcast.explicit = req.body.explicit;
-				podcast.data = req.body.data;
+				podcast.data = JSON.stringify(req.body.data);
 
 				podcast.save().then(() => {
 					res.send("OK")
