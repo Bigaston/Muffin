@@ -2,15 +2,13 @@
 - Support de toutes les langues
 - Mettre des feedback sur l'édition et tout
 - Faire un écran de player fullscreen
-- Installation simple
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
 - Générer automatiquement une sitemap
 - Pouvoir mettre des épisodes en non répertorié/draft
 - Affichage de la saison de l'épisode
-- Mettre une valeur par défaut dans le type d'épisode dans l'édition
 - Dans les player, afficher une séparation à chaque saison, genre petite séparation et tout
 - Pareil mais dans la page qui liste les épisodes
 - Ajouter un moyen de mettre le transcript (genre stocké dans la BDD, et affiché si on le demande. Mise en page en markdown)
 - Pouvoir importer des fichiers directement selon leur URL (en gros à la podCloud)
-- BUG: Quand pas d'email dans l'import, ça plante. Pareil quand pas de iTunes category
 - Changer le truc quand il y a un prefix de stat, changer pour ne pas mettre le https:// après le prefix
+- Documentation du site

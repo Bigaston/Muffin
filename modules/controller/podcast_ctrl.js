@@ -375,12 +375,14 @@ module.exports = {
 				console.log("Importation : Feed OK")
 
 				bdd.Podcast.findOne().then(podcast => {
-					podcast.title = feed.title;
-					podcast.description = feed.description;
-					podcast.slogan = feed.itunes.subtitle;
-					podcast.author = feed.itunes.author;
-					podcast.email = feed.itunes.owner.email;
-					podcast.itunes_category = feed.itunes.categories[0];
+					if (feed.itunes === undefined) feed.itunes = { owner: {} };
+
+					podcast.title = !!feed.title ? feed.title : "";
+					podcast.description = !!feed.description ? feed.description : "";
+					podcast.slogan = !!feed.itunes.subtitle ? feed.itunes.subtitle : "";
+					podcast.author = !!feed.itunes.author ? feed.itunes.author : "";
+					podcast.email = !!feed.itunes.owner.email ? feed.itunes.owner.email : "";
+					podcast.itunes_category = feed.itunes.categories !== undefined ? feed.itunes.categories[0] : "";
 					podcast.explicit = feed.itunes.explicit === "yes";
 
 					podcast.save().then(() => {
@@ -393,6 +395,7 @@ module.exports = {
 
 							function downloadEp(ep_tab, cb) {
 								let ep = ep_tab[0];
+								if (ep.itunes === undefined) ep.itunes = {};
 
 								bdd.Episode.create({
 									title: ep.title,
