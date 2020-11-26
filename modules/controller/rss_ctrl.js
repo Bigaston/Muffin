@@ -18,8 +18,6 @@ module.exports = {
 					episodes.sort(orderTableByDateInvert)
 				}
 
-				podcast.data = JSON.parse(podcast.data)
-
 				let rss_obj = {
 					title: podcast.title,
 					description: podcast.description,

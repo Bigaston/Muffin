@@ -54,7 +54,6 @@ export default function Podcast() {
 		let new_publication = { ...podcast };
 
 		new_publication.data[event.target.attributes.id.nodeValue] = event.target.value;
-		console.log(new_publication)
 		setPodcast(new_publication)
 	}
 
