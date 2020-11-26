@@ -35,13 +35,20 @@ module.exports = {
 				}
 
 				episodes.forEach(ep => {
+					let enclosure;
+					if (!!podcast.prefix) {
+						enclosure = podcast.prefix + process.env.HOST_SITE.replace("https://", "").replace("http://", "") + ep.enclosure;
+					} else {
+						enclosure = process.env.HOST_SITE + ep.enclosure
+					}
+
 					let ep_obj = {
 						title: ep.title,
 						description: ep.desc_parsed,
 						small_desc: ep.small_desc,
 						pub_date: ep.pub_date,
 						author: ep.author,
-						audio: podcast.prefix + process.env.HOST_SITE + ep.enclosure,
+						audio: enclosure,
 						duration: ep.duration,
 						img: ep.img,
 						ep_number: ep.episode,
@@ -85,13 +92,20 @@ module.exports = {
 				} else {
 					let ep = episode[0];
 
+					let enclosure;
+					if (!!podcast.prefix) {
+						enclosure = podcast.prefix + process.env.HOST_SITE.replace("https://", "").replace("http://", "") + ep.enclosure;
+					} else {
+						enclosure = process.env.HOST_SITE + ep.enclosure
+					}
+
 					let return_ep = {
 						title: ep.title,
 						description: ep.desc_parsed,
 						small_desc: ep.small_desc,
 						pub_date: ep.pub_date,
 						author: ep.author,
-						audio: ep.enclosure,
+						audio: enclosure,
 						duration: ep.duration,
 						img: ep.img,
 						ep_number: ep.episode,

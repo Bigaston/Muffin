@@ -215,6 +215,13 @@ module.exports = {
 				var feed = new RSS(rss_obj)
 
 				episodes.forEach(ep => {
+					let enclosure;
+					if (!!podcast.prefix) {
+						enclosure = podcast.prefix + process.env.HOST_SITE.replace("https://", "").replace("http://", "") + ep.enclosure;
+					} else {
+						enclosure = process.env.HOST_SITE + ep.enclosure
+					}
+
 					feed.item({
 						title: ep.title,
 						description: ep.desc_parsed,
@@ -240,7 +247,7 @@ module.exports = {
 							{
 								"enclosure": {
 									_attr: {
-										url: podcast.prefix + process.env.HOST_SITE + ep.enclosure,
+										url: enclosure,
 										type: "audio/mpeg",
 										length: ep.size
 									}
