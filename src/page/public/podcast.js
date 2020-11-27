@@ -89,6 +89,7 @@ export default function Podcast() {
 				{!!podcast.data?.google_podcast ? <a href={podcast.data.google_podcast}><img src={config.host + "/public/logo/google_podcast.png"} alt="Google Podcast" /></a> : <></>}
 				{!!podcast.data?.deezer ? <a href={podcast.data.deezer}><img src={config.host + "/public/logo/deezer.png"} alt="Deezer" /></a> : <></>}
 				{!!podcast.data?.podcast_addict ? <a href={podcast.data.podcast_addict}><img src={config.host + "/public/logo/podcast_addict.png"} alt="Podcast Addict" /></a> : <></>}
+				{!!podcast.data?.twitter ? <a href={podcast.data.twitter}><img src={config.host + "/public/logo/twitter.png"} alt="Twitter" /></a> : <></>}
 				{!!podcast.data?.instagram ? <a href={podcast.data.instagram}><img src={config.host + "/public/logo/instagram.png"} alt="Instagram" /></a> : <></>}
 				{!!podcast.data?.donation ? <a href={podcast.data.donation}><img src={config.host + "/public/logo/donation.png"} alt="Donation" /></a> : <></>}
 
