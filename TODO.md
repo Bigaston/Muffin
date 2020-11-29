@@ -1,5 +1,5 @@
 - Loader propre et sur toutes les requetes
-- Support de toutes les langues
+- Support de toutes les langues + Changement de timezone
 - Mettre des feedback sur l'édition et tout
 - Faire un écran de player fullscreen
 - Saisie des informations dans les métadonnés du podcast (genre intégration podchapter directement là dessus quoi)
@@ -11,4 +11,3 @@
 - Ajouter un moyen de mettre le transcript (genre stocké dans la BDD, et affiché si on le demande. Mise en page en markdown)
 - Pouvoir importer des fichiers directement selon leur URL (en gros à la podCloud)
 - Documentation du site
-- BUG: Heure quand on édit un épisode (une heure en trop je sais pas pourquoi)

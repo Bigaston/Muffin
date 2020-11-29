@@ -190,7 +190,7 @@ module.exports = {
 					description: req.body.description,
 					desc_parsed: md.render(req.body.description),
 					small_desc: req.body.small_desc,
-					pub_date: dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm"),
+					pub_date: dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm", "fr"),
 					author: req.body.author,
 					guid: Date.now(),
 					type: req.body.type,
@@ -300,7 +300,7 @@ module.exports = {
 					episode.description = req.body.description
 					episode.desc_parsed = md.render(req.body.description)
 					episode.small_desc = req.body.small_desc
-					episode.pub_date = dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm")
+					episode.pub_date = dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm", "fr")
 					episode.author = req.body.author
 					episode.type = req.body.type
 					episode.episode = req.body.episode
