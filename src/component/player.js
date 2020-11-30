@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 
 import "./player.css"
 import config from "../config.json"
+import axios from "axios";
 
 import { convertHMS } from "../utils"
 
@@ -12,6 +13,7 @@ export default function Player() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
 	let [currentTime, setCurrentTime] = useState("00:00:00");
 	let [pourcentageProgression, setPourcentageProgression] = useState("0%")
+	let [podcast, setPodcast] = useState({});
 
 	let audioPlayer = useRef(undefined);
 	let progressbar = useRef(undefined)
@@ -33,6 +35,63 @@ export default function Player() {
 			setInterval(updateTime, 200);
 		}
 	}, [playerStore, intervalCheck])
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			url: config.host + "/api/podcast/get_info"
+		}).then(res => {
+			if (res.status === 200) {
+				setPodcast(res.data);
+			}
+		}).catch(err => {
+			console.log(err)
+		})
+	}, [])
+
+	useEffect(() => {
+		if ('mediaSession' in navigator) {
+			if (playerStore.displayed) {
+				const img = new Image();
+				img.onload = function () {
+					/* eslint-disable no-undef */
+					navigator.mediaSession.metadata = new MediaMetadata({
+						title: playerStore.title,
+						artist: podcast.author,
+						album: podcast.title,
+						artwork: [
+							{ src: config.host + playerStore.img, sizes: this.width + 'x' + this.height, type: 'image/jpg' },
+						]
+					});
+					/* eslint-enable  no-undef */
+				}
+				img.src = config.host + playerStore.img;
+			}
+		}
+	}, [playerStore, podcast])
+
+	useEffect(() => {
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.setActionHandler('play', function () {
+				setPlayerStore(current => {
+					return { ...current, paused: false };
+				})
+			});
+			navigator.mediaSession.setActionHandler('pause', function () {
+				setPlayerStore(current => {
+					return { ...current, paused: true };
+				})
+			});
+			navigator.mediaSession.setActionHandler('seekbackward', function () {
+				audioPlayer.current.currentTime = audioPlayer.current.currentTime - 15
+				updateTime();
+			});
+			navigator.mediaSession.setActionHandler('seekforward', function () {
+				audioPlayer.current.currentTime = audioPlayer.current.currentTime + 15
+				updateTime();
+			});
+		}
+	}, [setPlayerStore])
 
 	function updateTime() {
 		let durationObj = convertHMS(audioPlayer.current.currentTime);
