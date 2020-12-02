@@ -211,7 +211,7 @@ export default function Podcast() {
 					<option value="serial">Du plus vieux au plus récent</option>
 				</select>
 
-				<input type="checkbox" id="explicit" defaultChecked={podcast.explicit} value={podcast.explicit} onChange={handleCheckbox} />
+				<input type="checkbox" id="explicit" defaultChecked={podcast.explicit} value={podcast.explicit} onClick={handleCheckbox} />
 				<span className="label-body">Contenu explicite</span>
 
 				<label htmlFor="prefix">Prefix de stats</label>

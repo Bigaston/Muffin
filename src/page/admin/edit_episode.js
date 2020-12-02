@@ -345,7 +345,7 @@ export default function Podcast() {
 					</div>
 				</div>
 				<p className="info">(Mettez 0 comme numéro de saison ou d'épisode si cela ne correspond pas à votre podcast)</p>
-				<input type="checkbox" id="explicit" defaultChecked={episode.explicit} value={episode.explicit} onChange={handleCheckbox} />
+				<input type="checkbox" id="explicit" defaultChecked={episode.explicit} value={episode.explicit} onClick={handleCheckbox} />
 				<span className="label-body">Contenu explicite</span>
 
 				<label htmlFor="description">Description*</label>
