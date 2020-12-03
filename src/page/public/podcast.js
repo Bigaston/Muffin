@@ -7,6 +7,8 @@ import classnames from "classnames";
 
 import Episode from "../../component/episode";
 import FullLoad from "../../component/fullLoader";
+import Icon from "../../component/icon"
+import IconDonation from "../../component/icon_donation"
 
 import { Helmet } from "react-helmet";
 
@@ -83,17 +85,17 @@ export default function Podcast() {
 				</div>
 			</div>
 			<div className="buttonDiv">
-				<a href={config.host + "/rss"}><img src={config.host + "/public/logo/rss.png"} alt="RSS" /></a>
-				{!!podcast.data?.apple_podcast ? <a href={podcast.data.apple_podcast}><img src={config.host + "/public/logo/apple_podcast.png"} alt="Apple Podcast" /></a> : <></>}
-				{!!podcast.data?.spotify ? <a href={podcast.data.spotify}><img src={config.host + "/public/logo/spotify.png"} alt="Spotify" /></a> : <></>}
-				{!!podcast.data?.google_podcast ? <a href={podcast.data.google_podcast}><img src={config.host + "/public/logo/google_podcast.png"} alt="Google Podcast" /></a> : <></>}
-				{!!podcast.data?.deezer ? <a href={podcast.data.deezer}><img src={config.host + "/public/logo/deezer.png"} alt="Deezer" /></a> : <></>}
-				{!!podcast.data?.podcloud ? <a href={podcast.data.podcloud}><img src={config.host + "/public/logo/podcloud.png"} alt="podCloud" /></a> : <></>}
-				{!!podcast.data?.podcast_addict ? <a href={podcast.data.podcast_addict}><img src={config.host + "/public/logo/podcast_addict.png"} alt="Podcast Addict" /></a> : <></>}
-				{!!podcast.data?.twitter ? <a href={podcast.data.twitter}><img src={config.host + "/public/logo/twitter.png"} alt="Twitter" /></a> : <></>}
-				{!!podcast.data?.instagram ? <a href={podcast.data.instagram}><img src={config.host + "/public/logo/instagram.png"} alt="Instagram" /></a> : <></>}
-				{!!podcast.data?.donation ? <a href={podcast.data.donation}><img src={config.host + "/public/logo/donation.png"} alt="Donation" /></a> : <></>}
-
+				<Icon name="rss" link={config.host + "/rss"} />
+				<Icon name="apple_podcast" link={podcast.data?.apple_podcast} />
+				<Icon name="spotify" link={podcast.data?.spotify} />
+				<Icon name="google_podcast" link={podcast.data?.google_podcast} />
+				<Icon name="deezer" link={podcast.data?.deezer} />
+				<Icon name="podcloud" link={podcast.data?.podcloud} />
+				<Icon name="podcast_addict" link={podcast.data?.podcast_addict} />
+				<Icon name="youtube" link={podcast.data?.youtube} />
+				<Icon name="twitter" link={podcast.data?.twitter} />
+				<Icon name="instagram" link={podcast.data?.twitter} />
+				<IconDonation link={podcast.data?.donation} />
 			</div>
 
 			{playlists.length === 0 ? <></>

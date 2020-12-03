@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   viewBox="0 0 67.733331 67.733331"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="tip.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="156.33102"
+     inkscape:cy="133.78818"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g851"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1718"
+     inkscape:window-height="1212"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g907"
+       transform="matrix(0.13521005,0,0,0.13521005,1.7212597,25.326092)"
+       style="fill:#000000">
+      <g
+         id="g851"
+         style="fill:#000000">
+        <path
+           d="M 470.10465,97.627054 458.08761,79.557386 c -6.23722,-9.375308 -18.70344,-12.261121 -28.42434,-6.582817 l -188.12445,115.174441 -78.8348,-21.64052 66.84647,-0.0215 c 5.66087,-0.002 11.0869,-2.2623 15.07822,-6.28233 3.98825,-4.01697 6.15518,-9.46043 6.11723,-15.12335 l -0.0759,-18.55371 c -0.082,-11.68067 -9.57015,-21.10725 -21.2539,-21.11135 l -118.96751,-0.0308 h -0.004 c -5.68651,0 -11.134075,2.27768 -15.128475,6.32336 l -88.6439935,89.7935 c -7.8893258,7.9888 -8.2041605,20.73601 -0.7209406,29.10426 L 54.982361,285.4483 c 4.123616,4.61484 9.929085,7.0925 15.853514,7.0925 2.866329,0 5.758295,-0.57942 8.500536,-1.77723 l 62.372139,-27.23166 111.98269,-0.0205 c 4.33077,0 8.55488,-1.32189 12.11344,-3.78929 L 464.52275,126.86976 c 9.51169,-6.59922 11.9955,-19.60077 5.5819,-29.242706 z"
+           id="path849"
+           sodipodi:nodetypes="ccccccsccccsccccscccccc"
+           style="fill:#ffffff;stroke-width:1.02552" />
+        <path
+           d="m 346.27624,-161.37978 c -29.01411,0 -54.27081,17.67296 -65.56792,43.25691 -11.29708,-25.55859 -36.5538,-43.25691 -65.56791,-43.25691 -39.61446,0 -71.83853,32.86105 -71.83853,73.227405 0,91.0271479 128.87142,165.978746 134.37067,169.122858 0.94557,0.532478 1.9658,0.811389 3.0109,0.811389 1.04511,0 2.09021,-0.278911 3.01089,-0.811389 5.47436,-3.144112 134.39557,-78.0957101 134.39557,-169.122858 0.0249,-40.366355 -32.19919,-73.227405 -71.81367,-73.227405 z"
+           style="fill:#ffffff;stroke-width:2.51185"
+           id="path909" />
+      </g>
+      <g
+         id="g853"
+         style="fill:#000000" />
+      <g
+         id="g855"
+         style="fill:#000000" />
+      <g
+         id="g857"
+         style="fill:#000000" />
+      <g
+         id="g859"
+         style="fill:#000000" />
+      <g
+         id="g861"
+         style="fill:#000000" />
+      <g
+         id="g863"
+         style="fill:#000000" />
+      <g
+         id="g865"
+         style="fill:#000000" />
+      <g
+         id="g867"
+         style="fill:#000000" />
+      <g
+         id="g869"
+         style="fill:#000000" />
+      <g
+         id="g871"
+         style="fill:#000000" />
+      <g
+         id="g873"
+         style="fill:#000000" />
+      <g
+         id="g875"
+         style="fill:#000000" />
+      <g
+         id="g877"
+         style="fill:#000000" />
+      <g
+         id="g879"
+         style="fill:#000000" />
+      <g
+         id="g881"
+         style="fill:#000000" />
+    </g>
+  </g>
+</svg>

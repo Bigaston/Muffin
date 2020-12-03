@@ -1,0 +1,72 @@
+{
+	"twitter": {
+		"img": "twitter.svg",
+		"color": "#1DA1F2",
+		"alt": "Twitter"
+	},
+	"youtube": {
+		"img": "youtube.svg",
+		"color": "#cd201f",
+		"alt": "YouTube"
+	},
+	"instagram": {
+		"img": "instagram.svg",
+		"color": "#FFFFFF",
+		"alt": "Instagram"
+	},
+	"tipeee": {
+		"img": "tipeee.svg",
+		"color": "#cd201f",
+		"alt": "Tipeee"
+	},
+	"patreon": {
+		"img": "patreon.svg",
+		"color": "#FFFFFF",
+		"alt": "Patreon"
+	},
+	"paypal": {
+		"img": "paypal.svg",
+		"color": "#FFFFFF",
+		"alt": "Paypal"
+	},
+	"tip": {
+		"img": "tip.svg",
+		"color": "#dc79ac",
+		"alt": "Donation"
+	},
+	"apple_podcast": {
+		"img": "apple.svg",
+		"color": "#B150E2",
+		"alt": "Apple Podcast"
+	},
+	"spotify": {
+		"img": "spotify.svg",
+		"color": "#1DB954",
+		"alt": "Spotify"
+	},
+	"google_podcast": {
+		"img": "google.svg",
+		"color": "#FFFFFF",
+		"alt": "Google Podcast"
+	},
+	"deezer": {
+		"img": "deezer.svg",
+		"color": "#FFFFFF",
+		"alt": "Deezer"
+	},
+	"podcast_addict": {
+		"img": "podcastaddict.svg",
+		"color": "#e8803a",
+		"alt": "Podcast Addict"
+	},
+	"podcloud": {
+		"img": "podcloud.svg",
+		"color": "#261788",
+		"alt": "podCloud"
+	},
+	"rss": {
+		"img": "rss.svg",
+		"color": "orange",
+		"alt": "RSS"
+	}
+}
