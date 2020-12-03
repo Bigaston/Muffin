@@ -45,6 +45,10 @@ export default function EpisodePage() {
 						<li>Les autres icones viennent de <a href="https://fontawesome.com/">FontAwesome</a></li>
 						<li>Le logo de Muffin a été dessiné par <a href="https://twitter.com/LaMifflue">Mifflue</a></li>
 					</ul>
+
+					<h2>podCloud Labo</h2>
+					<p>Muffin est un projet podCloud Labo! Si vous voulez créer un podcast sans avoir à l'héberger vous même, n'hésitez pas à aller voir <a href="https://podcloud.fr">leur site</a>.</p>
+					<p>Le support de Muffin se fait également sur le <a href="https://podcloud.fr/discord">Discord de podCloud</a></p>
 				</div>
 			</div>
 		</>
