@@ -18,10 +18,6 @@
 	}
 }
 
-.playlist:last-child {
-	margin-bottom: 150px;
-}
-
 .playlist > img {
 	width: 100px;
 	height: 100px;

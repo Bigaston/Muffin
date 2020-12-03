@@ -18,10 +18,6 @@
 	}
 }
 
-.episode:last-child {
-	margin-bottom: 150px;
-}
-
 .episode > img {
 	width: 100px;
 	height: 100px;

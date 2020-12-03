@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet";
 import Podcast from "./page/public/podcast"
 import Episode from "./page/public/episode"
 import Playlist from "./page/public/playlist"
+import About from "./page/public/about"
 
 import Login from "./page/admin/login"
 import PodcastAdmin from "./page/admin/podcast"
@@ -95,9 +96,15 @@ function App() {
 					<Route path="/p/:slug">
 						<Playlist />
 					</Route>
+
+					<Route path="/about">
+						<About />
+					</Route>
+
 					<Route path="/:slug">
 						<Episode />
 					</Route>
+
 					<Route path="/">
 						<Podcast />
 					</Route>

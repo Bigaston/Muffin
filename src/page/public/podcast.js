@@ -9,6 +9,7 @@ import Episode from "../../component/episode";
 import FullLoad from "../../component/fullLoader";
 import Icon from "../../component/icon"
 import IconDonation from "../../component/icon_donation"
+import ToAbout from "../../component/to_about"
 
 import { Helmet } from "react-helmet";
 
@@ -123,6 +124,7 @@ export default function Podcast() {
 				</div>
 			}
 
+			<ToAbout />
 		</>
 	)
 }

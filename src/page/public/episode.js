@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom"
 import { Helmet } from "react-helmet";
 
 import Loader from "../../component/loader"
+import ToAbout from "../../component/to_about"
 
 import { useParams } from "react-router-dom";
 
@@ -156,6 +157,8 @@ export default function EpisodePage() {
 							</>
 						}
 					</div>
+
+					<ToAbout />
 				</>
 				: <Loader />}
 		</>
