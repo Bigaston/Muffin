@@ -11,3 +11,4 @@
 - Ajouter un moyen de mettre le transcript (genre stocké dans la BDD, et affiché si on le demande. Mise en page en markdown)
 - Pouvoir importer des fichiers directement selon leur URL (en gros à la podCloud)
 - Documentation du site
+- BUG : Le type d'épisode à l'édition (peut-être problème lors de l'import?)
