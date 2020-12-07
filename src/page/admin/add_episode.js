@@ -15,6 +15,10 @@ import { useHistory } from "react-router-dom"
 
 import { Helmet } from "react-helmet";
 
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
+
 export default function Podcast() {
 	let history = useHistory();
 	let [userState,] = useRecoilState(userAtom);
@@ -163,6 +167,7 @@ export default function Podcast() {
 				})
 
 				data_ep.playlists = my_playlist;
+				data_ep.pub_date = dayjs(data_ep.pub_date, "DD/MM/YYYY hh:mm")
 
 				axios({
 					method: "POST",

@@ -8,10 +8,6 @@ var md = require('markdown-it')({
 	linkify: true
 });
 const getMP3Duration = require('get-mp3-duration')
-const dayjs = require('dayjs')
-dayjs.extend(require('dayjs/plugin/customParseFormat'))
-dayjs.extend(require("dayjs/plugin/utc"))
-dayjs.extend(require("dayjs/plugin/timezone"))
 const { Op } = require("sequelize");
 let Parser = require('rss-parser');
 const axios = require("axios");
@@ -192,7 +188,7 @@ module.exports = {
 					description: req.body.description,
 					desc_parsed: md.render(req.body.description),
 					small_desc: req.body.small_desc,
-					pub_date: dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm").tz("Europe/Paris"),
+					pub_date: req.body.pub_date,
 					author: req.body.author,
 					guid: Date.now(),
 					type: req.body.type,
@@ -302,7 +298,7 @@ module.exports = {
 					episode.description = req.body.description
 					episode.desc_parsed = md.render(req.body.description)
 					episode.small_desc = req.body.small_desc
-					episode.pub_date = dayjs(req.body.pub_date, "DD/MM/YYYY hh:mm").tz("Europe/Paris")
+					episode.pub_date = req.body.pub_date
 					episode.author = req.body.author
 					episode.type = req.body.type
 					episode.episode = req.body.episode
