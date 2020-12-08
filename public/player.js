@@ -1,6 +1,11 @@
 window.addEventListener("message", receiveMessage, false);
-const muffin_player_div = document.getElementById("muffin_player_div")
 
 function receiveMessage(event) {
-	muffin_player_div.style.height = event.data.height + "px";
+	getFrameByEvent(event).style.height = event.data.height + "px";
+}
+
+function getFrameByEvent(event) {
+	return [].slice.call(document.getElementsByTagName('iframe')).filter(function (iframe) {
+		return iframe.contentWindow === event.source;
+	})[0];
 }
