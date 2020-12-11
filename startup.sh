@@ -1,6 +1,8 @@
 #!/bin/bash
 node ./cli/init_file.js
-node ./cli/bdd.js
+
+npx sequelize-cli db:migrate --config ./models/config.js 
+
 node ./cli/resetConfig.js
 
 cd ./player
