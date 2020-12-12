@@ -45,6 +45,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"postinstall": "node ./cli/init_file.js && npm run bdd && cd ./player && npm install && cd ..",
+		"file": "node ./cli/init_file.js",
 		"bdd": "npx sequelize-cli db:migrate --config ./models/config.js",
 		"server": "node ./muffin.js",
 		"deploy": "npm run build && node ./muffin.js"

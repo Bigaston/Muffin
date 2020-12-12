@@ -14,6 +14,7 @@ export default function Player() {
 	let [currentTime, setCurrentTime] = useState("00:00:00");
 	let [pourcentageProgression, setPourcentageProgression] = useState("0%")
 	let [podcast, setPodcast] = useState({});
+	const [episodes, setEpisodes] = useState([]);
 
 	let audioPlayer = useRef(undefined);
 	let progressbar = useRef(undefined)
@@ -43,6 +44,7 @@ export default function Player() {
 		}).then(res => {
 			if (res.status === 200) {
 				setPodcast(res.data);
+				setEpisodes(res.data.episodes);
 			}
 		}).catch(err => {
 			console.log(err)
@@ -63,7 +65,7 @@ export default function Player() {
 							{ src: config.host + playerStore.img, sizes: this.width + 'x' + this.height, type: 'image/jpg' },
 						]
 					});
-					/* eslint-enable  no-undef */
+					/* eslint-enable no-undef */
 				}
 				img.src = config.host + playerStore.img;
 			}
@@ -83,15 +85,48 @@ export default function Player() {
 				})
 			});
 			navigator.mediaSession.setActionHandler('seekbackward', function () {
-				audioPlayer.current.currentTime = audioPlayer.current.currentTime - 15
-				updateTime();
+				moins15();
 			});
 			navigator.mediaSession.setActionHandler('seekforward', function () {
-				audioPlayer.current.currentTime = audioPlayer.current.currentTime + 15
-				updateTime();
+				plus15();
+			});
+			navigator.mediaSession.setActionHandler('stop', function () {
+				stopPlay()
+			});
+			navigator.mediaSession.setActionHandler('previoustrack', function () {
+				for (let i = 0; i < episodes.length; i++) {
+					if (episodes[i].slug === playerStore.slug && i !== 0) {
+						let ep = episodes[i - 1];
+						setPlayerStore({
+							displayed: true,
+							paused: false,
+							img: ep.img,
+							title: ep.title,
+							slug: ep.slug,
+							duration: ep.duration,
+							audio: ep.audio
+						})
+					}
+				}
+			});
+			navigator.mediaSession.setActionHandler('nexttrack', function () {
+				for (let i = 0; i < episodes.length; i++) {
+					if (episodes[i].slug === playerStore.slug && i !== episodes.length - 1) {
+						let ep = episodes[i + 1];
+						setPlayerStore({
+							displayed: true,
+							paused: false,
+							img: ep.img,
+							title: ep.title,
+							slug: ep.slug,
+							duration: ep.duration,
+							audio: ep.audio
+						})
+					}
+				}
 			});
 		}
-	}, [setPlayerStore])
+	}, [setPlayerStore, episodes, playerStore])
 
 	function updateTime() {
 		let durationObj = convertHMS(audioPlayer.current.currentTime);
