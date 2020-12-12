@@ -85,13 +85,28 @@ export default function Player() {
 				})
 			});
 			navigator.mediaSession.setActionHandler('seekbackward', function () {
-				moins15();
+				audioPlayer.current.currentTime = audioPlayer.current.currentTime - 15
+				updateTime();
 			});
 			navigator.mediaSession.setActionHandler('seekforward', function () {
-				plus15();
+				audioPlayer.current.currentTime = audioPlayer.current.currentTime + 15
+				updateTime();
 			});
 			navigator.mediaSession.setActionHandler('stop', function () {
-				stopPlay()
+				let played_ep = {
+					displayed: false,
+					paused: false,
+					img: "",
+					title: "",
+					slug: "",
+					duration: "",
+					audio: ""
+				}
+
+				audioPlayer.current.pause()
+				audioPlayer.current.src = ""
+
+				setPlayerStore(played_ep);
 			});
 			navigator.mediaSession.setActionHandler('previoustrack', function () {
 				for (let i = 0; i < episodes.length; i++) {
@@ -126,7 +141,7 @@ export default function Player() {
 				}
 			});
 		}
-	}, [setPlayerStore, episodes, playerStore])
+	}, [playerStore, episodes, setPlayerStore])
 
 	function updateTime() {
 		let durationObj = convertHMS(audioPlayer.current.currentTime);
@@ -178,6 +193,40 @@ export default function Player() {
 		updateTime();
 	}
 
+	function episodeBefore() {
+		for (let i = 0; i < episodes.length; i++) {
+			if (episodes[i].slug === playerStore.slug && i !== 0) {
+				let ep = episodes[i - 1];
+				setPlayerStore({
+					displayed: true,
+					paused: false,
+					img: ep.img,
+					title: ep.title,
+					slug: ep.slug,
+					duration: ep.duration,
+					audio: ep.audio
+				})
+			}
+		}
+	}
+
+	function episodeAfter() {
+		for (let i = 0; i < episodes.length; i++) {
+			if (episodes[i].slug === playerStore.slug && i !== episodes.length - 1) {
+				let ep = episodes[i + 1];
+				setPlayerStore({
+					displayed: true,
+					paused: false,
+					img: ep.img,
+					title: ep.title,
+					slug: ep.slug,
+					duration: ep.duration,
+					audio: ep.audio
+				})
+			}
+		}
+	}
+
 	function stopPlay() {
 		let played_ep = {
 			displayed: false,
@@ -210,11 +259,13 @@ export default function Player() {
 						<p id="audio-duration">{playerStore.duration}</p>
 					</div>
 					<div className="controls">
+						<img src={config.host + "/public/before.svg"} alt="Episode précédent" onClick={episodeBefore} />
 						<img src={config.host + "/public/backward.svg"} alt="-15s" onClick={moins15} />
 						<img id="playButton" src={playerStore.paused ? config.host + "/public/play.svg" : config.host + "/public/pause.svg"}
 							alt={playerStore.paused ? "Reprendre " + playerStore.title : "Mettre en pause " + playerStore.title}
 							onClick={playPauseEp} />
 						<img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15} />
+						<img src={config.host + "/public/after.svg"} alt="Episode suivant" onClick={episodeAfter} />
 						<img src={config.host + "/public/stop.svg"} alt="Arrêter" onClick={stopPlay} />
 					</div>
 				</div>
