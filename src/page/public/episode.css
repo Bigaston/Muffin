@@ -92,7 +92,25 @@
 	margin: 0;
 }
 
+.modal h2 {
+	text-align: center;
+}
+
 .iconShare {
 	display: flex;
 	justify-content: center;
+}
+
+.modal .button-primary {
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.openEmbed {
+	text-decoration: underline;
+}
+
+.openEmbed:hover {
+	cursor: pointer;
 }
