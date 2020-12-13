@@ -113,8 +113,8 @@ export default function EpisodePage() {
 
 	const [modalShare, setModalShare] = useState(false);
 	function shareEpisode() {
-		if (navigator.share) {
-			navigator.share({
+		if (window.navigator.share) {
+			window.navigator.share({
 				title: episode.title,
 				text: "Découvrez l'épisode " + episode.title + " de " + podcast.title,
 				url: window.location.href,

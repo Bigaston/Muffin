@@ -14,7 +14,7 @@ export default function Modal(props) {
 				<>
 					<div className="darkZone" onClick={quit}></div>
 					<div className="modal">
-						<img class="closeModal" src={config.host + "/public/close.svg"} onClick={quit} />
+						<img class="closeModal" src={config.host + "/public/close.svg"} onClick={quit} alt="Fermer" />
 						{props.children}
 					</div>
 				</>
