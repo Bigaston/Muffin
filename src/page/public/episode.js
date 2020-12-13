@@ -16,6 +16,8 @@ import { useRecoilState } from "recoil";
 import "./episode.css";
 
 import FullLoad from "../../component/fullLoader"
+import Modal from "../../component/modal"
+import Icon from "../../component/icon"
 
 export default function EpisodePage() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -107,6 +109,19 @@ export default function EpisodePage() {
 		window.open(config.host + episode.audio)
 	}
 
+	const [modalShare, setModalShare] = useState(false);
+	function shareEpisode() {
+		if (window.navigator.share) {
+			navigator.share({
+				title: episode.title,
+				text: "Découvrez l'épisode " + episode.title + " de " + podcast.title,
+				url: window.location.href,
+			});
+		} else {
+			setModalShare(true)
+		}
+	}
+
 	return (
 		<>
 			{podcast !== undefined ?
@@ -151,6 +166,7 @@ export default function EpisodePage() {
 										alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title}
 										onClick={playPauseEp} />
 									<img src={config.host + "/public/download.svg"} alt="Télécharger l'épisode" onClick={downloadEp} />
+									<img src={config.host + "/public/share.svg"} alt="Partager l'épisode" onClick={shareEpisode} />
 								</div>
 								<div ref={divDescription} className="descriptionEp"></div>
 								<p className="moreInfoEp">Publié le {pubDateString}</p>
@@ -159,6 +175,16 @@ export default function EpisodePage() {
 					</div>
 
 					<ToAbout />
+
+					<Modal open={modalShare} onCancel={() => { setModalShare(false) }}>
+						<h1>Partager l'épisode</h1>
+
+						<div className="iconShare">
+							<Icon name="twitter" link={"https://twitter.com/intent/tweet?url=" + encodeURI(window.location.href) + "&text=" + encodeURI(episode.title + " - " + podcast.title)} />
+							<Icon name="facebook" link={"https://www.facebook.com/sharer/sharer.php?u=" + encodeURI(window.location.href)} />
+
+						</div>
+					</Modal>
 				</>
 				: <Loader />}
 		</>

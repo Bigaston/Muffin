@@ -86,3 +86,13 @@
 .buttonBar > img:hover {
 	cursor: pointer;
 }
+
+.modal h1 {
+	text-align: center;
+	margin: 0;
+}
+
+.iconShare {
+	display: flex;
+	justify-content: center;
+}

@@ -68,5 +68,10 @@
 		"img": "rss.svg",
 		"color": "orange",
 		"alt": "RSS"
+	},
+	"facebook": {
+		"img": "facebook.svg",
+		"color": "#2e71ed",
+		"alt": "Facebook"
 	}
 }

@@ -22,3 +22,14 @@
 	bottom: 0;
 	background-color: rgba(0,0,0,0.5);
 }
+
+.closeModal {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 15px;
+}
+
+.closeModal:hover {
+	cursor: pointer;
+}
