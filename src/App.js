@@ -23,6 +23,7 @@ import Widget from "./page/admin/widget"
 import PlaylistList from "./page/admin/playlist_list"
 import NewPlaylist from "./page/admin/add_playlist"
 import EditPlaylist from "./page/admin/edit_playlist"
+import Reaction from "./page/admin/reaction"
 
 import Player from "./component/player"
 import Menu from "./component/menu"
@@ -90,6 +91,11 @@ function App() {
 					<Route path="/a/edit_playlist/:id">
 						<CheckLogged>
 							<EditPlaylist />
+						</CheckLogged>
+					</Route>
+					<Route path="/a/reaction">
+						<CheckLogged>
+							<Reaction />
 						</CheckLogged>
 					</Route>
 

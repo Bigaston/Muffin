@@ -4,5 +4,6 @@ module.exports = {
 	rss_ctrl: require("./controller/rss_ctrl"),
 	ssr_ctrl: require("./controller/ssr_ctrl"),
 	player_ctrl: require("./controller/player_ctrl"),
-	playlist_ctrl: require("./controller/playlist_ctrl")
+	playlist_ctrl: require("./controller/playlist_ctrl"),
+	reaction_ctrl: require("./controller/reaction_ctrl")
 }

@@ -62,6 +62,7 @@ export default function Menu() {
 					<p><Link to="/a/new_episode">Créer un épisode</Link></p>
 					<p><Link to="/a/playlists">Mes playlists</Link></p>
 					<p><Link to="/a/widget">Intégration</Link></p>
+					<p><Link to="/a/reaction">Réactions</Link></p>
 					<p><Link to="/a/account">Mon compte</Link></p>
 				</div>
 				: <></>

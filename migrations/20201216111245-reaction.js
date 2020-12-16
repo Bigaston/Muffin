@@ -49,7 +49,8 @@ module.exports = {
 						tableName: "Episodes",
 						schema: "episodes"
 					},
-					key: "id"
+					key: "id",
+					onDelete: 'cascade'
 				}
 			},
 			ReactionId: {

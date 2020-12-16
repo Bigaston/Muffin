@@ -65,6 +65,12 @@ app.get("/api/player/playlist/:slug_playlist/:slug", m.player_ctrl.episode_by_sl
 app.use("/player", express.static('./player/build'))
 app.get("/player/*", m.player_ctrl.send_index)
 
+// Reactions
+app.get("/api/admin/reaction/get_all", m.user_ctrl.check_if_logged, m.reaction_ctrl.get_admin_react);
+app.post("/api/admin/reaction/create", m.user_ctrl.check_if_logged, m.reaction_ctrl.add_reaction)
+app.delete("/api/admin/reaction/delete/:id", m.user_ctrl.check_if_logged, m.reaction_ctrl.delete_reaction);
+app.post("/api/admin/reaction/edit/:id", m.user_ctrl.check_if_logged, m.reaction_ctrl.update_reaction);
+
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
 app.get("/p/:slug", m.ssr_ctrl.send_index_playlist)
