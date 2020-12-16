@@ -30,7 +30,7 @@ module.exports = {
 					custom_namespaces: {
 						'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
 						"google": "http://www.google.com/schemas/play-podcasts/1.0",
-						"podcast": "https://podcast-ext.org"
+						"podext": "https://podcast-ext.org"
 					},
 					custom_elements: [
 						{ "itunes:author": podcast.author },
@@ -83,7 +83,7 @@ module.exports = {
 
 				if (!!podcast.data.donation) {
 					rss_obj.custom_elements.push({
-						"podcast:donate": [
+						"podext:donate": [
 							{
 								_attr: {
 									href: podcast.data.donation
@@ -95,7 +95,7 @@ module.exports = {
 
 				if (!!podcast.data.twitter) {
 					rss_obj.custom_elements.push({
-						"podcast:social": [
+						"podext:social": [
 							{
 								_attr: {
 									platform: "twitter",
@@ -108,7 +108,7 @@ module.exports = {
 
 				if (!!podcast.data.youtube) {
 					rss_obj.custom_elements.push({
-						"podcast:social": [
+						"podext:social": [
 							{
 								_attr: {
 									platform: "youtube",
@@ -121,7 +121,7 @@ module.exports = {
 
 				if (!!podcast.data.instagram) {
 					rss_obj.custom_elements.push({
-						"podcast:social": [
+						"podext:social": [
 							{
 								_attr: {
 									platform: "instagram",
@@ -134,7 +134,7 @@ module.exports = {
 
 				if (!!podcast.data.apple_podcast) {
 					rss_obj.custom_elements.push({
-						"podcast:platform": [
+						"podext:platform": [
 							{
 								_attr: {
 									platform: "apple_podcasts",
@@ -147,7 +147,7 @@ module.exports = {
 
 				if (!!podcast.data.spotify) {
 					rss_obj.custom_elements.push({
-						"podcast:platform": [
+						"podext:platform": [
 							{
 								_attr: {
 									platform: "spotify",
@@ -160,7 +160,7 @@ module.exports = {
 
 				if (!!podcast.data.google_podcast) {
 					rss_obj.custom_elements.push({
-						"podcast:platform": [
+						"podext:platform": [
 							{
 								_attr: {
 									platform: "google_podcasts",
@@ -173,7 +173,7 @@ module.exports = {
 
 				if (!!podcast.data.deezer) {
 					rss_obj.custom_elements.push({
-						"podcast:platform": [
+						"podext:platform": [
 							{
 								_attr: {
 									platform: "deezer",
@@ -186,7 +186,7 @@ module.exports = {
 
 				if (!!podcast.data.podcast_addict) {
 					rss_obj.custom_elements.push({
-						"podcast:platform": [
+						"podext:platform": [
 							{
 								_attr: {
 									platform: "podcast_addict",
@@ -199,7 +199,7 @@ module.exports = {
 
 				if (!!podcast.data.podcloud) {
 					rss_obj.custom_elements.push({
-						"podcast:platform": [
+						"podext:platform": [
 							{
 								_attr: {
 									platform: "podcloud",
