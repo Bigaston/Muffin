@@ -70,6 +70,8 @@ app.get("/api/admin/reaction/get_all", m.user_ctrl.check_if_logged, m.reaction_c
 app.post("/api/admin/reaction/create", m.user_ctrl.check_if_logged, m.reaction_ctrl.add_reaction)
 app.delete("/api/admin/reaction/delete/:id", m.user_ctrl.check_if_logged, m.reaction_ctrl.delete_reaction);
 app.post("/api/admin/reaction/edit/:id", m.user_ctrl.check_if_logged, m.reaction_ctrl.update_reaction);
+app.get("/reaction/get_reaction/:fingerprint/:slug", m.reaction_ctrl.get_reaction);
+app.post("/reaction/post_reaction", m.reaction_ctrl.post_reaction);
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);

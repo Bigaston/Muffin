@@ -47,7 +47,6 @@ module.exports = {
 				references: {
 					model: {
 						tableName: "Episodes",
-						schema: "episodes"
 					},
 					key: "id",
 					onDelete: 'cascade'
@@ -59,7 +58,6 @@ module.exports = {
 				references: {
 					model: {
 						tableName: "Reactions",
-						schema: "reactions"
 					},
 					key: "id"
 				}

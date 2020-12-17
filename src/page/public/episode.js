@@ -20,6 +20,7 @@ import "./episode.css";
 import FullLoad from "../../component/fullLoader"
 import Modal from "../../component/modal"
 import Icon from "../../component/icon"
+import ReactionBar from "../../component/reaction_bar"
 
 export default function EpisodePage() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -209,6 +210,10 @@ export default function EpisodePage() {
 							</>
 						}
 					</div>
+
+					{!isNotFound ?
+						<ReactionBar slug={slug} />
+						: null}
 
 					<ToAbout />
 

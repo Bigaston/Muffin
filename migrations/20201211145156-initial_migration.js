@@ -137,7 +137,6 @@ module.exports = {
 				references: {
 					model: {
 						tableName: "Episodes",
-						schema: "episodes"
 					},
 					key: "id"
 				}
@@ -149,7 +148,6 @@ module.exports = {
 				references: {
 					model: {
 						tableName: "Playlists",
-						schema: "playlist"
 					},
 					key: "id"
 				}
