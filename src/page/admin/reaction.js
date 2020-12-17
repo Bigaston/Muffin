@@ -21,6 +21,9 @@ export default function ImportPodcast() {
 	const [nomLong, setNomLong] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 
+	const [episodeReaction, setEpisodeReaction] = useState([])
+	const [columns, setColumns] = useState();
+
 	useEffect(() => {
 		axios({
 			method: "GET",
@@ -31,11 +34,44 @@ export default function ImportPodcast() {
 		}).then(res => {
 			if (res.status === 200) {
 				setReaction(res.data);
+
+				let col = [{ key: "title", name: "Titre" }];
+				res.data.forEach(r => {
+					col.push({ key: r.emoji, name: r.emoji })
+				})
+
+				setColumns(col);
+			}
+		}).catch(err => {
+			console.log(err)
+		})
+
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/admin/reaction/get_user_reaction"
+		}).then(res => {
+			if (res.status === 200) {
+				let reactions = res.data;
+				reactions = orderByTable(reactions, "id", true);
+				setEpisodeReaction(reactions);
 			}
 		}).catch(err => {
 			console.log(err)
 		})
 	}, [userState])
+
+	function orderByTable(tableau, cle, invert) {
+		return tableau.sort((a, b) => {
+			if (invert) {
+				return -a[cle] - b[cle];
+			} else {
+				return a[cle] - b[cle];
+			}
+		})
+	}
 
 	function addReaction() {
 		if (!emoji || !nomLong) {
@@ -192,6 +228,26 @@ export default function ImportPodcast() {
 						<button className='button-primary valid' onClick={addReaction}>Valider</button>
 					</div>
 				</div>
+
+				<h2>Statistiques</h2>
+				<table class="u-full-width">
+					<thead>
+						<tr>
+							{columns?.map(c => (
+								<th key={c.key}>{c.name}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{episodeReaction?.map((r) => (
+							<tr key={r.id}>
+								{Object.keys(r).map(o => (
+									<>{o !== "id" ? <td key={r.id + o}>{r[o]}</td> : null}</>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 
 			<Modal open={openModal} onCancel={() => { setOpenModal(false); setEditId(null) }}>

@@ -100,5 +100,48 @@ module.exports = {
 				})
 			}
 		})
+	},
+	get_user_reaction: (req, res) => {
+		bdd.UserReaction.findAll({ group: ["EpisodeId", "ReactionId"], attributes: ["EpisodeId", "ReactionId", [sequelize.fn('COUNT', 'ReactionId'), "count"]] }).then(user_reactions => {
+			bdd.Reaction.findAll().then(reactions => {
+				bdd.Episode.findAll({ attributes: ["id", "title"] }).then(episodes => {
+					let return_episode = [];
+					for (let i = 0; i < episodes.length; i++) {
+						let ep = {};
+						ep.id = episodes[i].id;
+						ep.title = episodes[i].title;
+
+						reactions.forEach(r => {
+							let reac = getUserReaction(user_reactions, episodes[i].id, r.id);
+
+							if (reac === null) {
+								ep[r.emoji] = 0;
+							} else {
+								ep[r.emoji] = reac.dataValues.count;
+							}
+						})
+
+						return_episode.push(ep);
+					}
+
+					res.json(return_episode)
+				})
+			})
+		})
 	}
 }
+
+function getUserReaction(user_reactions, EpisodeId, ReactionId) {
+	let i = 0;
+	let result = null;
+
+	while (i < user_reactions.length && result === null) {
+		if (user_reactions[i].EpisodeId === EpisodeId && user_reactions[i].ReactionId === ReactionId) {
+			result = user_reactions[i];
+		} else {
+			i++;
+		}
+	}
+
+	return result;
+} 
