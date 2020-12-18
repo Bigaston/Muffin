@@ -33,12 +33,16 @@
 	font-weight: bold;
 }
 
-#description {
-	height: 300px;
+.episodeEditContainer #description {
+	height: 400px;
 }
 
-#small_desc {
+.episodeEditContainer #small_desc {
 	height: 150px;
+}
+
+.episodeEditContainer #transcript {
+	height: 300px;
 }
 
 .episodeEditContainer .button-primary {
@@ -103,4 +107,8 @@
 
 .modal .labelCheck {
 	margin-left: 10px;
+}
+
+.hoverable:hover {
+	cursor: pointer;
 }

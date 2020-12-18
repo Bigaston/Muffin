@@ -114,3 +114,27 @@
 .openEmbed:hover {
 	cursor: pointer;
 }
+
+.sub {
+	display: flex;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+	padding-left: 10px;
+}
+
+.sub p {
+	margin: 0px;
+}
+
+.sub .timeSub {
+	width: 65px;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.subcurrent {
+	background-color: #E5E8E8;
+	border-left: solid 5px #3498DB;
+	padding-left: 5px;
+}

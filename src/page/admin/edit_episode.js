@@ -28,6 +28,9 @@ export default function Podcast() {
 	let { id } = useParams();
 	const [playlists, setPlaylists] = useState([]);
 
+	const [openedTranscript, setOpenedTranscript] = useState(false);
+	const transcriptFile = useRef(undefined);
+
 	function p(date) {
 		return date < 10 ? "0" + date : date
 	}
@@ -46,6 +49,7 @@ export default function Podcast() {
 
 				data_ep.pub_date = p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes());
 				data_ep.audio = data_ep.enclosure + "#" + Date.now();
+				data_ep.transcript = data_ep.transcript === null ? "" : data_ep.transcript
 
 				setEpisode(data_ep)
 
@@ -128,20 +132,33 @@ export default function Podcast() {
 
 		episode.pub_date = dayjs(episode.pub_date, "DD/MM/YYYY hh:mm")
 
-		axios({
-			method: "POST",
-			headers: {
-				"Authorization": "Bearer " + userState.jwt
-			},
-			url: config.host + "/api/admin/podcast/save",
-			data: episode
-		}).then(res => {
-			alert("Episode sauvegardé!");
-			history.push("/a/episodes")
-			console.log(res)
-		}).catch(err => {
-			console.log(err);
-		})
+		if (transcriptFile.current.files.length !== 0) {
+			toBase64(transcriptFile.current.files[0]).then(base64srt => {
+				episode.transcript_file_raw = base64srt;
+				continueTraitement()
+			})
+		} else {
+			continueTraitement();
+		}
+
+		function continueTraitement() {
+			axios({
+				method: "POST",
+				headers: {
+					"Authorization": "Bearer " + userState.jwt
+				},
+				url: config.host + "/api/admin/podcast/save",
+				data: episode
+			}).then(res => {
+				alert("Episode sauvegardé!");
+				history.push("/a/episodes")
+				console.log(res)
+			}).catch(err => {
+				console.log(err);
+			})
+		}
+
+
 	}
 
 	let [openEditImage, setOpenEditImage] = useState(false);
@@ -368,6 +385,24 @@ export default function Podcast() {
 
 				<button className="full" onClick={handleOpenAddPlaylist}>Gérer les playlists</button>
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
+
+				<p className="fakeLabel hoverable" onClick={() => { setOpenedTranscript(c => !c) }}>{openedTranscript ? "▼" : "▶"} Modification du transcript</p>
+				{openedTranscript ?
+					<>
+						<label htmlFor="transcript">Texte du transcript*</label>
+						<textarea className="u-full-width" id="transcript" value={episode.transcript} onChange={handleAllInput}></textarea>
+
+						{episode.transcript_file ?
+							<label htmlFor="transcript_file">Modifier le fichier de transcript (<a href={config.host + episode.transcript_file}>Le fichier actuel</a>)</label>
+							:
+							<label htmlFor="transcript_file">Ajouter un fichier de transcript</label>
+						}
+						<input type="file" id="transcript_file" ref={transcriptFile} accept=".srt" />
+
+						<p className="info">Le texte du transcript sera affiché uniquement sur la page de votre épisode. Le fichier de transcript au format .srt sera lui exposé dans le flux RSS, et affiché sur la page de l'épisode, avec des timecodes pour laisser les utilisateurs sauter directement au bon moment dans l'épisode</p>
+					</>
+					: null}
+
 				<button className="button-primary" onClick={saveEp}>Enregistrer</button>
 
 				<p className="fakeLabel">Logo</p>

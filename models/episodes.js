@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 		episode: DataTypes.INTEGER,
 		saison: DataTypes.INTEGER,
 		explicit: DataTypes.BOOLEAN,
+		transcript: DataTypes.TEXT,
+		transcript_file: DataTypes.STRING,
 		data: DataTypes.JSON
 	}, {
 

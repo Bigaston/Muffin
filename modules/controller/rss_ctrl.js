@@ -30,7 +30,8 @@ module.exports = {
 					custom_namespaces: {
 						'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
 						"google": "http://www.google.com/schemas/play-podcasts/1.0",
-						"podext": "https://podcast-ext.org"
+						"podext": "https://podcast-ext.org",
+						"podcast": "https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md"
 					},
 					custom_elements: [
 						{ "itunes:author": podcast.author },
@@ -220,7 +221,7 @@ module.exports = {
 						enclosure = process.env.HOST_SITE + ep.enclosure
 					}
 
-					feed.item({
+					let ep_content = {
 						title: ep.title,
 						description: ep.desc_parsed,
 						url: process.env.HOST_SITE + "/" + ep.slug,
@@ -252,7 +253,22 @@ module.exports = {
 								}
 							}
 						]
-					})
+					}
+
+					if (!!ep.transcript_file) {
+						ep_content.custom_elements.push({
+							"podcast:transcript": {
+								_attr: {
+									url: process.env.HOST_SITE + ep.transcript_file,
+									type: "application/srt",
+									rel: "captions"
+								}
+							}
+
+						})
+					}
+
+					feed.item(ep_content)
 				})
 
 				res.set('Content-Type', 'text/xml');

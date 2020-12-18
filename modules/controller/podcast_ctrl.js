@@ -60,7 +60,7 @@ module.exports = {
 				if (podcast.type === "episodic") {
 					return_obj.episodes.sort(orderTableByDate)
 					res.json(return_obj);
-				} else if (podcast.type = "serial") {
+				} else if (podcast.type === "serial") {
 					return_obj.episodes.sort(orderTableByDateInvert)
 					res.json(return_obj);
 				}
@@ -108,7 +108,9 @@ module.exports = {
 						img: ep.img,
 						ep_number: ep.episode,
 						saison_number: ep.saison,
-						slug: ep.slug
+						slug: ep.slug,
+						transcript: ep.transcript,
+						transcript_file: ep.transcript_file
 					}
 
 					res.json({ episode: return_ep, podcast: return_pod })
@@ -305,6 +307,13 @@ module.exports = {
 					episode.saison = req.body.saison
 					episode.slug = req.body.slug
 					episode.explicit = req.body.explicit
+					episode.transcript = req.body.transcript;
+
+					if (!!req.body.transcript_file_raw) {
+						let srt_buffer = new Buffer.from(req.body.transcript_file_raw.split(/,\s*/)[1], "base64");
+						fs.writeFileSync(path.join(__dirname, "../../export/srt/" + episode.id + ".srt"), srt_buffer);
+						episode.transcript_file = "/srt/" + episode.id + ".srt";
+					}
 
 					episode.save().then(() => {
 						res.send("OK");

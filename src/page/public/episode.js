@@ -5,6 +5,8 @@ import config from "../../config.json"
 import { Link, useHistory } from "react-router-dom"
 import { Helmet } from "react-helmet";
 
+import classnames from "classnames";
+
 import Toastify from 'toastify-js'
 
 import Loader from "../../component/loader"
@@ -13,7 +15,10 @@ import ToAbout from "../../component/to_about"
 import { useParams } from "react-router-dom";
 
 import playerAtom from "../../stores/player";
+import timeAtom from "../../stores/currentTime"
 import { useRecoilState } from "recoil";
+
+import { srt } from "../../utils";
 
 import "./episode.css";
 
@@ -24,6 +29,7 @@ import ReactionBar from "../../component/reaction_bar"
 
 export default function EpisodePage() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
+	let [timeStore, setTimeStore] = useRecoilState(timeAtom)
 	let history = useHistory();
 	let { slug } = useParams();
 	let [episode, setEpisode] = useState({});
@@ -31,8 +37,8 @@ export default function EpisodePage() {
 	let [isNotFound, setIsNotFound] = useState(false);
 	let [pubDateString, setPubDateString] = useState("");
 	let [isLoading, setIsLoading] = useState(true);
-
-	let divDescription = useRef(undefined)
+	const [currentTab, setCurrentTab] = useState("description");
+	const [transcriptTime, setTranscriptTime] = useState([]);
 
 	useEffect(() => {
 		let month_tab = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -44,10 +50,21 @@ export default function EpisodePage() {
 			if (res.data.episode !== undefined) {
 				setEpisode(res.data.episode)
 				setPodcast(res.data.podcast)
-				divDescription.current.innerHTML = res.data.episode.description
 
 				let pub_date = new Date(res.data.episode.pub_date);
 				setPubDateString("Publié le " + pub_date.getDate() === 1 ? "1er" : pub_date.getDate() + " " + month_tab[pub_date.getMonth()] + " " + pub_date.getFullYear())
+
+				if (!!res.data.episode.transcript_file) {
+					axios({
+						method: "GET",
+						url: config.host + res.data.episode.transcript_file
+					}).then(res => {
+						setTranscriptTime(srt(res.data))
+					}).catch(err => {
+						console.log(err);
+					})
+				}
+
 				setInterval(() => {
 					setIsLoading(false)
 				}, 200)
@@ -149,6 +166,11 @@ export default function EpisodePage() {
 		}).showToast();
 	}
 
+	function jumpTime(t) {
+		playerStore.playerRef.current.currentTime = t.start_seconds;
+		setTimeStore({ currentTime: t.start_seconds })
+	}
+
 	return (
 		<>
 			{podcast !== undefined ?
@@ -195,7 +217,35 @@ export default function EpisodePage() {
 									<img src={config.host + "/public/download.svg"} alt="Télécharger l'épisode" onClick={downloadEp} />
 									<img src={config.host + "/public/share.svg"} alt="Partager l'épisode" onClick={shareEpisode} />
 								</div>
-								<div ref={divDescription} className="descriptionEp"></div>
+
+								{!!episode.transcript || !!episode.transcript_file ?
+									<>
+										<div className="nav">
+											<p className={classnames({ current: currentTab === "description" })} onClick={() => { setCurrentTab("description") }}>Description</p>
+											{!!episode.transcript ? <p className={classnames({ current: currentTab === "transcript" })} onClick={() => { setCurrentTab("transcript") }}>Transcript</p> : null}
+											{!!episode.transcript_file ? <p className={classnames({ current: currentTab === "transcript_file" })} onClick={() => { setCurrentTab("transcript_file") }}>Transcript avancé</p> : null}
+										</div>
+									</>
+									: null}
+
+								{currentTab === "description" ?
+									<div className="descriptionEp" dangerouslySetInnerHTML={{ __html: episode.description }}></div>
+									: null}
+
+								{currentTab === "transcript" ?
+									<div className="descriptionEp">{episode.transcript.split("\n").map((p, i) => (<p key={i}>{p}</p>))}</div>
+									: null}
+
+								{currentTab === "transcript_file" ?
+									<>
+										{transcriptTime.map(t => (
+											<div onClick={() => { jumpTime(t) }} className={classnames("sub", { "subcurrent": playerStore.slug === slug && timeStore.currentTime > t.start_seconds && timeStore.currentTime < t.end_seconds }, { "hoverable": playerStore.slug === slug })} key={t.id}>
+												<p className="timeSub">{t.start_text}</p>
+												<p className="textSub">{t.text}</p>
+											</div>
+										))}
+									</>
+									: null}
 								<p className="moreInfoEp">Publié le {pubDateString} - <span onClick={() => { setModalEmbed(true) }} className="openEmbed">Intégrer l'épisode</span></p>
 							</>
 						}

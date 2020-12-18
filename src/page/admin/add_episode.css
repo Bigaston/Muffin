@@ -33,11 +33,11 @@
 	font-weight: bold;
 }
 
-#description {
-	height: 300px;
+.addEpisodeContainer #description {
+	height: 400px;
 }
 
-#small_desc {
+.addEpisodeContainer #small_desc {
 	height: 150px;
 }
 

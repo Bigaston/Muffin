@@ -33,7 +33,7 @@
 	font-weight: bold;
 }
 
-#description {
+.addPlaylistContainer #description {
 	height: 150px;
 }
 

@@ -22,3 +22,7 @@ if (!fs.existsSync(path.join(__dirname, "../export/img"))) {
 if (!fs.existsSync(path.join(__dirname, "../export/audio"))) {
 	fs.mkdirSync(path.join(__dirname, "../export/audio"));
 }
+
+if (!fs.existsSync(path.join(__dirname, "../export/srt"))) {
+	fs.mkdirSync(path.join(__dirname, "../export/srt"));
+}

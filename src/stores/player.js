@@ -12,7 +12,7 @@ const playerState = atom({
 		slug: "",
 		duration: "",
 		audio: "",
-		playerRef: undefined
+		playerRef: undefined,
 	}, // default value (aka initial value)
 });
 

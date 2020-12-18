@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 
 import playerAtom from "../stores/player";
+import timeAtom from "../stores/currentTime"
 import { useRecoilState } from "recoil";
 
 import "./player.css"
@@ -11,6 +12,7 @@ import { convertHMS } from "../utils"
 
 export default function Player() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
+	let [timeStore, setTimeStore] = useRecoilState(timeAtom);
 	let [currentTime, setCurrentTime] = useState("00:00:00");
 	let [pourcentageProgression, setPourcentageProgression] = useState("0%")
 	let [podcast, setPodcast] = useState({});
@@ -19,6 +21,16 @@ export default function Player() {
 	let audioPlayer = useRef(undefined);
 	let progressbar = useRef(undefined)
 	let intervalCheck = undefined
+
+	let updateTime = useCallback(() => {
+		let durationObj = convertHMS(audioPlayer.current.currentTime);
+		setCurrentTime(durationObj.heure + ":" + durationObj.minute + ":" + durationObj.seconde)
+
+		setTimeStore({ currentTime: audioPlayer.current.currentTime })
+
+		setPourcentageProgression(Math.trunc((audioPlayer.current.currentTime / audioPlayer.current.duration) * 10000) / 100)
+
+	}, [setPlayerStore])
 
 	useEffect(() => {
 		if (!playerStore.displayed) {
@@ -35,7 +47,7 @@ export default function Player() {
 			audioPlayer.current.play()
 			setInterval(updateTime, 200);
 		}
-	}, [playerStore, intervalCheck])
+	}, [playerStore, intervalCheck, updateTime])
 
 	useEffect(() => {
 		axios({
@@ -97,11 +109,11 @@ export default function Player() {
 			});
 			navigator.mediaSession.setActionHandler('seekbackward', function () {
 				audioPlayer.current.currentTime = audioPlayer.current.currentTime - 15
-				updateTime();
+				updateTime()
 			});
 			navigator.mediaSession.setActionHandler('seekforward', function () {
 				audioPlayer.current.currentTime = audioPlayer.current.currentTime + 15
-				updateTime();
+				updateTime()
 			});
 			navigator.mediaSession.setActionHandler('stop', function () {
 				audioPlayer.current.pause()
@@ -163,14 +175,7 @@ export default function Player() {
 				}
 			});
 		}
-	}, [playerStore, episodes, setPlayerStore])
-
-	function updateTime() {
-		let durationObj = convertHMS(audioPlayer.current.currentTime);
-		setCurrentTime(durationObj.heure + ":" + durationObj.minute + ":" + durationObj.seconde)
-
-		setPourcentageProgression(Math.trunc((audioPlayer.current.currentTime / audioPlayer.current.duration) * 10000) / 100)
-	}
+	}, [playerStore, episodes, setPlayerStore, updateTime])
 
 	function changeTime(event) {
 		let percent = event.nativeEvent.offsetX / progressbar.current.offsetWidth;
