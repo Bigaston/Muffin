@@ -40,6 +40,8 @@ export default function EpisodePage() {
 	const [currentTab, setCurrentTab] = useState("description");
 	const [transcriptTime, setTranscriptTime] = useState([]);
 
+	const [wantTimecode, setWantTimecode] = useState(true);
+
 	useEffect(() => {
 		let month_tab = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
 
@@ -55,6 +57,7 @@ export default function EpisodePage() {
 				setPubDateString("Publié le " + pub_date.getDate() === 1 ? "1er" : pub_date.getDate() + " " + month_tab[pub_date.getMonth()] + " " + pub_date.getFullYear())
 
 				if (!!res.data.episode.transcript_file) {
+					setWantTimecode(true);
 					axios({
 						method: "GET",
 						url: config.host + res.data.episode.transcript_file
@@ -63,6 +66,8 @@ export default function EpisodePage() {
 					}).catch(err => {
 						console.log(err);
 					})
+				} else if (res.data.episode.transcript) {
+					setWantTimecode(false)
 				}
 
 				setInterval(() => {
@@ -171,6 +176,10 @@ export default function EpisodePage() {
 		setTimeStore({ currentTime: t.start_seconds })
 	}
 
+	function handleCheckbox(event) {
+		setWantTimecode(event.target.checked)
+	}
+
 	return (
 		<>
 			{podcast !== undefined ?
@@ -222,8 +231,7 @@ export default function EpisodePage() {
 									<>
 										<div className="nav">
 											<p className={classnames({ current: currentTab === "description" })} onClick={() => { setCurrentTab("description") }}>Description</p>
-											{!!episode.transcript ? <p className={classnames({ current: currentTab === "transcript" })} onClick={() => { setCurrentTab("transcript") }}>Texte de l'épisode</p> : null}
-											{!!episode.transcript_file ? <p className={classnames({ current: currentTab === "transcript_file" })} onClick={() => { setCurrentTab("transcript_file") }}>Transcript</p> : null}
+											<p className={classnames({ current: currentTab === "transcript" })} onClick={() => { setCurrentTab("transcript") }}>Transcript</p>
 										</div>
 									</>
 									: null}
@@ -233,17 +241,24 @@ export default function EpisodePage() {
 									: null}
 
 								{currentTab === "transcript" ?
-									<div className="descriptionEp">{episode.transcript.split("\n").map((p, i) => (<p key={i}>{p}</p>))}</div>
-									: null}
-
-								{currentTab === "transcript_file" ?
 									<>
-										{transcriptTime.map(t => (
-											<div onClick={() => { jumpTime(t) }} className={classnames("sub", { "subcurrent": playerStore.slug === slug && timeStore.currentTime >= t.start_seconds && timeStore.currentTime < t.end_seconds }, { "hoverable": playerStore.slug === slug })} key={t.id}>
-												<p className="timeSub">{t.start_text}</p>
-												<p className="textSub">{t.text}</p>
+										{!!episode.transcript && !!episode.transcript_file ?
+											<div className="want_timecode">
+												<input type="checkbox" defaultChecked={wantTimecode} value={wantTimecode} onClick={handleCheckbox} />
+												<span className="label-body">Affichage de timecodes</span>
 											</div>
-										))}
+											: null}
+
+										{wantTimecode ?
+											<>{transcriptTime.map(t => (
+												<div onClick={() => { jumpTime(t) }} className={classnames("sub", { "subcurrent": playerStore.slug === slug && timeStore.currentTime >= t.start_seconds && timeStore.currentTime < t.end_seconds }, { "hoverable": playerStore.slug === slug })} key={t.id}>
+													<p className="timeSub">{t.start_text}</p>
+													<p className="textSub">{t.text}</p>
+												</div>
+											))}</>
+											:
+											<div className="descriptionEp">{episode.transcript.split("\n").map((p, i) => (<p key={i}>{p}</p>))}</div>
+										}
 									</>
 									: null}
 								<p className="moreInfoEp">Publié le {pubDateString} - <span onClick={() => { setModalEmbed(true) }} className="openEmbed">Intégrer l'épisode</span></p>

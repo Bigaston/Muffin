@@ -138,3 +138,13 @@
 	border-left: solid 5px #3498DB;
 	padding-left: 5px;
 }
+
+.want_timecode {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.want_timecode span {
+	margin-left: 5px;
+}

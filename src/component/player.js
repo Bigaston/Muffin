@@ -12,7 +12,7 @@ import { convertHMS } from "../utils"
 
 export default function Player() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
-	let [timeStore, setTimeStore] = useRecoilState(timeAtom);
+	let [, setTimeStore] = useRecoilState(timeAtom);
 	let [currentTime, setCurrentTime] = useState("00:00:00");
 	let [pourcentageProgression, setPourcentageProgression] = useState("0%")
 	let [podcast, setPodcast] = useState({});
@@ -30,7 +30,7 @@ export default function Player() {
 
 		setPourcentageProgression(Math.trunc((audioPlayer.current.currentTime / audioPlayer.current.duration) * 10000) / 100)
 
-	}, [setPlayerStore])
+	}, [setTimeStore])
 
 	useEffect(() => {
 		if (!playerStore.displayed) {
