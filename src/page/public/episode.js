@@ -222,8 +222,8 @@ export default function EpisodePage() {
 									<>
 										<div className="nav">
 											<p className={classnames({ current: currentTab === "description" })} onClick={() => { setCurrentTab("description") }}>Description</p>
-											{!!episode.transcript ? <p className={classnames({ current: currentTab === "transcript" })} onClick={() => { setCurrentTab("transcript") }}>Transcript</p> : null}
-											{!!episode.transcript_file ? <p className={classnames({ current: currentTab === "transcript_file" })} onClick={() => { setCurrentTab("transcript_file") }}>Transcript avancé</p> : null}
+											{!!episode.transcript ? <p className={classnames({ current: currentTab === "transcript" })} onClick={() => { setCurrentTab("transcript") }}>Texte de l'épisode</p> : null}
+											{!!episode.transcript_file ? <p className={classnames({ current: currentTab === "transcript_file" })} onClick={() => { setCurrentTab("transcript_file") }}>Transcript</p> : null}
 										</div>
 									</>
 									: null}
