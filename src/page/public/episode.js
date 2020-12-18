@@ -80,31 +80,21 @@ export default function EpisodePage() {
 				audio: episode.audio
 			}
 
-			setPlayerStore(played_ep);
+			setPlayerStore({ ...playerStore, ...played_ep });
+			playerStore.playerRef.current.play();
 		} else if (playerStore.paused) {
 			let played_ep = {
-				displayed: playerStore.displayed,
 				paused: false,
-				img: playerStore.img,
-				title: playerStore.title,
-				slug: playerStore.slug,
-				duration: playerStore.duration,
-				audio: playerStore.audio
 			}
 
-			setPlayerStore(played_ep);
+			setPlayerStore({ ...playerStore, ...played_ep });
+			playerStore.playerRef.current.play();
 		} else if (!playerStore.paused) {
 			let played_ep = {
-				displayed: playerStore.displayed,
 				paused: true,
-				img: playerStore.img,
-				title: playerStore.title,
-				slug: playerStore.slug,
-				duration: playerStore.duration,
-				audio: playerStore.audio
 			}
 
-			setPlayerStore(played_ep);
+			setPlayerStore({ ...playerStore, ...played_ep });
 		}
 	}
 

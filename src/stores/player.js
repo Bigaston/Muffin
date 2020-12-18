@@ -1,17 +1,18 @@
 import {
-    atom,
+	atom,
 } from 'recoil';
 
 const playerState = atom({
-    key: 'playerState', // unique ID (with respect to other atoms/selectors)
-    default: {
+	key: 'playerState', // unique ID (with respect to other atoms/selectors)
+	default: {
 		displayed: false,
 		paused: false,
 		img: "",
 		title: "",
 		slug: "",
 		duration: "",
-		audio: ""
+		audio: "",
+		playerRef: undefined
 	}, // default value (aka initial value)
 });
 

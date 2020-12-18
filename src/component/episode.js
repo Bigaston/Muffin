@@ -2,10 +2,10 @@ import React from "react";
 
 import "./episode.css";
 import config from "../config.json"
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import playerAtom from "../stores/player";
-import {useRecoilState} from "recoil";
+import { useRecoilState } from "recoil";
 
 export default function Episode(props) {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -30,31 +30,34 @@ export default function Episode(props) {
 				audio: episode.audio
 			}
 
-			setPlayerStore(played_ep);
+			setPlayerStore(current => {
+				return {
+					...current,
+					displayed: true,
+					paused: false,
+					img: episode.img,
+					title: episode.title,
+					slug: episode.slug,
+					duration: episode.duration,
+					audio: episode.audio
+				};
+			})
+			playerStore.playerRef.current.play();
 		} else if (playerStore.paused) {
-			let played_ep = {
-				displayed: playerStore.displayed,
-				paused: false,
-				img: playerStore.img,
-				title: playerStore.title,
-				slug: playerStore.slug,
-				duration: playerStore.duration,
-				audio: playerStore.audio
-			}
-
-			setPlayerStore(played_ep);
+			setPlayerStore(current => {
+				return {
+					...current,
+					paused: false,
+				};
+			})
+			playerStore.playerRef.current.play();
 		} else if (!playerStore.paused) {
-			let played_ep = {
-				displayed: playerStore.displayed,
-				paused: true,
-				img: playerStore.img,
-				title: playerStore.title,
-				slug: playerStore.slug,
-				duration: playerStore.duration,
-				audio: playerStore.audio
-			}
-
-			setPlayerStore(played_ep);
+			setPlayerStore(current => {
+				return {
+					...current,
+					paused: true,
+				};
+			})
 		}
 	}
 
@@ -65,7 +68,7 @@ export default function Episode(props) {
 				<div className="divTitle">
 					<img src={
 						playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/pause.svg" : config.host + "/public/play.svg"}
-						alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title} 
+						alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title}
 						onClick={playPauseEp} />
 					<h2><Link to={"/" + episode.slug}>{episode.title}</Link></h2>
 				</div>

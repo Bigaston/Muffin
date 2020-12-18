@@ -52,6 +52,15 @@ export default function Player() {
 	}, [])
 
 	useEffect(() => {
+		setPlayerStore(current => {
+			return {
+				...current,
+				playerRef: audioPlayer,
+			};
+		})
+	}, [audioPlayer, setPlayerStore])
+
+	useEffect(() => {
 		if ('mediaSession' in navigator) {
 			if (playerStore.displayed) {
 				const img = new Image();
@@ -78,6 +87,8 @@ export default function Player() {
 				setPlayerStore(current => {
 					return { ...current, paused: false };
 				})
+
+				audioPlayer.current.play();
 			});
 			navigator.mediaSession.setActionHandler('pause', function () {
 				setPlayerStore(current => {
@@ -93,34 +104,40 @@ export default function Player() {
 				updateTime();
 			});
 			navigator.mediaSession.setActionHandler('stop', function () {
-				let played_ep = {
-					displayed: false,
-					paused: false,
-					img: "",
-					title: "",
-					slug: "",
-					duration: "",
-					audio: ""
-				}
-
 				audioPlayer.current.pause()
 				audioPlayer.current.src = ""
 
-				setPlayerStore(played_ep);
+				setPlayerStore(current => {
+					return {
+						...current,
+						displayed: false,
+						paused: false,
+						img: "",
+						title: "",
+						slug: "",
+						duration: "",
+						audio: ""
+					};
+				})
 			});
 			navigator.mediaSession.setActionHandler('previoustrack', function () {
 				for (let i = 0; i < episodes.length; i++) {
 					if (episodes[i].slug === playerStore.slug && i !== 0) {
 						let ep = episodes[i - 1];
-						setPlayerStore({
-							displayed: true,
-							paused: false,
-							img: ep.img,
-							title: ep.title,
-							slug: ep.slug,
-							duration: ep.duration,
-							audio: ep.audio
+						setPlayerStore(current => {
+							return {
+								...current,
+								displayed: true,
+								paused: false,
+								img: ep.img,
+								title: ep.title,
+								slug: ep.slug,
+								duration: ep.duration,
+								audio: ep.audio
+							};
 						})
+
+						audioPlayer.current.play();
 					}
 				}
 			});
@@ -128,15 +145,20 @@ export default function Player() {
 				for (let i = 0; i < episodes.length; i++) {
 					if (episodes[i].slug === playerStore.slug && i !== episodes.length - 1) {
 						let ep = episodes[i + 1];
-						setPlayerStore({
-							displayed: true,
-							paused: false,
-							img: ep.img,
-							title: ep.title,
-							slug: ep.slug,
-							duration: ep.duration,
-							audio: ep.audio
+						setPlayerStore(current => {
+							return {
+								...current,
+								displayed: true,
+								paused: false,
+								img: ep.img,
+								title: ep.title,
+								slug: ep.slug,
+								duration: ep.duration,
+								audio: ep.audio
+							};
 						})
+
+						audioPlayer.current.play();
 					}
 				}
 			});
@@ -157,29 +179,21 @@ export default function Player() {
 
 	function playPauseEp() {
 		if (playerStore.paused) {
-			let played_ep = {
-				displayed: playerStore.displayed,
-				paused: false,
-				img: playerStore.img,
-				title: playerStore.title,
-				slug: playerStore.slug,
-				duration: playerStore.duration,
-				audio: playerStore.audio
-			}
+			setPlayerStore(current => {
+				return {
+					...current,
+					paused: false,
+				};
+			})
 
-			setPlayerStore(played_ep);
+			audioPlayer.current.play();
 		} else if (!playerStore.paused) {
-			let played_ep = {
-				displayed: playerStore.displayed,
-				paused: true,
-				img: playerStore.img,
-				title: playerStore.title,
-				slug: playerStore.slug,
-				duration: playerStore.duration,
-				audio: playerStore.audio
-			}
-
-			setPlayerStore(played_ep);
+			setPlayerStore(current => {
+				return {
+					...current,
+					paused: true,
+				};
+			})
 		}
 	}
 
@@ -197,15 +211,20 @@ export default function Player() {
 		for (let i = 0; i < episodes.length; i++) {
 			if (episodes[i].slug === playerStore.slug && i !== 0) {
 				let ep = episodes[i - 1];
-				setPlayerStore({
-					displayed: true,
-					paused: false,
-					img: ep.img,
-					title: ep.title,
-					slug: ep.slug,
-					duration: ep.duration,
-					audio: ep.audio
+				setPlayerStore(current => {
+					return {
+						...current,
+						displayed: true,
+						paused: false,
+						img: ep.img,
+						title: ep.title,
+						slug: ep.slug,
+						duration: ep.duration,
+						audio: ep.audio
+					};
 				})
+
+				audioPlayer.current.play();
 			}
 		}
 	}
@@ -214,34 +233,40 @@ export default function Player() {
 		for (let i = 0; i < episodes.length; i++) {
 			if (episodes[i].slug === playerStore.slug && i !== episodes.length - 1) {
 				let ep = episodes[i + 1];
-				setPlayerStore({
-					displayed: true,
-					paused: false,
-					img: ep.img,
-					title: ep.title,
-					slug: ep.slug,
-					duration: ep.duration,
-					audio: ep.audio
+				setPlayerStore(current => {
+					return {
+						...current,
+						displayed: true,
+						paused: false,
+						img: ep.img,
+						title: ep.title,
+						slug: ep.slug,
+						duration: ep.duration,
+						audio: ep.audio
+					};
 				})
+
+				audioPlayer.current.play();
 			}
 		}
 	}
 
 	function stopPlay() {
-		let played_ep = {
-			displayed: false,
-			paused: false,
-			img: "",
-			title: "",
-			slug: "",
-			duration: "",
-			audio: ""
-		}
+		setPlayerStore(current => {
+			return {
+				...current,
+				displayed: false,
+				paused: false,
+				img: "",
+				title: "",
+				slug: "",
+				duration: "",
+				audio: ""
+			};
+		})
 
 		audioPlayer.current.pause()
 		audioPlayer.current.src = ""
-
-		setPlayerStore(played_ep);
 	}
 
 	return (
