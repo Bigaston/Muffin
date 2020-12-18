@@ -199,6 +199,14 @@ module.exports = {
 					slug: req.body.slug,
 					explicit: req.body.explicit
 				}).then(ep => {
+					ep.transcript = req.body.transcript;
+
+					if (!!req.body.transcript_file_raw) {
+						let srt_buffer = new Buffer.from(req.body.transcript_file_raw.split(/,\s*/)[1], "base64");
+						fs.writeFileSync(path.join(__dirname, "../../export/srt/" + ep.id + ".srt"), srt_buffer);
+						ep.transcript_file = "/srt/" + ep.id + ".srt";
+					}
+
 					if (req.body.img !== null) {
 						let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
 

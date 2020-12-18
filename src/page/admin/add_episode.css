@@ -41,6 +41,10 @@
 	height: 150px;
 }
 
+.addEpisodeContainer #transcript {
+	height: 400px;
+}
+
 .addEpisodeContainer .button-primary {
 	display: block;
 	margin-top: 10px;

@@ -239,7 +239,7 @@ export default function EpisodePage() {
 								{currentTab === "transcript_file" ?
 									<>
 										{transcriptTime.map(t => (
-											<div onClick={() => { jumpTime(t) }} className={classnames("sub", { "subcurrent": playerStore.slug === slug && timeStore.currentTime > t.start_seconds && timeStore.currentTime < t.end_seconds }, { "hoverable": playerStore.slug === slug })} key={t.id}>
+											<div onClick={() => { jumpTime(t) }} className={classnames("sub", { "subcurrent": playerStore.slug === slug && timeStore.currentTime >= t.start_seconds && timeStore.currentTime < t.end_seconds }, { "hoverable": playerStore.slug === slug })} key={t.id}>
 												<p className="timeSub">{t.start_text}</p>
 												<p className="textSub">{t.text}</p>
 											</div>

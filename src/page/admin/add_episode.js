@@ -25,6 +25,9 @@ export default function Podcast() {
 	let [episode, setEpisode] = useState({})
 	const [playlists, setPlaylists] = useState([]);
 
+	const [openedTranscript, setOpenedTranscript] = useState(false);
+	const transcriptFile = useRef(undefined);
+
 	function p(date) {
 		return date < 10 ? "0" + date : date
 	}
@@ -50,7 +53,8 @@ export default function Podcast() {
 					description: "",
 					type: "full",
 					slug: "",
-					small_desc: ""
+					small_desc: "",
+					transcript: ""
 				}
 
 				setEpisode(new_info)
@@ -169,24 +173,35 @@ export default function Podcast() {
 				data_ep.playlists = my_playlist;
 				data_ep.pub_date = dayjs(data_ep.pub_date, "DD/MM/YYYY hh:mm")
 
-				axios({
-					method: "POST",
-					headers: {
-						"Authorization": "Bearer " + userState.jwt
-					},
-					url: config.host + "/api/admin/podcast/new_episode",
-					data: data_ep,
-					onUploadProgress: progressEvent => {
-						setPercentCompleted(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
-					}
-				}).then(res => {
-					if (res.status === 200) {
-						history.push("/a/episodes")
-					}
-				}).catch(err => {
-					console.log(err)
-					setDuring(false);
-				})
+				if (transcriptFile.current.files.length !== 0) {
+					toBase64(transcriptFile.current.files[0]).then(base64srt => {
+						data_ep.transcript_file_raw = base64srt;
+						continueTraitement()
+					})
+				} else {
+					continueTraitement();
+				}
+
+				function continueTraitement() {
+					axios({
+						method: "POST",
+						headers: {
+							"Authorization": "Bearer " + userState.jwt
+						},
+						url: config.host + "/api/admin/podcast/new_episode",
+						data: data_ep,
+						onUploadProgress: progressEvent => {
+							setPercentCompleted(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
+						}
+					}).then(res => {
+						if (res.status === 200) {
+							history.push("/a/episodes")
+						}
+					}).catch(err => {
+						console.log(err)
+						setDuring(false);
+					})
+				}
 			}).catch(err => {
 				console.log(err)
 				setDuring(false);
@@ -266,6 +281,19 @@ export default function Podcast() {
 				<input type="file" id="enclosure" ref={filepicker_audio} accept="audio/mpeg" />
 
 				<button className="full" onClick={handleOpenAddPlaylist}>Ajouter à une playlist</button>
+
+				<p className="fakeLabel hoverable" onClick={() => { setOpenedTranscript(c => !c) }}>{openedTranscript ? "▼" : "▶"} Ajout d'un transcript</p>
+				{openedTranscript ?
+					<>
+						<label htmlFor="transcript">Texte du transcript*</label>
+						<textarea className="u-full-width" id="transcript" value={episode.transcript} onChange={handleAllInput}></textarea>
+
+						<label htmlFor="transcript_file">Ajouter un fichier de transcript</label>
+						<input type="file" id="transcript_file" ref={transcriptFile} accept=".srt" />
+
+						<p className="info">Le texte du transcript sera affiché uniquement sur la page de votre épisode. Le fichier de transcript au format .srt sera lui exposé dans le flux RSS, et affiché sur la page de l'épisode, avec des timecodes pour laisser les utilisateurs sauter directement au bon moment dans l'épisode</p>
+					</>
+					: null}
 
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
 				<button className="button-primary" onClick={uploadEpisode}>Créer l'épisode</button>
