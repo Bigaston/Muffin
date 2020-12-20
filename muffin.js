@@ -14,8 +14,10 @@ app.use(cors({
 }))
 app.use("/public", express.static('./public'));
 app.use("/img", express.static("./export/img"))
-app.use("/audio", express.static("./export/audio"))
 app.use("/srt", express.static("./export/srt"))
+
+// Static Files
+app.use("/audio/:file", m.static_ctrl.audio)
 
 app.get("/api/podcast/get_info", m.podcast_ctrl.get_info);
 app.get("/api/podcast/get_ep_info/:slug", m.podcast_ctrl.get_ep_info);

@@ -5,5 +5,6 @@ module.exports = {
 	ssr_ctrl: require("./controller/ssr_ctrl"),
 	player_ctrl: require("./controller/player_ctrl"),
 	playlist_ctrl: require("./controller/playlist_ctrl"),
-	reaction_ctrl: require("./controller/reaction_ctrl")
+	reaction_ctrl: require("./controller/reaction_ctrl"),
+	static_ctrl: require("./controller/static_ctrl")
 }

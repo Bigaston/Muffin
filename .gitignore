@@ -26,3 +26,6 @@ base.db
 upload
 
 export
+
+./player/src/config.json
+./src/config.json
