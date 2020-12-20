@@ -389,7 +389,7 @@ export default function Podcast() {
 				<p className="fakeLabel hoverable" onClick={() => { setOpenedTranscript(c => !c) }}>{openedTranscript ? "▼" : "▶"} Modification du transcript</p>
 				{openedTranscript ?
 					<>
-						<label htmlFor="transcript">Texte du transcript*</label>
+						<label htmlFor="transcript">Texte du transcript</label>
 						<textarea className="u-full-width" id="transcript" value={episode.transcript} onChange={handleAllInput}></textarea>
 
 						{episode.transcript_file ?
