@@ -151,11 +151,21 @@ module.exports = {
 			pngToJpeg({ quality: 90 })(img_buffer)
 				.then(output => {
 					fs.writeFileSync(path.join(__dirname, "../../export/img/pod.jpg"), output);
-					res.send("OK");
+					bdd.Podcast.findOne().then(pod => {
+						pod.logo = "/img/pod." + Date.now() + ".jpg"
+						pod.save().then(() => {
+							res.send("OK");
+						})
+					})
 				});
 		} else {
 			fs.writeFileSync(path.join(__dirname, "../../export/img/pod.jpg"), img_buffer);
-			res.send("OK");
+			bdd.Podcast.findOne().then(pod => {
+				pod.logo = "/img/pod." + Date.now() + ".jpg"
+				pod.save().then(() => {
+					res.send("OK");
+				})
+			})
 		}
 	},
 	edit_info: (req, res) => {
@@ -204,7 +214,7 @@ module.exports = {
 					if (!!req.body.transcript_file_raw) {
 						let srt_buffer = new Buffer.from(req.body.transcript_file_raw.split(/,\s*/)[1], "base64");
 						fs.writeFileSync(path.join(__dirname, "../../export/srt/" + ep.id + ".srt"), srt_buffer);
-						ep.transcript_file = "/srt/" + ep.id + ".srt";
+						ep.transcript_file = "/srt/" + ep.id + "." + Date.now() + ".srt";
 					}
 
 					if (req.body.img !== null) {
@@ -215,17 +225,18 @@ module.exports = {
 								.then(output => {
 									fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), output);
 
-									ep.img = "/img/" + ep.id + ".jpg";
+									ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
 									continueTraitementAddEp(ep)
 								});
 						} else {
 							fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), img_buffer);
 
-							ep.img = "/img/" + ep.id + ".jpg";
+							ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
 							continueTraitementAddEp(ep)
 						}
 					} else {
 						ep.img = "/img/pod.jpg";
+						ep.img = "/img/pod." + Date.now() + ".jpg";
 						continueTraitementAddEp(ep)
 					}
 				})
@@ -235,7 +246,7 @@ module.exports = {
 
 					fs.writeFileSync(path.join(__dirname, "../../export/audio/" + ep.id + ".mp3"), audio_buffer);
 					ep.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
-					ep.enclosure = "/audio/" + ep.id + ".mp3"
+					ep.enclosure = "/audio/" + ep.id + "." + Date.now() + ".mp3"
 
 					let stats = fs.statSync(path.join(__dirname, "../../export/audio/" + ep.id + ".mp3"));
 					ep.size = stats.size;
@@ -320,7 +331,7 @@ module.exports = {
 					if (!!req.body.transcript_file_raw) {
 						let srt_buffer = new Buffer.from(req.body.transcript_file_raw.split(/,\s*/)[1], "base64");
 						fs.writeFileSync(path.join(__dirname, "../../export/srt/" + episode.id + ".srt"), srt_buffer);
-						episode.transcript_file = "/srt/" + episode.id + ".srt";
+						episode.transcript_file = "/srt/" + episode.id + "." + Date.now() + ".srt";
 					}
 
 					episode.save().then(() => {
@@ -341,14 +352,14 @@ module.exports = {
 				pngToJpeg({ quality: 90 })(img_buffer)
 					.then(output => {
 						fs.writeFileSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"), output);
-						episode.img = "/img/" + episode.id + ".jpg";
+						episode.img = "/img/" + episode.id + "." + Date.now() + ".jpg";
 						episode.save().then(() => {
 							res.send("OK");
 						})
 					});
 			} else {
 				fs.writeFileSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"), img_buffer);
-				episode.img = "/img/" + episode.id + ".jpg";
+				episode.img = "/img/" + episode.id + "." + Date.now() + ".jpg";
 				episode.save().then(() => {
 					res.send("OK");
 				})
@@ -361,7 +372,7 @@ module.exports = {
 				fs.unlinkSync(path.join(__dirname, "../../export/img/" + episode.id + ".jpg"));
 			}
 
-			episode.img = "/img/pod.jpg";
+			episode.img = "/img/pod." + Date.now() + ".jpg";
 			episode.save().then(() => {
 				res.send("OK");
 			})
@@ -373,7 +384,7 @@ module.exports = {
 
 			fs.writeFileSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"), audio_buffer);
 			episode.duration = convertHMS(Math.trunc(getMP3Duration(audio_buffer) / 1000));
-			episode.enclosure = "/audio/" + episode.id + ".mp3"
+			episode.enclosure = "/audio/" + episode.id + "." + Date.now() + ".mp3"
 
 			let stats = fs.statSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"));
 			episode.size = stats.size;
@@ -487,7 +498,7 @@ module.exports = {
 	}
 }
 
-const forbidden_slug = ["a", "about", "p", "favicon.ico", "robot.txt", "api", "rss", "audio", "public", "img", "playlists"];
+const forbidden_slug = ["a", "about", "p", "favicon.ico", "robot.txt", "api", "rss", "audio", "public", "img", "playlists", "srt"];
 function checkSlug(slug) {
 	return new Promise((resolve, reject) => {
 		if (forbidden_slug.includes(slug)) {

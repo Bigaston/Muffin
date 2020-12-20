@@ -35,7 +35,7 @@ module.exports = {
 								.then(output => {
 									fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + pl.id + ".jpg"), output);
 
-									pl.img = "/img/playlist_" + pl.id + ".jpg";
+									pl.img = "/img/playlist_" + pl.id + "." + Date.now() + ".jpg";
 									pl.save().then(() => {
 										res.send("OK");
 									})
@@ -43,7 +43,7 @@ module.exports = {
 						} else {
 							fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + pl.id + ".jpg"), img_buffer);
 
-							pl.img = "/img/playlist_" + pl.id + ".jpg";
+							pl.img = "/img/playlist_" + pl.id + "." + Date.now() + ".jpg";
 							pl.save().then(() => {
 								res.send("OK");
 							})
@@ -107,14 +107,14 @@ module.exports = {
 				pngToJpeg({ quality: 90 })(img_buffer)
 					.then(output => {
 						fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"), output);
-						playlist.img = "/img/playlist_" + playlist.id + ".jpg";
+						playlist.img = "/img/playlist_" + playlist.id + "." + Date.now() + ".jpg";
 						playlist.save().then(() => {
 							res.send("OK");
 						})
 					});
 			} else {
 				fs.writeFileSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"), img_buffer);
-				playlist.img = "/img/playlist_" + playlist.id + ".jpg";
+				playlist.img = "/img/playlist_" + playlist.id + "." + Date.now() + ".jpg";
 				playlist.save().then(() => {
 					res.send("OK");
 				})
@@ -127,7 +127,7 @@ module.exports = {
 				fs.unlinkSync(path.join(__dirname, "../../export/img/playlist_" + playlist.id + ".jpg"));
 			}
 
-			playlist.img = "/img/pod.jpg";
+			playlist.img = "/img/pod." + Date.now() + ".jpg";
 			playlist.save().then(() => {
 				res.send("OK");
 			})
