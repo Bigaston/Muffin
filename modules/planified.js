@@ -54,7 +54,7 @@ module.exports = {
 										},
 										{
 											"name": "Ecouter l'épisode",
-											"value": "[Lien](" + process.env.HOST_SITE + "/p/" + episode.slug + ")",
+											"value": "[Lien](" + process.env.HOST_SITE + "/" + episode.slug + ")",
 											"inline": true
 										}
 									]
