@@ -24,9 +24,29 @@ module.exports = {
 				}
 			},
 		})
+
+		await queryInterface.createTable("DiscordWebhooks", {
+			id: {
+				allowNull: false,
+				autoIncrement: true,
+				primaryKey: true,
+				type: Sequelize.DataTypes.INTEGER
+			},
+			url: Sequelize.DataTypes.STRING,
+			name: Sequelize.DataTypes.STRING,
+			createdAt: {
+				allowNull: false,
+				type: Sequelize.DataTypes.DATE
+			},
+			updatedAt: {
+				allowNull: false,
+				type: Sequelize.DataTypes.DATE
+			},
+		})
 	},
 
 	down: async (queryInterface, Sequelize) => {
 		await queryInterface.dropTable("Planifieds")
+		await queryInterface.dropTable("DiscordWebhooks")
 	}
 };

@@ -5,6 +5,9 @@ var cors = require('cors')
 const m = require("./modules")
 var compression = require('compression');
 
+m.planified.check_planified();
+setInterval(m.planified.check_planified, 10 * 1000);
+
 var app = express()
 
 app.use(compression());
@@ -76,6 +79,12 @@ app.post("/api/admin/reaction/edit/:id", m.user_ctrl.check_if_logged, m.reaction
 app.get("/api/admin/reaction/get_user_reaction", m.user_ctrl.check_if_logged, m.reaction_ctrl.get_user_reaction);
 app.get("/reaction/get_reaction/:fingerprint/:slug", m.reaction_ctrl.get_reaction);
 app.post("/reaction/post_reaction", m.reaction_ctrl.post_reaction);
+
+// Webhooks
+app.get("/api/admin/webhooks/get_all", m.user_ctrl.check_if_logged, m.webhook_ctrl.get_all_webhooks);
+app.post("/api/admin/webhooks/create", m.user_ctrl.check_if_logged, m.webhook_ctrl.create);
+app.post("/api/admin/webhooks/edit/:id", m.user_ctrl.check_if_logged, m.webhook_ctrl.edit)
+app.delete("/api/admin/webhooks/delete/:id", m.user_ctrl.check_if_logged, m.webhook_ctrl.delete)
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);

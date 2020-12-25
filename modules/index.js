@@ -6,5 +6,7 @@ module.exports = {
 	player_ctrl: require("./controller/player_ctrl"),
 	playlist_ctrl: require("./controller/playlist_ctrl"),
 	reaction_ctrl: require("./controller/reaction_ctrl"),
-	static_ctrl: require("./controller/static_ctrl")
+	static_ctrl: require("./controller/static_ctrl"),
+	webhook_ctrl: require("./controller/webhook_ctrl"),
+	planified: require("./planified"),
 }

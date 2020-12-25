@@ -11,6 +11,7 @@ const getMP3Duration = require('get-mp3-duration')
 const { Op } = require("sequelize");
 let Parser = require('rss-parser');
 const axios = require("axios");
+const planified_module = require("../planified")
 
 module.exports = {
 	get_info: (req, res) => {
@@ -217,41 +218,27 @@ module.exports = {
 						ep.transcript_file = "/srt/" + ep.id + "." + Date.now() + ".srt";
 					}
 
-					// Gestion de la liste de publication
-					if (new Date(req.body.pub_date) > new Date()) {
-						bdd.Planified.create({
-							EpisodeId: ep.id,
-							date: req.body.pub_date
-						}).then(() => {
-							laSuite()
-						})
-					} else {
-						laSuite()
-					}
+					if (req.body.img !== null) {
+						let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
 
-					function laSuite() {
-						if (req.body.img !== null) {
-							let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
+						if (req.body.img.startsWith("data:image/png;")) {
+							pngToJpeg({ quality: 90 })(img_buffer)
+								.then(output => {
+									fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), output);
 
-							if (req.body.img.startsWith("data:image/png;")) {
-								pngToJpeg({ quality: 90 })(img_buffer)
-									.then(output => {
-										fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), output);
-
-										ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
-										continueTraitementAddEp(ep)
-									});
-							} else {
-								fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), img_buffer);
-
-								ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
-								continueTraitementAddEp(ep)
-							}
+									ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
+									continueTraitementAddEp(ep)
+								});
 						} else {
-							ep.img = "/img/pod.jpg";
-							ep.img = "/img/pod." + Date.now() + ".jpg";
+							fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), img_buffer);
+
+							ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
 							continueTraitementAddEp(ep)
 						}
+					} else {
+						ep.img = "/img/pod.jpg";
+						ep.img = "/img/pod." + Date.now() + ".jpg";
+						continueTraitementAddEp(ep)
 					}
 				})
 
@@ -266,12 +253,27 @@ module.exports = {
 					ep.size = stats.size;
 
 					ep.save().then(() => {
+						// Gestion de la liste de publication
+						if (new Date(req.body.pub_date) > new Date()) {
+							bdd.Planified.create({
+								EpisodeId: ep.id,
+								date: req.body.pub_date
+							}).then(() => {
+								laSuite()
+							})
+						} else {
+							planified_module.episode_published(ep);
+							laSuite()
+						}
+					})
+
+					function laSuite() {
 						let playlist_array = []
 
 						let i = 0;
 
 						function appendPlaylistArray(_cb) {
-							if (i == req.body.playlists.length) {
+							if (i === req.body.playlists.length) {
 								_cb();
 								return;
 							}
@@ -294,7 +296,7 @@ module.exports = {
 								res.send("OK")
 							})
 						})
-					})
+					}
 				}
 			} else {
 				res.status(400).send("Bad Slug")
@@ -348,39 +350,40 @@ module.exports = {
 						episode.transcript_file = "/srt/" + episode.id + "." + Date.now() + ".srt";
 					}
 
-					// Gestion de la liste de publication
-					if (new Date(req.body.pub_date) > new Date()) {
-						bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then((plan) => {
-							if (plan !== null) {
-								plan.date = req.body.pub_date;
-								plan.save().then(() => {
-									laSuite()
-								})
-							} else {
-								bdd.Planified.create({
-									EpisodeId: episode.id,
-									date: req.body.pub_date
-								}).then(() => {
-									laSuite()
-								})
-							}
-						})
-					} else {
-						bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then((plan) => {
-							if (plan !== null) {
-								plan.destroy().then(() => {
-									laSuite()
-								})
-							} else {
-								laSuite();
-							}
-						})
-					}
+					episode.save().then(() => {
+						// Gestion de la liste de publication
+						if (new Date(req.body.pub_date) > new Date()) {
+							bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then((plan) => {
+								if (plan !== null) {
+									plan.date = req.body.pub_date;
+									plan.save().then(() => {
+										laSuite()
+									})
+								} else {
+									bdd.Planified.create({
+										EpisodeId: episode.id,
+										date: req.body.pub_date
+									}).then(() => {
+										laSuite()
+									})
+								}
+							})
+						} else {
+							bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then((plan) => {
+								if (plan !== null) {
+									plan.destroy().then(() => {
+										planified_module.episode_published(episode)
+										laSuite()
+									})
+								} else {
+									laSuite();
+								}
+							})
+						}
+					})
 
 					function laSuite() {
-						episode.save().then(() => {
-							res.send("OK");
-						})
+						res.send("OK");
 					}
 				} else {
 					res.status(400).send("Bad Slug")
