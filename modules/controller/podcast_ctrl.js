@@ -217,27 +217,41 @@ module.exports = {
 						ep.transcript_file = "/srt/" + ep.id + "." + Date.now() + ".srt";
 					}
 
-					if (req.body.img !== null) {
-						let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
+					// Gestion de la liste de publication
+					if (new Date(req.body.pub_date) > new Date()) {
+						bdd.Planified.create({
+							EpisodeId: ep.id,
+							date: req.body.pub_date
+						}).then(() => {
+							laSuite()
+						})
+					} else {
+						laSuite()
+					}
 
-						if (req.body.img.startsWith("data:image/png;")) {
-							pngToJpeg({ quality: 90 })(img_buffer)
-								.then(output => {
-									fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), output);
+					function laSuite() {
+						if (req.body.img !== null) {
+							let img_buffer = new Buffer.from(req.body.img.split(/,\s*/)[1], "base64");
 
-									ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
-									continueTraitementAddEp(ep)
-								});
+							if (req.body.img.startsWith("data:image/png;")) {
+								pngToJpeg({ quality: 90 })(img_buffer)
+									.then(output => {
+										fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), output);
+
+										ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
+										continueTraitementAddEp(ep)
+									});
+							} else {
+								fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), img_buffer);
+
+								ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
+								continueTraitementAddEp(ep)
+							}
 						} else {
-							fs.writeFileSync(path.join(__dirname, "../../export/img/" + ep.id + ".jpg"), img_buffer);
-
-							ep.img = "/img/" + ep.id + "." + Date.now() + ".jpg";
+							ep.img = "/img/pod.jpg";
+							ep.img = "/img/pod." + Date.now() + ".jpg";
 							continueTraitementAddEp(ep)
 						}
-					} else {
-						ep.img = "/img/pod.jpg";
-						ep.img = "/img/pod." + Date.now() + ".jpg";
-						continueTraitementAddEp(ep)
 					}
 				})
 
@@ -334,9 +348,40 @@ module.exports = {
 						episode.transcript_file = "/srt/" + episode.id + "." + Date.now() + ".srt";
 					}
 
-					episode.save().then(() => {
-						res.send("OK");
-					})
+					// Gestion de la liste de publication
+					if (new Date(req.body.pub_date) > new Date()) {
+						bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then((plan) => {
+							if (plan !== null) {
+								plan.date = req.body.pub_date;
+								plan.save().then(() => {
+									laSuite()
+								})
+							} else {
+								bdd.Planified.create({
+									EpisodeId: episode.id,
+									date: req.body.pub_date
+								}).then(() => {
+									laSuite()
+								})
+							}
+						})
+					} else {
+						bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then((plan) => {
+							if (plan !== null) {
+								plan.destroy().then(() => {
+									laSuite()
+								})
+							} else {
+								laSuite();
+							}
+						})
+					}
+
+					function laSuite() {
+						episode.save().then(() => {
+							res.send("OK");
+						})
+					}
 				} else {
 					res.status(400).send("Bad Slug")
 				}
@@ -401,9 +446,21 @@ module.exports = {
 			}
 
 			fs.unlinkSync(path.join(__dirname, "../../export/audio/" + episode.id + ".mp3"));
-			episode.destroy().then(() => {
-				res.send("OK");
+
+			bdd.Planified.findOne({ where: { EpisodeId: episode.id } }).then(plan => {
+				if (plan !== null) {
+					plan.destroy().then(() => {
+						episode.destroy().then(() => {
+							res.send("OK");
+						})
+					})
+				} else {
+					episode.destroy().then(() => {
+						res.send("OK");
+					})
+				}
 			})
+
 		})
 	},
 	import_podcast: (req, res) => {

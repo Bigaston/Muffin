@@ -20,16 +20,6 @@ export default function Episode(props) {
 
 	function playPauseEp() {
 		if (!playerStore.displayed || playerStore.slug !== episode.slug) {
-			let played_ep = {
-				displayed: true,
-				paused: false,
-				img: episode.img,
-				title: episode.title,
-				slug: episode.slug,
-				duration: episode.duration,
-				audio: episode.audio
-			}
-
 			setPlayerStore(current => {
 				return {
 					...current,

@@ -132,7 +132,7 @@ export default function Podcast() {
 
 		episode.pub_date = dayjs(episode.pub_date, "DD/MM/YYYY hh:mm")
 
-		if (transcriptFile.current.files.length !== 0) {
+		if (transcriptFile.current && transcriptFile.current.files.length !== 0) {
 			toBase64(transcriptFile.current.files[0]).then(base64srt => {
 				episode.transcript_file_raw = base64srt;
 				continueTraitement()
