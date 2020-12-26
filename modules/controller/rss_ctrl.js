@@ -63,7 +63,7 @@ module.exports = {
 							"itunes:image": [
 								{
 									_attr: {
-										href: process.env.HOST_SITE + "/img/pod.jpg"
+										href: process.env.HOST_SITE + podcast.logo
 									}
 								}
 							]
