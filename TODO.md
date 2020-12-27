@@ -18,3 +18,4 @@
 - Gestion des lives. Affichage de si le podcast est en live sur Twitch/Icecast. Et peut-être autoenregistrement du live sous la forme d'épisode (a voir, pas sur du tout)
 - Un endroit pour laisser la possibilité aux auditeurs de laisser des messages vocaux/écrits (un peu à la Anchor)
 - Afficher où trouver le webhook discord directement sur la page des webhooks
+- BUG : SSR qui renvoit les infos même si épisode pas publié
