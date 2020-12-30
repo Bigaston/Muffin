@@ -2,6 +2,8 @@
 
 module.exports = (sequelize, DataTypes) => {
 	const Podcast = sequelize.define('Podcast', {
+		slug: DataTypes.STRING,
+		domain: DataTypes.STRING,
 		title: DataTypes.STRING,
 		description: DataTypes.TEXT,
 		slogan: DataTypes.STRING,
@@ -18,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	});
 	Podcast.associate = function (models) {
-
+		Podcast.hasMany(models.Episode);
 	};
 	return Podcast;
 };

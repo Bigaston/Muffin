@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	});
 	Episode.associate = function (models) {
+		models.Episode.belongsTo(models.Podcast)
 		models.Episode.belongsToMany(models.Playlist, { through: models.EpisodePlaylist })
 		models.Episode.hasMany(models.UserReaction);
 		models.Episode.hasOne(models.Planified, { onDelete: "cascade" })
