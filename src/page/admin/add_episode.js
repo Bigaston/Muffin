@@ -48,7 +48,7 @@ export default function Podcast() {
 					pub_date: p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes()),
 					episode: res.data.last_ep,
 					saison: res.data.last_saison,
-					explicit: true,
+					explicit: false,
 					title: "",
 					description: "",
 					type: "full",
