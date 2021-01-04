@@ -1,5 +1,13 @@
 const bdd = require("../models");
 const axios = require("axios");
+const webpush = require("web-push");
+const vapid = require("../export/vapid.json")
+
+webpush.setVapidDetails(
+	process.env.HOST_SITE,
+	vapid.publicKey,
+	vapid.privateKey
+)
 
 module.exports = {
 	check_planified: () => {
@@ -15,10 +23,12 @@ module.exports = {
 	episode_published_by_id: (id) => {
 		bdd.Episode.findByPk(id).then(episode => {
 			module.exports.send_webhooks(episode)
+			module.exports.send_push(episode)
 		})
 	},
 	episode_published: (episode) => {
 		module.exports.send_webhooks(episode)
+		module.exports.send_push(episode)
 	},
 	send_webhooks: (episode) => {
 		bdd.DiscordWebhook.findAll().then(whs => {
@@ -67,5 +77,17 @@ module.exports = {
 			})
 		})
 
+	},
+	send_push: (episode) => {
+		bdd.Push.findAll().then(pushs => {
+			pushs.forEach(p => {
+				webpush.sendNotification(p.data, JSON.stringify({ title: episode.title, img: episode.img, desc: episode.small_desc, url: "/" + episode.slug })).then(result => {
+				}).catch(err => {
+					if (err.statusCode === 410) {
+						p.destroy()
+					}
+				})
+			})
+		})
 	}
 }

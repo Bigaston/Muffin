@@ -1,6 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const generator = require('generate-password');
+const webpush = require('web-push');
 
 console.log("Création des fichiers de base")
 
@@ -25,4 +26,9 @@ if (!fs.existsSync(path.join(__dirname, "../export/audio"))) {
 
 if (!fs.existsSync(path.join(__dirname, "../export/srt"))) {
 	fs.mkdirSync(path.join(__dirname, "../export/srt"));
+}
+
+if (!fs.existsSync(path.join(__dirname, "../export/vapid.json"))) {
+	let keys = webpush.generateVAPIDKeys();
+	fs.writeFileSync(path.join(__dirname, "../export/vapid.json"), JSON.stringify(keys, null, 4));
 }

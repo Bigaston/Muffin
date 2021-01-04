@@ -334,6 +334,18 @@ export default function Podcast() {
 		}
 	}
 
+	function resendNotif() {
+		axios({
+			method: "POST",
+			url: config.host + "/api/push/resend/" + id,
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+		}).then(res => {
+			console.log("OK");
+		})
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -411,7 +423,9 @@ export default function Podcast() {
 
 				<p className="fakeLabel">Audio de l'épisode</p>
 				<audio className="podcastAudio" src={config.host + episode.audio} alt="Audio de l'épisode" controls />
-				<button onClick={editAudio}>Modifier l'audio</button>
+				<button onClick={editAudio}>Modifier l'audio</button> <br />
+
+				<button className="button" onClick={resendNotif}>Renvoyer les notifications</button>
 			</div>
 
 			<Modal open={openEditImage} onCancel={() => { setOpenEditImage(false) }}>

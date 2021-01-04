@@ -39,6 +39,7 @@
 		"sqlite3": "^5.0.0",
 		"toastify-js": "^1.9.3",
 		"twemoji": "^13.0.1",
+		"web-push": "^3.4.4",
 		"web-vitals": "^0.2.4"
 	},
 	"scripts": {

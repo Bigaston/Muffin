@@ -86,6 +86,11 @@ app.post("/api/admin/webhooks/create", m.user_ctrl.check_if_logged, m.webhook_ct
 app.post("/api/admin/webhooks/edit/:id", m.user_ctrl.check_if_logged, m.webhook_ctrl.edit)
 app.delete("/api/admin/webhooks/delete/:id", m.user_ctrl.check_if_logged, m.webhook_ctrl.delete)
 
+// Webpush
+app.get("/api/push/vapid", m.web_push_ctrl.vapid);
+app.post("/api/push/save", m.web_push_ctrl.save);
+app.post("/api/push/resend/:id", m.user_ctrl.check_if_logged, m.web_push_ctrl.resend)
+
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
 app.get("/p/:slug", m.ssr_ctrl.send_index_playlist)

@@ -10,6 +10,7 @@ import FullLoad from "../../component/fullLoader";
 import Icon from "../../component/icon"
 import IconDonation from "../../component/icon_donation"
 import ToAbout from "../../component/to_about"
+import SubscribeButton from "../../component/subscribe_btn"
 
 import { Helmet } from "react-helmet";
 
@@ -98,6 +99,8 @@ export default function Podcast() {
 				<Icon name="instagram" link={podcast.data?.twitter} />
 				<IconDonation link={podcast.data?.donation} />
 			</div>
+
+			<SubscribeButton />
 
 			{playlists.length === 0 ? <></>
 				:

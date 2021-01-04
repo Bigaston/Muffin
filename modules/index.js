@@ -8,5 +8,6 @@ module.exports = {
 	reaction_ctrl: require("./controller/reaction_ctrl"),
 	static_ctrl: require("./controller/static_ctrl"),
 	webhook_ctrl: require("./controller/webhook_ctrl"),
+	web_push_ctrl: require("./controller/web_push_ctrl"),
 	planified: require("./planified"),
 }
