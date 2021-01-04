@@ -10,6 +10,14 @@ module.exports = {
 				type: Sequelize.DataTypes.INTEGER
 			},
 			data: Sequelize.DataTypes.JSON,
+			createdAt: {
+				allowNull: false,
+				type: Sequelize.DataTypes.DATE
+			},
+			updatedAt: {
+				allowNull: false,
+				type: Sequelize.DataTypes.DATE
+			},
 		})
 	},
 
