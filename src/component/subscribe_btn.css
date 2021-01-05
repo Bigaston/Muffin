@@ -1,10 +1,10 @@
-.subContainer {
+.subscribeContainer {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 }
 
-.sub {
+.subscribe {
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
 	border-radius: 5px;
 	background-color: white;
@@ -13,16 +13,16 @@
 	transition-duration: 0.3s;
 }
 
-.sub:hover {
+.subscribe:hover {
 	cursor: pointer;
 }
 
-.sub p {
+.subscribe p {
 	margin: 0px;
 	font-weight: bold;
 }
 
-.isSub {
+.isSubscribe {
 	background-color: #BFC9CA;
 	box-shadow: none;
 }

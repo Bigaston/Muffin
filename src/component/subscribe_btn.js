@@ -48,8 +48,8 @@ export default function SubscribeButton() {
 	return (
 		<>
 			{canSub ?
-				<div className="subContainer">
-					<div className={classnames("sub", { "isSub": isSub })} onClick={launchSub}>
+				<div className="subscribeContainer">
+					<div className={classnames("subscribe", { "isSubscribe": isSub })} onClick={launchSub}>
 						<p>{isSub ? "ABONNE" : "S'ABONNER"}</p>
 					</div >
 				</div>
