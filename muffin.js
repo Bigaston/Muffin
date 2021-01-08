@@ -8,6 +8,10 @@ var compression = require('compression');
 m.planified.check_planified();
 setInterval(m.planified.check_planified, 10 * 1000);
 
+if (!!process.env.TWITCH_ID && !!process.env.TWITCH_SECRET) {
+	m.igdb.get_access_token();
+}
+
 var app = express()
 
 app.use(compression());
@@ -90,6 +94,10 @@ app.delete("/api/admin/webhooks/delete/:id", m.user_ctrl.check_if_logged, m.webh
 app.get("/api/push/vapid", m.web_push_ctrl.vapid);
 app.post("/api/push/save", m.web_push_ctrl.save);
 app.post("/api/push/resend/:id", m.user_ctrl.check_if_logged, m.web_push_ctrl.resend)
+
+// IGDB
+app.get("/api/igdb/caniuse", m.user_ctrl.check_if_logged, m.igdb_ctrl.can_use)
+app.post("/api/igdb/search", m.user_ctrl.check_if_logged, m.igdb_ctrl.search_game)
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);

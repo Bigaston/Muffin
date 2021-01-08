@@ -112,3 +112,46 @@
 .hoverable:hover {
 	cursor: pointer;
 }
+
+.searchTab {
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+.searchResult {
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	transition: background-color 0.5s;
+}
+
+.searchResult:hover {
+	background-color: #F2F3F4;
+	cursor: pointer;
+}
+
+.searchResultImg {
+	width: 80px;
+	height: 80px;
+}
+
+.searchResultImg img {
+	max-height: 80px;
+}
+
+.searchResult p {
+	margin: 0;
+}
+
+.searchResult p:first-child {
+	font-weight: bold;
+}
+
+.searchResult p:nth-child(2) {
+	font-style: italic;
+	text-align: justify;
+}
+
+.searchResult > div:last-child {
+	margin-left: 10px;
+}

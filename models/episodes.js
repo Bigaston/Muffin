@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 		explicit: DataTypes.BOOLEAN,
 		transcript: DataTypes.TEXT,
 		transcript_file: DataTypes.STRING,
+		games: DataTypes.JSON,
 		data: DataTypes.JSON
 	}, {
 

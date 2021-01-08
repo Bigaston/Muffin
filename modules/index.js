@@ -9,5 +9,7 @@ module.exports = {
 	static_ctrl: require("./controller/static_ctrl"),
 	webhook_ctrl: require("./controller/webhook_ctrl"),
 	web_push_ctrl: require("./controller/web_push_ctrl"),
+	igdb_ctrl: require("./controller/igdb_ctrl"),
 	planified: require("./planified"),
+	igdb: require("./igdb")
 }

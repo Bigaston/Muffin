@@ -5,6 +5,7 @@ import "./edit_episode.css"
 import axios from "axios";
 import config from "../../config.json";
 import Modal from "../../component/modal"
+import Accordeon from "../../component/accordeon"
 
 import userAtom from "../../stores/user";
 import { useRecoilState } from "recoil";
@@ -27,8 +28,8 @@ export default function Podcast() {
 	let [episode, setEpisode] = useState({});
 	let { id } = useParams();
 	const [playlists, setPlaylists] = useState([]);
+	const [igdb, setIgdb] = useState(false);
 
-	const [openedTranscript, setOpenedTranscript] = useState(false);
 	const transcriptFile = useRef(undefined);
 
 	function p(date) {
@@ -50,6 +51,10 @@ export default function Podcast() {
 				data_ep.pub_date = p(date.getDate()) + "/" + p(date.getMonth() + 1) + "/" + p(date.getFullYear()) + " " + p(date.getHours()) + ":" + p(date.getMinutes());
 				data_ep.audio = data_ep.enclosure + "#" + Date.now();
 				data_ep.transcript = data_ep.transcript === null ? "" : data_ep.transcript
+
+				if (!Array.isArray(data_ep.games)) {
+					data_ep.games = [];
+				}
 
 				setEpisode(data_ep)
 
@@ -77,6 +82,18 @@ export default function Podcast() {
 			}
 		}).catch(err => {
 			console.log(err)
+		})
+
+		axios({
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + userState.jwt
+			},
+			url: config.host + "/api/igdb/caniuse",
+		}).then(res => {
+			setIgdb(res.data)
+		}).catch(err => {
+			console.log(err);
 		})
 	}, [userState, id])
 
@@ -346,6 +363,55 @@ export default function Podcast() {
 		})
 	}
 
+	const [currentGames, setCurrentGames] = useState("");
+	const [currentGamesTyping, setCurrentGamesTyping] = useState(undefined);
+	const [searchResult, setSearchResult] = useState([]);
+
+	function handleCurrentGames(event) {
+		setCurrentGames(event.target.value);
+
+		if (currentGamesTyping) {
+			clearTimeout(currentGamesTyping);
+		}
+
+		setCurrentGamesTyping(setTimeout(() => {
+			axios({
+				method: "POST",
+				url: config.host + "/api/igdb/search",
+				headers: {
+					"Authorization": "Bearer " + userState.jwt
+				},
+				data: {
+					name: event.target.value
+				}
+			}).then(res => {
+				setSearchResult(res.data);
+			}).catch(err => {
+				console.log(err)
+			})
+		}, 500))
+	}
+
+	function choseTheGame(id, index) {
+
+		setEpisode(current => {
+			let id_tab = [];
+
+			current.games.forEach(g => {
+				id_tab.push(g.id);
+			})
+
+			if (!id_tab.includes(id)) {
+				current.games.push(searchResult[index])
+			}
+
+			return current;
+		})
+
+		setCurrentGames("");
+		setSearchResult([]);
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -398,21 +464,43 @@ export default function Podcast() {
 				<button className="full" onClick={handleOpenAddPlaylist}>Gérer les playlists</button>
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : <></>}
 
-				<p className="fakeLabel hoverable" onClick={() => { setOpenedTranscript(c => !c) }}>{openedTranscript ? "▼" : "▶"} Modification du transcript</p>
-				{openedTranscript ?
-					<>
-						<label htmlFor="transcript">Texte du transcript</label>
-						<textarea className="u-full-width" id="transcript" value={episode.transcript} onChange={handleAllInput}></textarea>
+				<Accordeon text="Modification du transcript">
+					<label htmlFor="transcript">Texte du transcript</label>
+					<textarea className="u-full-width" id="transcript" value={episode.transcript} onChange={handleAllInput}></textarea>
 
-						{episode.transcript_file ?
-							<label htmlFor="transcript_file">Modifier le fichier de transcript (<a href={config.host + episode.transcript_file}>Le fichier actuel</a>)</label>
-							:
-							<label htmlFor="transcript_file">Ajouter un fichier de transcript</label>
-						}
-						<input type="file" id="transcript_file" ref={transcriptFile} accept=".srt" />
+					{episode.transcript_file ?
+						<label htmlFor="transcript_file">Modifier le fichier de transcript (<a href={config.host + episode.transcript_file}>Le fichier actuel</a>)</label>
+						:
+						<label htmlFor="transcript_file">Ajouter un fichier de transcript</label>
+					}
+					<input type="file" id="transcript_file" ref={transcriptFile} accept=".srt" />
 
-						<p className="info">Le texte du transcript sera affiché uniquement sur la page de votre épisode. Le fichier de transcript au format .srt sera lui exposé dans le flux RSS, et affiché sur la page de l'épisode, avec des timecodes pour laisser les utilisateurs sauter directement au bon moment dans l'épisode</p>
-					</>
+					<p className="info">Le texte du transcript sera affiché uniquement sur la page de votre épisode. Le fichier de transcript au format .srt sera lui exposé dans le flux RSS, et affiché sur la page de l'épisode, avec des timecodes pour laisser les utilisateurs sauter directement au bon moment dans l'épisode</p>
+				</Accordeon>
+
+				{igdb ?
+					<Accordeon text="Modifier le/les jeux">
+						<p>{JSON.stringify(episode.games)}</p>
+
+						<h3>Ajouter un jeu</h3>
+						<label htmlFor="addGames">Nom du jeu</label>
+						<input className="u-full-width" type="text" id="addGames" value={currentGames} onChange={handleCurrentGames} />
+						<div className="searchTab">
+							{searchResult.map((g, index) => (
+								<div key={g.id} className="searchResult" onClick={() => choseTheGame(g.id, index)}>
+									<div className="searchResultImg">
+										{g.cover ? <img src={g.cover} alt={g.name + " cover"} /> : null}
+
+									</div>
+									<div>
+										<p>{g.name}</p>
+										{g.summary ? <p>{g.summary.substring(0, 300)} {g.summary.length > 300 ? "[...]" : null}</p> : null}
+									</div>
+								</div>
+							))}
+						</div>
+						<hr />
+					</Accordeon>
 					: null}
 
 				<button className="button-primary" onClick={saveEp}>Enregistrer</button>
