@@ -402,7 +402,11 @@ export default function Podcast() {
 			})
 
 			if (!id_tab.includes(id)) {
-				current.games.push(searchResult[index])
+				current.games.push({
+					id: searchResult[index].id,
+					image_id: searchResult[index].image_id,
+					name: searchResult[index].name
+				})
 			}
 
 			return current;
