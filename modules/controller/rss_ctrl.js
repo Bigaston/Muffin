@@ -268,7 +268,7 @@ module.exports = {
 						})
 					}
 
-					ep.games.forEach(g => {
+					ep.games?.forEach(g => {
 						ep_content.custom_elements.push({
 							"podext:game": {
 								_attr: {
