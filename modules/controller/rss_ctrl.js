@@ -14,7 +14,7 @@ module.exports = {
 			bdd.Podcast.findOne().then(podcast => {
 				if (podcast.type === "episodic") {
 					episodes.sort(orderTableByDate)
-				} else if (podcast.type = "serial") {
+				} else if (podcast.type === "serial") {
 					episodes.sort(orderTableByDateInvert)
 				}
 
