@@ -268,7 +268,7 @@ module.exports = {
 						})
 					}
 
-					if (ep.games !== undefined) {
+					if (ep.games !== null) {
 						ep.games.forEach(g => {
 							ep_content.custom_elements.push({
 								"podext:game": {
