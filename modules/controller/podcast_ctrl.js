@@ -343,6 +343,7 @@ module.exports = {
 					episode.slug = req.body.slug
 					episode.explicit = req.body.explicit
 					episode.transcript = req.body.transcript;
+					episode.games = req.body.games;
 
 					if (!!req.body.transcript_file_raw) {
 						let srt_buffer = new Buffer.from(req.body.transcript_file_raw.split(/,\s*/)[1], "base64");

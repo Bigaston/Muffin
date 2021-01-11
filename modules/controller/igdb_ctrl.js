@@ -6,7 +6,7 @@ module.exports = {
 		if (!!req.body.name) {
 			axios({
 				url: "https://api.igdb.com/v4/games",
-				data: `search "${req.body.name}"; fields id,name,cover,summary;`,
+				data: `search "${req.body.name}"; fields id,name,cover,summary,url;`,
 				method: 'POST',
 				headers: {
 					'Accept': 'application/json',
@@ -49,7 +49,8 @@ module.exports = {
 								name: g.name,
 								summary: g.summary,
 								cover: cover_tab[g.cover],
-								image_id: image_id[g.cover]
+								image_id: image_id[g.cover],
+								url: g.url
 							})
 						})
 

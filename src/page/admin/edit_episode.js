@@ -393,7 +393,6 @@ export default function Podcast() {
 	}
 
 	function choseTheGame(id, index) {
-
 		setEpisode(current => {
 			let id_tab = [];
 
@@ -405,7 +404,8 @@ export default function Podcast() {
 				current.games.push({
 					id: searchResult[index].id,
 					image_id: searchResult[index].image_id,
-					name: searchResult[index].name
+					name: searchResult[index].name,
+					url: searchResult[index].url
 				})
 			}
 
@@ -414,6 +414,14 @@ export default function Podcast() {
 
 		setCurrentGames("");
 		setSearchResult([]);
+	}
+
+	function handleDeleteGame(index) {
+		let new_data = { ...episode };
+
+		new_data.games.splice(index, 1);
+
+		setEpisode(new_data)
 	}
 
 	return (
@@ -484,7 +492,14 @@ export default function Podcast() {
 
 				{igdb ?
 					<Accordeon text="Modifier le/les jeux">
-						<p>{JSON.stringify(episode.games)}</p>
+						<div className="currentGames">
+							{episode.games?.map((g, index) => (
+								<div key={g.id} className="oneCurrentGame" onClick={() => handleDeleteGame(index)}>
+									{g.image_id ? <img src={"//images.igdb.com/igdb/image/upload/t_thumb/" + g.image_id + ".jpg"} alt={g.name + " cover"} /> : null}
+									<p>{g.name}</p>
+								</div>
+							))}
+						</div>
 
 						<h3>Ajouter un jeu</h3>
 						<label htmlFor="addGames">Nom du jeu</label>

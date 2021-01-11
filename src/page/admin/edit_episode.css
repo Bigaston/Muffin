@@ -155,3 +155,27 @@
 .searchResult > div:last-child {
 	margin-left: 10px;
 }
+
+.currentGames {
+	display: flex;
+	display: row;
+}
+
+.oneCurrentGame {
+	width: 90px;
+}
+
+.oneCurrentGame:hover {
+	cursor: pointer;
+}
+
+.oneCurrentGame img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80px;
+}
+
+.oneCurrentGame p {
+	text-align: center;
+}
