@@ -50,6 +50,9 @@ export default function EpisodePage() {
 			url: config.host + "/api/podcast/get_ep_info/" + slug
 		}).then(res => {
 			if (res.data.episode !== undefined) {
+				console.log(res.data.episode)
+				if (res.data.episode.games === undefined) res.data.episode.games = []
+
 				setEpisode(res.data.episode)
 				setPodcast(res.data.podcast)
 
@@ -267,7 +270,18 @@ export default function EpisodePage() {
 					</div>
 
 					{!isNotFound ?
-						<ReactionBar slug={slug} />
+						<>
+							{episode.games?.length > 0 ?
+								<div className="epGamesContainer">
+									{episode.games.map(g => (
+										<div>
+											{g.image_id ? <a href={g.url} target="_blank" rel="noreferrer"><img src={"//images.igdb.com/igdb/image/upload/t_cover_big/" + g.image_id + ".jpg"} alt={g.name + "'s cover"} /></a> : null}
+										</div>
+									))}
+								</div>
+								: null}
+							<ReactionBar slug={slug} />
+						</>
 						: null}
 
 					<ToAbout />

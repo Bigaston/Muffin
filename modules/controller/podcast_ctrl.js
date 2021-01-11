@@ -111,7 +111,8 @@ module.exports = {
 						saison_number: ep.saison,
 						slug: ep.slug,
 						transcript: ep.transcript,
-						transcript_file: ep.transcript_file
+						transcript_file: ep.transcript_file,
+						games: ep.games
 					}
 
 					res.json({ episode: return_ep, podcast: return_pod })
