@@ -268,6 +268,17 @@ module.exports = {
 						})
 					}
 
+					ep.games.forEach(g => {
+						ep_content.custom_elements.push({
+							"podext:game": {
+								_attr: {
+									href: g.url,
+									title: g.name
+								}
+							}
+						})
+					})
+
 					feed.item(ep_content)
 				})
 
