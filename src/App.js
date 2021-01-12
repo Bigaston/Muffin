@@ -26,6 +26,7 @@ import NewPlaylist from "./page/admin/add_playlist"
 import EditPlaylist from "./page/admin/edit_playlist"
 import Reaction from "./page/admin/reaction"
 import Webhook from "./page/admin/webhook"
+import Icecast from "./page/admin/icecast"
 
 import Player from "./component/player"
 import WS from "./component/ws"
@@ -104,6 +105,12 @@ function App() {
 					<Route path="/a/webhook">
 						<CheckLogged>
 							<Webhook />
+						</CheckLogged>
+					</Route>
+
+					<Route path="/a/icecast">
+						<CheckLogged>
+							<Icecast />
 						</CheckLogged>
 					</Route>
 

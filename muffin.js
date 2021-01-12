@@ -102,10 +102,15 @@ app.post("/api/push/resend/:id", m.user_ctrl.check_if_logged, m.web_push_ctrl.re
 app.get("/api/igdb/caniuse", m.user_ctrl.check_if_logged, m.igdb_ctrl.can_use)
 app.post("/api/igdb/search", m.user_ctrl.check_if_logged, m.igdb_ctrl.search_game)
 
+// Icecast
+app.get("/api/admin/icecast/info", m.user_ctrl.check_if_logged, m.icecast_ctrl.get_admin_info);
+app.post("/api/admin/icecast/save", m.user_ctrl.check_if_logged, m.icecast_ctrl.save_data);
+
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
 app.get("/p/:slug", m.ssr_ctrl.send_index_playlist)
 app.get("/", m.ssr_ctrl.send_index_podcast);
+app.get("/live", m.ssr_ctrl.send_index_live);
 app.get("/:slug", m.ssr_ctrl.send_index_epispde);
 
 app.use(express.static('build'))
