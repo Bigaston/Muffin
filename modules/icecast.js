@@ -1,6 +1,7 @@
 const bdd = require("../models")
 const axios = require("axios")
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const getMP3Duration = require('get-mp3-duration')
@@ -114,9 +115,17 @@ module.exports = {
 			let fichier_name = Date.now() + ".mp3";
 
 			let file = fs.createWriteStream(path.join(__dirname, "../temp/" + fichier_name))
-			http.get(icecast.url + "/" + icecast.mountpoint, function (response) {
-				response.pipe(file);
-			});
+
+			if (icecast.url.startsWith("https")) {
+				https.get(icecast.url + "/" + icecast.mountpoint, function (response) {
+					response.pipe(file);
+				});
+			} else {
+				http.get(icecast.url + "/" + icecast.mountpoint, function (response) {
+					response.pipe(file);
+				});
+			}
+
 
 			file.on("close", () => {
 				bdd.Podcast.findOne().then(podcast => {
