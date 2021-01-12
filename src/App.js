@@ -11,6 +11,7 @@ import Podcast from "./page/public/podcast"
 import Episode from "./page/public/episode"
 import Playlist from "./page/public/playlist"
 import About from "./page/public/about"
+import Live from "./page/public/live"
 
 import Login from "./page/admin/login"
 import PodcastAdmin from "./page/admin/podcast"
@@ -112,6 +113,10 @@ function App() {
 
 					<Route path="/about">
 						<About />
+					</Route>
+
+					<Route path="/live">
+						<Live />
 					</Route>
 
 					<Route path="/:slug">

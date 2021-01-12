@@ -6,7 +6,7 @@ const path = require("path");
 const getMP3Duration = require('get-mp3-duration')
 
 module.exports = {
-	connections: {},
+	connections: [],
 	verif_loop: undefined,
 	stream_data: { stream: false },
 	icecast: undefined,
@@ -103,11 +103,7 @@ module.exports = {
 		})
 	},
 	notify_all_connections: () => {
-		let keys = Object.keys(module.exports.connections);
-
-		keys.forEach(k => {
-			let co = module.exports.connections[k];
-
+		module.exports.connections.forEach(co => {
 			co.sendUTF(JSON.stringify(module.exports.stream_data));
 		})
 	},

@@ -11,7 +11,7 @@ module.exports = {
 
 		var connection = request.accept('live', request.origin);
 
-		icecast.connections[connection.remoteAddress] = connection;
+		icecast.connections.push(connection);
 		console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' connected.');
 
 		if (icecast.stream_data !== undefined) {
@@ -19,7 +19,7 @@ module.exports = {
 		}
 
 		connection.on('close', function (reasonCode, description) {
-			icecast.connections[connection.remoteAddress] = undefined;
+			removeA(icecast.connections, connection)
 			console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
 		});
 	}
@@ -29,4 +29,15 @@ module.exports = {
 function originIsAllowed(origin) {
 	// put logic here to detect whether the specified origin is allowed.
 	return true;
+}
+
+function removeA(arr) {
+	var what, a = arguments, L = a.length, ax;
+	while (L > 1 && arr.length) {
+		what = a[--L];
+		while ((ax = arr.indexOf(what)) !== -1) {
+			arr.splice(ax, 1);
+		}
+	}
+	return arr;
 }

@@ -20,6 +20,10 @@ export default function WS() {
 			setStream(data);
 
 			if (data.stream === false && player.slug === "") {
+				if (player.playerRef !== undefined) {
+					player.playerRef.current.pause()
+					player.playerRef.current.src = "";
+				}
 
 				setPlayer(current => {
 					return {
@@ -34,11 +38,6 @@ export default function WS() {
 						live: false
 					};
 				})
-
-				if (player.playerRef !== undefined) {
-					player.playerRef.current.pause()
-					player.playerRef.current.src = "";
-				}
 			}
 		}
 		// eslint-disable-next-line
