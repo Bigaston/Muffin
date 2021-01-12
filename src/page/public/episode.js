@@ -274,7 +274,7 @@ export default function EpisodePage() {
 							{episode.games?.length > 0 ?
 								<div className="epGamesContainer">
 									{episode.games.map(g => (
-										<div>
+										<div className="epGames">
 											{g.image_id ? <a href={g.url} target="_blank" rel="noreferrer"><img src={"//images.igdb.com/igdb/image/upload/t_cover_big/" + g.image_id + ".jpg"} alt={g.name + "'s cover"} /></a> : null}
 										</div>
 									))}

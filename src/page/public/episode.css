@@ -157,12 +157,17 @@
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 20px;
+	flex-wrap: wrap;
 }
 
 @media screen and (max-width: 490px) {
 	.epGamesContainer {
-		width: auto;
+		width: 100%;
 	}
+}
+
+.epGames {
+	margin: 10px
 }
 
 .epGamesContainer img {
