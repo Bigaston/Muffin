@@ -560,7 +560,7 @@ module.exports = {
 	}
 }
 
-const forbidden_slug = ["a", "about", "p", "favicon.ico", "robot.txt", "api", "rss", "audio", "public", "img", "playlists", "srt"];
+const forbidden_slug = ["a", "about", "p", "favicon.ico", "robot.txt", "api", "rss", "audio", "public", "img", "playlists", "srt", "live"];
 function checkSlug(slug) {
 	return new Promise((resolve, reject) => {
 		if (forbidden_slug.includes(slug)) {
