@@ -16,9 +16,14 @@ import { Helmet } from "react-helmet";
 
 import Playlist from "../../component/playlist";
 
+import streamAtom from "../../stores/stream";
+import { useRecoilState } from "recoil";
+
 import "./podcast.css";
 
 export default function Podcast() {
+	let [stream,] = useRecoilState(streamAtom);
+
 	let [podcast, setPodcast] = useState({})
 	const [playlists, setPlaylists] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
@@ -53,14 +58,6 @@ export default function Podcast() {
 		}).catch(err => {
 			console.log(err)
 		})
-
-		let ws = new WebSocket(config.host.replace("https", "ws").replace("http", "ws"), "live");
-		ws.onopen = (event) => {
-			console.log("WS: Connecté")
-		}
-		ws.onmessage = (event) => {
-			console.log(event.data);
-		}
 	}, [])
 
 	return (
@@ -119,13 +116,24 @@ export default function Podcast() {
 			}
 			{currentTab === "episodes" ?
 				<>
-					{podcast.episodes !== undefined ?
-						<div>
-							{podcast.episodes.map((episode) => (
+					<div>
+						{stream.stream ?
+							<Episode key="live" episode={{
+								title: stream.title,
+								slug: "live",
+								small_desc: stream.small_desc,
+								audio: stream.url,
+								img: stream.img
+							}} podcast={podcast} live={true} />
+
+							: null}
+						{podcast.episodes !== undefined ?
+							podcast.episodes.map((episode) => (
 								<Episode key={episode.slug} episode={episode} podcast={podcast} />
-							))}
-						</div>
-						: <></>}
+							))
+							: <></>}
+					</div>
+
 				</>
 				:
 				<div>

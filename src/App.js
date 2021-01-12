@@ -27,6 +27,7 @@ import Reaction from "./page/admin/reaction"
 import Webhook from "./page/admin/webhook"
 
 import Player from "./component/player"
+import WS from "./component/ws"
 import Menu from "./component/menu"
 import CheckLogged from "./component/checkLogged"
 
@@ -122,6 +123,7 @@ function App() {
 					</Route>
 				</Switch>
 
+				<WS />
 				<Player />
 			</Router>
 

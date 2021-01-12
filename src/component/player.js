@@ -9,6 +9,7 @@ import config from "../config.json"
 import axios from "axios";
 
 import { convertHMS } from "../utils"
+import LivePastille from "./livePastille";
 
 export default function Player() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -280,21 +281,26 @@ export default function Player() {
 				<audio ref={audioPlayer} hidden></audio>
 				<img src={config.host + playerStore.img} alt={"Image de " + playerStore.title} />
 				<div className="rightDivPlayer">
-					<p>{playerStore.title}</p>
-					<div id="progressbar" ref={progressbar} onClick={changeTime}>
-						<div id="prog" style={{ width: pourcentageProgression + "%" }}></div>
-					</div>
-					<div className="time">
-						<p id="audio-time">{currentTime}</p>
-						<p id="audio-duration">{playerStore.duration}</p>
-					</div>
+					<p>{playerStore.live !== undefined ? <LivePastille /> : null}{playerStore.title}</p>
+					{playerStore.live === undefined ?
+						<>
+							<div id="progressbar" ref={progressbar} onClick={changeTime}>
+								<div id="prog" style={{ width: pourcentageProgression + "%" }}></div>
+							</div>
+							<div className="time">
+								<p id="audio-time">{currentTime}</p>
+								<p id="audio-duration">{playerStore.duration}</p>
+							</div>
+						</>
+						: null}
+
 					<div className="controls">
 						<img src={config.host + "/public/before.svg"} alt="Episode précédent" onClick={episodeBefore} />
-						<img src={config.host + "/public/backward.svg"} alt="-15s" onClick={moins15} />
+						{playerStore.live === undefined ? <img src={config.host + "/public/backward.svg"} alt="-15s" onClick={moins15} /> : null}
 						<img id="playButton" src={playerStore.paused ? config.host + "/public/play.svg" : config.host + "/public/pause.svg"}
 							alt={playerStore.paused ? "Reprendre " + playerStore.title : "Mettre en pause " + playerStore.title}
 							onClick={playPauseEp} />
-						<img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15} />
+						{playerStore.live === undefined ? <img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15} /> : null}
 						<img src={config.host + "/public/after.svg"} alt="Episode suivant" onClick={episodeAfter} />
 						<img src={config.host + "/public/stop.svg"} alt="Arrêter" onClick={stopPlay} />
 					</div>

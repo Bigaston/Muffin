@@ -34,7 +34,9 @@ module.exports = {
 						stream: true,
 						title: icecast.title,
 						description: icecast.desc_parsed,
-						url: icecast.url + "/" + icecast.mountpoint
+						small_desc: icecast.small_desc,
+						url: icecast.url + "/" + icecast.mountpoint,
+						img: icecast.img
 					}
 
 					console.log("Stream: ON");

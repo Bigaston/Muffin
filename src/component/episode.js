@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 
 import playerAtom from "../stores/player";
 import { useRecoilState } from "recoil";
+import LivePastille from "./livePastille";
 
 export default function Episode(props) {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -29,7 +30,8 @@ export default function Episode(props) {
 					title: episode.title,
 					slug: episode.slug,
 					duration: episode.duration,
-					audio: episode.audio
+					audio: episode.audio,
+					live: props.live
 				};
 			})
 			playerStore.playerRef.current.play();
@@ -61,10 +63,13 @@ export default function Episode(props) {
 						alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title}
 						onClick={playPauseEp} />
 					<h2><Link to={"/" + episode.slug}>{episode.title}</Link></h2>
+					{props.live !== undefined ? <LivePastille /> : null}
 				</div>
 
 				<p className="desc">{episode.small_desc}</p>
-				<p className="moreInfoEp">{episode.duration} | {pub_date_string}</p>
+				{props.live !== undefined ? null :
+					<p className="moreInfoEp">{episode.duration} | {pub_date_string}</p>
+				}
 			</div>
 		</div>
 	)

@@ -39,11 +39,16 @@ module.exports = {
 	get_reaction: (req, res) => {
 		bdd.Reaction.findAll().then(reactions => {
 			bdd.Episode.findOne({ where: { slug: req.params.slug } }).then(ep => {
-				bdd.UserReaction.findOne({ where: { fingerprint: req.params.fingerprint, EpisodeId: ep.id }, attributes: ["ReactionId"] }).then(user_reaction => {
-					bdd.UserReaction.findAll({ where: { EpisodeId: ep.id }, group: ["ReactionId"], attributes: ["ReactionId", [sequelize.fn('COUNT', 'ReactionId'), "count"]] }).then(episode_reactions => {
-						res.json({ reactions, user_reaction: user_reaction, episode_reactions })
+				if (ep !== null) {
+					bdd.UserReaction.findOne({ where: { fingerprint: req.params.fingerprint, EpisodeId: ep.id }, attributes: ["ReactionId"] }).then(user_reaction => {
+						bdd.UserReaction.findAll({ where: { EpisodeId: ep.id }, group: ["ReactionId"], attributes: ["ReactionId", [sequelize.fn('COUNT', 'ReactionId'), "count"]] }).then(episode_reactions => {
+							res.json({ reactions, user_reaction: user_reaction, episode_reactions })
+						})
 					})
-				})
+				} else {
+					res.status(404).send("Not fount")
+				}
+
 			})
 		})
 	},

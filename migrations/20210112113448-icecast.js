@@ -14,7 +14,9 @@ module.exports = {
 			title: Sequelize.DataTypes.STRING,
 			description: Sequelize.DataTypes.TEXT,
 			desc_parsed: Sequelize.DataTypes.TEXT,
-			record_episode: Sequelize.DataTypes.BOOLEAN
+			small_desc: Sequelize.DataTypes.STRING,
+			record_episode: Sequelize.DataTypes.BOOLEAN,
+			img: Sequelize.DataTypes.STRING
 		})
 	},
 
