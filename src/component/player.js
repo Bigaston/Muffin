@@ -236,23 +236,39 @@ export default function Player() {
 	}
 
 	function episodeAfter() {
-		for (let i = 0; i < episodes.length; i++) {
-			if (episodes[i].slug === playerStore.slug && i !== episodes.length - 1) {
-				let ep = episodes[i + 1];
-				setPlayerStore(current => {
-					return {
-						...current,
-						displayed: true,
-						paused: false,
-						img: ep.img,
-						title: ep.title,
-						slug: ep.slug,
-						duration: ep.duration,
-						audio: ep.audio
-					};
-				})
+		if (playerStore.slug === "live") {
+			let ep = episodes[0];
+			setPlayerStore(current => {
+				return {
+					...current,
+					displayed: true,
+					paused: false,
+					img: ep.img,
+					title: ep.title,
+					slug: ep.slug,
+					duration: ep.duration,
+					audio: ep.audio
+				};
+			})
+		} else {
+			for (let i = 0; i < episodes.length; i++) {
+				if (episodes[i].slug === playerStore.slug && i !== episodes.length - 1) {
+					let ep = episodes[i + 1];
+					setPlayerStore(current => {
+						return {
+							...current,
+							displayed: true,
+							paused: false,
+							img: ep.img,
+							title: ep.title,
+							slug: ep.slug,
+							duration: ep.duration,
+							audio: ep.audio
+						};
+					})
 
-				audioPlayer.current.play();
+					audioPlayer.current.play();
+				}
 			}
 		}
 	}

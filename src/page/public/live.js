@@ -5,14 +5,8 @@ import config from "../../config.json"
 import { Link, useHistory } from "react-router-dom"
 import { Helmet } from "react-helmet";
 
-import classnames from "classnames";
-
-import Toastify from 'toastify-js'
-
 import Loader from "../../component/loader"
 import ToAbout from "../../component/to_about"
-
-import { useParams } from "react-router-dom";
 
 import playerAtom from "../../stores/player";
 import streamAtom from "../../stores/stream"
@@ -24,7 +18,6 @@ import "./episode.css";
 import FullLoad from "../../component/fullLoader"
 import Modal from "../../component/modal"
 import Icon from "../../component/icon"
-import ReactionBar from "../../component/reaction_bar"
 import LivePastille from "../../component/livePastille";
 
 export default function EpisodePage() {
@@ -152,7 +145,7 @@ export default function EpisodePage() {
 					<ToAbout />
 
 					<Modal open={modalShare} onCancel={() => { setModalShare(false) }}>
-						<h1>Partager l'épisode</h1>
+						<h1>Partager le live</h1>
 
 						<div className="iconShare">
 							<Icon name="twitter" link={"https://twitter.com/intent/tweet?url=" + encodeURI(window.location.href) + "&text=" + encodeURI(stream.title + " - " + podcast.title)} />
