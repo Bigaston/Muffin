@@ -11,7 +11,13 @@ export default function WS() {
 	let [player, setPlayer] = useRecoilState(playerAtom)
 
 	useEffect(() => {
-		let ws = new WebSocket(config.host.replace("https", "ws").replace("http", "ws"), "live");
+		let url;
+		if (!!config.host) {
+			url = config.host.replace("https", "ws").replace("http", "ws")
+		} else {
+			url = window.location.href.replace("https", "ws").replace("http", "ws")
+		}
+		let ws = new WebSocket(url, "live");
 		ws.onopen = (event) => {
 			console.log("WS: Connecté")
 		}
