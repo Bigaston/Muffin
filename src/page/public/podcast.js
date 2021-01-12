@@ -53,6 +53,14 @@ export default function Podcast() {
 		}).catch(err => {
 			console.log(err)
 		})
+
+		let ws = new WebSocket(config.host.replace("https", "ws").replace("http", "ws"), "live");
+		ws.onopen = (event) => {
+			console.log("WS: Connecté")
+		}
+		ws.onmessage = (event) => {
+			console.log(event.data);
+		}
 	}, [])
 
 	return (

@@ -4,6 +4,7 @@ const express = require('express')
 var cors = require('cors')
 const m = require("./modules")
 var compression = require('compression');
+var WebSocketServer = require('websocket').server;
 
 m.planified.check_planified();
 setInterval(m.planified.check_planified, 10 * 1000);
@@ -11,6 +12,8 @@ setInterval(m.planified.check_planified, 10 * 1000);
 if (!!process.env.TWITCH_ID && !!process.env.TWITCH_SECRET) {
 	m.igdb.get_access_token();
 }
+
+m.icecast.init_check();
 
 var app = express()
 
@@ -109,4 +112,12 @@ app.use(express.static('build'))
 
 app.get("/*", m.ssr_ctrl.send_index);
 
-app.listen(process.env.SERVER_PORT, () => console.log(`Serveur lancé sur le port ${process.env.SERVER_PORT}`))
+let server = app.listen(process.env.SERVER_PORT, () => console.log(`Serveur lancé sur le port ${process.env.SERVER_PORT}`))
+
+// Websockets
+let wsServer = new WebSocketServer({
+	httpServer: server,
+	autoAcceptConnections: false
+});
+
+wsServer.on('request', m.icecast_ctrl.new_request);

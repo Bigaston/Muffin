@@ -10,6 +10,8 @@ module.exports = {
 	webhook_ctrl: require("./controller/webhook_ctrl"),
 	web_push_ctrl: require("./controller/web_push_ctrl"),
 	igdb_ctrl: require("./controller/igdb_ctrl"),
+	icecast_ctrl: require("./controller/icecast_ctrl"),
 	planified: require("./planified"),
-	igdb: require("./igdb")
+	igdb: require("./igdb"),
+	icecast: require("./icecast")
 }
