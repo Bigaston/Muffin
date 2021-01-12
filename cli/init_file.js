@@ -32,3 +32,7 @@ if (!fs.existsSync(path.join(__dirname, "../export/vapid.json"))) {
 	let keys = webpush.generateVAPIDKeys();
 	fs.writeFileSync(path.join(__dirname, "../export/vapid.json"), JSON.stringify(keys, null, 4));
 }
+
+if (!fs.existsSync(path.join(__dirname, "../temp"))) {
+	fs.mkdirSync(path.join(__dirname, "../temp"));
+}

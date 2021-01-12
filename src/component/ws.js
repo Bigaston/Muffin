@@ -35,10 +35,13 @@ export default function WS() {
 					};
 				})
 
-				player.playerRef.current.pause()
-				player.playerRef.current.src = "";
+				if (player.playerRef !== undefined) {
+					player.playerRef.current.pause()
+					player.playerRef.current.src = "";
+				}
 			}
 		}
+		// eslint-disable-next-line
 	}, [])
 
 	return (<></>)
