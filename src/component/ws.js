@@ -13,9 +13,9 @@ export default function WS() {
 	useEffect(() => {
 		let url;
 		if (!!config.host) {
-			url = config.host.replace("https", "ws").replace("http", "ws")
+			url = config.host.replace("https", "wss").replace("http", "ws")
 		} else {
-			url = window.location.href.replace("https", "ws").replace("http", "ws")
+			url = window.location.href.replace("https", "wss").replace("http", "ws")
 		}
 		let ws = new WebSocket(url, "live");
 		ws.onopen = (event) => {
