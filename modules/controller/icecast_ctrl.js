@@ -54,7 +54,7 @@ module.exports = {
 			if (ice === null) {
 				bdd.Icecast.create({
 					url: req.body.url,
-					mountpoint: req.body.montpoint,
+					mountpoint: req.body.mountpoint,
 					title: req.body.title,
 					description: req.body.description,
 					desc_parsed: md.render(req.body.description),
