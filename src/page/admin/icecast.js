@@ -49,6 +49,14 @@ export default function ImportPodcast() {
 		setStream(new_info)
 	}
 
+	function handleCheckboxPublish(event) {
+		let new_info = { ...stream };
+
+		new_info.publish_instant = event.target.checked;
+
+		setStream(new_info)
+	}
+
 	function save() {
 		if (!stream.title || !stream.description || !stream.small_desc || !stream.url || !stream.mountpoint) {
 			setErrorMessage("Merci de complêter tous les champs!")
@@ -103,6 +111,13 @@ export default function ImportPodcast() {
 
 				<input type="checkbox" id="record_episode" defaultChecked={stream.record_episode} value={stream.record_episode} onClick={handleCheckbox} disabled={streamState.stream} />
 				<span className="label-body">Enregistrer l'épisode (Pris en compte au prochain stream)</span>
+				{stream.record_episode ?
+					<>
+						<br />
+						<input type="checkbox" id="publish_instant" defaultChecked={stream.publish_instant} value={stream.publish_instant} onClick={handleCheckboxPublish} disabled={streamState.stream} />
+						<span className="label-body">Publier automatiquement l'épisode (Pris en compte au prochain stream)</span>
+					</>
+					: null}
 				<p className="info">(Vos streams seront directement enregistrés par Muffin, et ajouté à votre liste d'épisode avec une date de publication de 2100. Il vous restera plus qu'à éditer ces informations)</p>
 
 				{!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : null}

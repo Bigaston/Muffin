@@ -4,6 +4,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const getMP3Duration = require('get-mp3-duration')
+const planified_module = require("./planified")
 
 module.exports = {
 	connections: [],
@@ -120,11 +121,11 @@ module.exports = {
 			file.on("close", () => {
 				bdd.Podcast.findOne().then(podcast => {
 					bdd.Episode.create({
-						title: "Enregistrement de live du " + new Date().toString(),
+						title: icecast.title,
 						description: icecast.description,
 						desc_parsed: icecast.desc_parsed,
 						small_desc: icecast.small_desc,
-						pub_date: new Date("2100-01-01T01:01:00"),
+						pub_date: icecast.publish_instant ? new Date() : new Date("2100-01-01T01:01:00"),
 						author: podcast.author,
 						guid: Date.now(),
 						type: "full",
@@ -146,12 +147,17 @@ module.exports = {
 						ep.size = stats.size;
 
 						ep.save().then(() => {
-							bdd.Planified.create({
-								EpisodeId: ep.id,
-								date: new Date("2100-01-01T01:01:00")
-							}).then(() => {
-								console.log("Live enregistré!")
-							})
+							if (icecast.publish_instant) {
+								planified_module.episode_published(ep);
+
+							} else {
+								bdd.Planified.create({
+									EpisodeId: ep.id,
+									date: new Date("2100-01-01T01:01:00")
+								}).then(() => {
+									console.log("Live enregistré!")
+								})
+							}
 						})
 					})
 				})

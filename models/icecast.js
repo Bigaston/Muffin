@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 		desc_parsed: DataTypes.TEXT,
 		small_desc: DataTypes.STRING,
 		record_episode: DataTypes.BOOLEAN,
+		publish_instant: DataTypes.BOOLEAN,
 		img: DataTypes.STRING
 	}, {
 		timestamps: false

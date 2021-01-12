@@ -37,8 +37,9 @@ module.exports = {
 					desc_parsed: "",
 					description: "",
 					img: "/img/pod.jpg",
-					montpoint: "",
+					mountpoint: "",
 					record_episode: false,
+					publish_instant: false,
 					small_desc: "",
 					title: "",
 					url: ""
@@ -59,6 +60,7 @@ module.exports = {
 					desc_parsed: md.render(req.body.description),
 					record_episode: req.body.record_episode,
 					small_desc: req.body.small_desc,
+					publish_instant: req.body.publish_instant,
 					img: "/img/pod.jpg",
 				}).then(() => {
 					res.send("OK")
@@ -71,6 +73,7 @@ module.exports = {
 				ice.description = req.body.description;
 				ice.desc_parsed = md.render(req.body.description);
 				ice.record_episode = req.body.record_episode;
+				ice.publish_instant = req.body.publish_instant;
 				ice.small_desc = req.body.small_desc;
 
 

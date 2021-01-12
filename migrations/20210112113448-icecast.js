@@ -16,6 +16,7 @@ module.exports = {
 			desc_parsed: Sequelize.DataTypes.TEXT,
 			small_desc: Sequelize.DataTypes.STRING,
 			record_episode: Sequelize.DataTypes.BOOLEAN,
+			publish_instant: Sequelize.DataTypes.BOOLEAN,
 			img: Sequelize.DataTypes.STRING
 		})
 	},

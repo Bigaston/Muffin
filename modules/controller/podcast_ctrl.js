@@ -527,7 +527,7 @@ module.exports = {
 
 												ep_tab.shift();
 
-												if (ep_tab.length != 0) {
+												if (ep_tab.length !== 0) {
 													downloadEp(ep_tab, cb)
 												} else {
 													cb();
