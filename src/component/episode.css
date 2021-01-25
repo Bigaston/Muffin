@@ -12,6 +12,10 @@
 	filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.5));
 }
 
+.theme-black .episode {
+	background-color: #34495E;
+}
+
 @media screen and (max-width: 490px) {
 	.episode {
 		width: auto;
@@ -46,13 +50,16 @@
 	margin: 0px;
 }
 
+.theme-black .divTitle > h2 > a {
+	color: white;
+}
+
 @media screen and (max-width: 490px) {
 	.divTitle > h2 {
 		margin: 0px;
 		font-size: 20px;
 	}
 }
-
 
 .divTitle > img{
 	display: inline;
@@ -76,6 +83,10 @@
 .rightDivEp > .desc {
 	text-align: justify;
 	margin-top: 0px;
+}
+
+.theme-black .rightDivEp > .desc {
+	color: white;
 }
 
 @media screen and (max-width: 490px) {

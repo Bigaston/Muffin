@@ -8,8 +8,12 @@ import playerAtom from "../stores/player";
 import { useRecoilState } from "recoil";
 import LivePastille from "./livePastille";
 
+import { useDarkTheme } from "../utils"
+
 export default function Episode(props) {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
+
+	const { theme } = useDarkTheme();
 
 	let episode = props.episode;
 	let podcast = props.podcast;
@@ -59,7 +63,7 @@ export default function Episode(props) {
 			<div className="rightDivEp">
 				<div className="divTitle">
 					<img src={
-						playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/pause.svg" : config.host + "/public/play.svg"}
+						playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/" + theme + "/pause.svg" : config.host + "/public/" + theme + "/play.svg"}
 						alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title}
 						onClick={playPauseEp} />
 					<h2><Link to={"/" + episode.slug}>{episode.title}</Link></h2>

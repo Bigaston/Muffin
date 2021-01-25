@@ -20,6 +20,10 @@
 	filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.5));
 }
 
+.theme-black .content {
+	background-color: #34495E;
+}
+
 @media screen and (max-width: 490px) {
 	.content {
 		width: auto;
@@ -30,6 +34,10 @@
 	margin-top: 0;
 	text-align: center;
 	margin-bottom: 0;
+}
+
+.theme-black .contentHeader {
+	color: white;
 }
 
 .backToMenu {
@@ -48,8 +56,20 @@
 	text-align: justify;
 }
 
+.theme-black .descriptionEp a {
+	color: white;
+}
+
+.theme-black .descriptionEp p {
+	color: white;
+}
+
 .moreInfoEp {
 	color: #616A6B;
+}
+
+.theme-black .moreInfoEp {
+	color: #AAB7B8;
 }
 
 .backToMenuImg {
@@ -127,6 +147,10 @@
 	margin: 0px;
 }
 
+.theme-black .sub p {
+	color: white;
+}
+
 .sub .timeSub {
 	width: 65px;
 	font-weight: bold;
@@ -139,6 +163,10 @@
 	padding-left: 5px;
 }
 
+.theme-black .subcurrent {
+	background-color: #5D6D7E;
+}
+
 .want_timecode {
 	display: flex;
 	justify-content: center;
@@ -147,6 +175,10 @@
 
 .want_timecode span {
 	margin-left: 5px;
+}
+
+.theme-black .want_timecode span {
+	color: white;
 }
 
 .epGamesContainer {

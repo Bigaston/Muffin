@@ -4,6 +4,8 @@ import config from "../../config.json"
 import { useHistory } from "react-router-dom"
 import { Helmet } from "react-helmet";
 
+import ThemeToggle from "../../component/themeToggle"
+
 import "./episode.css";
 
 export default function EpisodePage() {
@@ -51,6 +53,8 @@ export default function EpisodePage() {
 					<p>Le support de Muffin se fait également sur le <a href="https://podcloud.fr/discord">Discord de podCloud</a></p>
 				</div>
 			</div>
+
+			<ThemeToggle />
 		</>
 	)
 }

@@ -14,6 +14,10 @@
 	background-color: #FDFEFE;
 }
 
+.theme-black .opened {
+	background-color: #34495E;
+}
+
 .playerDiv > img {
 	width: 75px;
 	height: 75px;
@@ -33,12 +37,20 @@
 	font-weight: bold;
 }
 
+.theme-black .rightDivPlayer > p {
+	color: white;
+}
+
 #progressbar {
 	text-align: left;
     height: 10px;
     background-color: #BFC9CA;
     border-radius: 3px;
     margin-top: 3px;
+}
+
+.theme-black #progressbar {
+	background-color: #5D6D7E;
 }
 
 #progressbar:hover {
@@ -60,6 +72,10 @@
     margin-top: 1px;
     color: #5D6D7E;
     margin-bottom: 0px;
+}
+
+.theme-black .time p {
+	color: #AAB7B8;
 }
 
 .controls {

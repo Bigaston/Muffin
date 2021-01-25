@@ -11,6 +11,7 @@ import Icon from "../../component/icon"
 import IconDonation from "../../component/icon_donation"
 import ToAbout from "../../component/to_about"
 import SubscribeButton from "../../component/subscribe_btn"
+import ThemeToggle from "../../component/themeToggle"
 
 import { Helmet } from "react-helmet";
 
@@ -143,6 +144,7 @@ export default function Podcast() {
 				</div>
 			}
 
+			<ThemeToggle />
 			<ToAbout />
 		</>
 	)

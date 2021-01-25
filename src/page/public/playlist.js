@@ -6,6 +6,7 @@ import config from "../../config.json"
 import Episode from "../../component/episode";
 import FullLoad from "../../component/fullLoader";
 import ToAbout from "../../component/to_about"
+import ThemeToggle from "../../component/themeToggle"
 
 import { Helmet } from "react-helmet";
 
@@ -112,6 +113,7 @@ export default function Podcast() {
 					</>
 				</>}
 
+			<ThemeToggle />
 			<ToAbout />
 		</>
 	)

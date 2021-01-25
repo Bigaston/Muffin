@@ -26,6 +26,9 @@ import FullLoad from "../../component/fullLoader"
 import Modal from "../../component/modal"
 import Icon from "../../component/icon"
 import ReactionBar from "../../component/reaction_bar"
+import ThemeToggle from "../../component/themeToggle"
+
+import { useDarkTheme } from "../../utils"
 
 export default function EpisodePage() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -39,6 +42,8 @@ export default function EpisodePage() {
 	let [isLoading, setIsLoading] = useState(true);
 	const [currentTab, setCurrentTab] = useState("description");
 	const [transcriptTime, setTranscriptTime] = useState([]);
+
+	const { theme } = useDarkTheme();
 
 	const [wantTimecode, setWantTimecode] = useState(true);
 
@@ -223,11 +228,11 @@ export default function EpisodePage() {
 								<h2 className="contentHeader">{episode.title}</h2>
 								<div className="buttonBar">
 									<img src={
-										playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/pause.svg" : config.host + "/public/play.svg"}
+										playerStore.paused === false && playerStore.slug === episode.slug ? config.host + "/public/" + theme + "/pause.svg" : config.host + "/public/" + theme + "/play.svg"}
 										alt={playerStore.paused === false && playerStore.slug === episode.slug ? "Lire " + episode.title : "Mettre en pause " + episode.title}
 										onClick={playPauseEp} />
-									<img src={config.host + "/public/download.svg"} alt="Télécharger l'épisode" onClick={downloadEp} />
-									<img src={config.host + "/public/share.svg"} alt="Partager l'épisode" onClick={shareEpisode} />
+									<img src={config.host + "/public/" + theme + "/download.svg"} alt="Télécharger l'épisode" onClick={downloadEp} />
+									<img src={config.host + "/public/" + theme + "/share.svg"} alt="Partager l'épisode" onClick={shareEpisode} />
 								</div>
 
 								{!!episode.transcript || !!episode.transcript_file ?
@@ -284,6 +289,7 @@ export default function EpisodePage() {
 						</>
 						: null}
 
+					<ThemeToggle />
 					<ToAbout />
 
 					<Modal open={modalShare} onCancel={() => { setModalShare(false) }}>

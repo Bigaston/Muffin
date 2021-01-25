@@ -33,7 +33,11 @@ import WS from "./component/ws"
 import Menu from "./component/menu"
 import CheckLogged from "./component/checkLogged"
 
+import { useDarkTheme } from "./utils"
+
 function App() {
+	useDarkTheme();
+
 	return (
 		<>
 			<Helmet>

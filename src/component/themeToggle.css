@@ -1,0 +1,27 @@
+.themeToggle {
+	display: flex;
+	margin-right: auto;
+	margin-left: auto;
+	width: 30px;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	overflow: hidden;
+	margin-top: 10px;
+}
+
+.themeToggle p {
+	font-size: 20px;
+	margin: 0px;
+}
+
+.themeToggle:hover {
+	cursor: pointer;
+}
+
+.themeToggle p:first-child {
+	transition: margin-left 1s;
+}
+
+.theme-black .themeToggle p:first-child {
+	margin-left: -30px;
+}

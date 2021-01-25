@@ -18,6 +18,10 @@
 	margin-right: 5px;
 }
 
+.theme-black .oneReaction {
+	background-color: #34495E;
+}
+
 .oneReaction:hover {
 	cursor: pointer;
 }
@@ -35,4 +39,8 @@
 .selected {
 	background-color: #BFC9CA;
 	box-shadow: none;
+}
+
+.theme-black .selected {
+	background-color: #BFC9CA;
 }

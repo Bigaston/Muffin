@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export function convertHMS(pSec) {
 	let nbSec = pSec;
 	let sortie = {};
@@ -48,4 +50,38 @@ export function srt(text) {
 	})
 
 	return return_table;
+}
+
+export function useDarkTheme() {
+	const [theme, setTheme] = useState("black");
+
+	useEffect(() => {
+		if (localStorage.getItem("theme") !== null) {
+			setTheme(localStorage.getItem("theme"))
+		} else {
+			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				setTheme("black");
+			}
+
+			window.matchMedia('(prefers-color-scheme: black)').addEventListener('change', e => {
+				setTheme(e.matches ? "black" : "white");
+			});
+		}
+	}, [])
+
+	useEffect(() => {
+		document.documentElement.className = "theme-" + theme;
+	}, [theme]);
+
+	function toggleTheme() {
+		if (theme === "white") {
+			localStorage.setItem("theme", "black");
+			setTheme("black");
+		} else {
+			localStorage.setItem("theme", "white");
+			setTheme("white")
+		}
+	}
+
+	return { theme, setTheme, toggleTheme };
 }

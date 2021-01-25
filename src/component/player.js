@@ -11,6 +11,8 @@ import axios from "axios";
 import { convertHMS } from "../utils"
 import LivePastille from "./livePastille";
 
+import { useDarkTheme } from "../utils"
+
 export default function Player() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
 	let [, setTimeStore] = useRecoilState(timeAtom);
@@ -18,6 +20,8 @@ export default function Player() {
 	let [pourcentageProgression, setPourcentageProgression] = useState("0%")
 	let [podcast, setPodcast] = useState({});
 	const [episodes, setEpisodes] = useState([]);
+
+	const { theme } = useDarkTheme();
 
 	let audioPlayer = useRef(undefined);
 	let progressbar = useRef(undefined)
@@ -311,14 +315,14 @@ export default function Player() {
 						: null}
 
 					<div className="controls">
-						<img src={config.host + "/public/before.svg"} alt="Episode précédent" onClick={episodeBefore} />
-						{playerStore.live === undefined ? <img src={config.host + "/public/backward.svg"} alt="-15s" onClick={moins15} /> : null}
-						<img id="playButton" src={playerStore.paused ? config.host + "/public/play.svg" : config.host + "/public/pause.svg"}
+						<img src={config.host + "/public/" + theme + "/before.svg"} alt="Episode précédent" onClick={episodeBefore} />
+						{playerStore.live === undefined ? <img src={config.host + "/public/" + theme + "/backward.svg"} alt="-15s" onClick={moins15} /> : null}
+						<img id="playButton" src={playerStore.paused ? config.host + "/public/" + theme + "/play.svg" : config.host + "/public/" + theme + "/pause.svg"}
 							alt={playerStore.paused ? "Reprendre " + playerStore.title : "Mettre en pause " + playerStore.title}
 							onClick={playPauseEp} />
-						{playerStore.live === undefined ? <img src={config.host + "/public/forward.svg"} alt="+15s" onClick={plus15} /> : null}
-						<img src={config.host + "/public/after.svg"} alt="Episode suivant" onClick={episodeAfter} />
-						<img src={config.host + "/public/stop.svg"} alt="Arrêter" onClick={stopPlay} />
+						{playerStore.live === undefined ? <img src={config.host + "/public/" + theme + "/forward.svg"} alt="+15s" onClick={plus15} /> : null}
+						<img src={config.host + "/public/" + theme + "/next.svg"} alt="Episode suivant" onClick={episodeAfter} />
+						<img src={config.host + "/public/" + theme + "/stop.svg"} alt="Arrêter" onClick={stopPlay} />
 					</div>
 				</div>
 			</div>

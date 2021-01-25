@@ -19,6 +19,7 @@ import FullLoad from "../../component/fullLoader"
 import Modal from "../../component/modal"
 import Icon from "../../component/icon"
 import LivePastille from "../../component/livePastille";
+import ThemeToggle from "../../component/themeToggle"
 
 export default function EpisodePage() {
 	let [playerStore, setPlayerStore] = useRecoilState(playerAtom);
@@ -142,6 +143,7 @@ export default function EpisodePage() {
 						}
 					</div>
 
+					<ThemeToggle />
 					<ToAbout />
 
 					<Modal open={modalShare} onCancel={() => { setModalShare(false) }}>
