@@ -53,7 +53,7 @@ export function srt(text) {
 }
 
 export function useDarkTheme() {
-	const [theme, setTheme] = useState("black");
+	const [theme, setTheme] = useState("white");
 
 	useEffect(() => {
 		if (localStorage.getItem("theme") !== null) {
