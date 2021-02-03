@@ -92,11 +92,13 @@ export default function ImportPodcast() {
         },
       })
         .then((res) => {
+          setDuring(false);
           if (res.status === 200) {
             history.push('/a/person');
           }
         })
         .catch((err) => {
+          setDuring(false);
           console.log(err);
           setDuring(false);
         });

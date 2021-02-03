@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import axios from 'axios';
 import config from '../../config.json';
@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 
 import { Helmet } from 'react-helmet';
 
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { toBase64 } from '../../utils';
 
@@ -96,6 +96,7 @@ export default function Person() {
         if (res.status === 200) {
           setOpenModal(false);
           setEditId(null);
+          setDuring(false);
           axios({
             method: 'GET',
             headers: {
@@ -108,11 +109,86 @@ export default function Person() {
         }
       })
       .catch((err) => {
+        setDuring(false);
         console.log(err);
       });
   }
 
-  function editImage() {}
+  const filepicker_img = useRef(undefined);
+  const [duringImg, setDuringImg] = useState(false);
+  const [percentCompleted, setPercentCompleted] = useState(0);
+  const [errorMessageImg, setErrorMessageImg] = useState('');
+
+  function editImage() {
+    if (duringImg) return;
+    if (filepicker_img.current.files.length !== 1) {
+      setErrorMessageImg('Merci de choisir une image avant de la modifier');
+      return;
+    }
+
+    setDuringImg(true);
+
+    setErrorMessageImg('');
+
+    // Vérification de si l'image est de la bonne taille
+    let file_img = filepicker_img.current.files[0];
+    let img = new Image();
+    img.src = window.URL.createObjectURL(file_img);
+
+    img.onload = () => {
+      if (img.naturalHeight === img.naturalWidth && img.naturalHeight > 400) {
+        toBase64(file_img)
+          .then((base64img) => {
+            afterImageCheck(base64img);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        setErrorMessageImg(
+          'Votre image doit être au format carré et de au moins 400x400!'
+        );
+        setDuringImg(false);
+        return;
+      }
+    };
+
+    function afterImageCheck(base64img) {
+      axios({
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + userState.jwt,
+        },
+        url: config.host + '/api/admin/person/edit_image/' + editId,
+        data: { image: base64img },
+        onUploadProgress: (progressEvent) => {
+          setPercentCompleted(
+            Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          );
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            setOpenModal(false);
+            setEditId(null);
+            setDuringImg(false);
+            axios({
+              method: 'GET',
+              headers: {
+                Authorization: 'Bearer ' + userState.jwt,
+              },
+              url: config.host + '/api/admin/person/get_all',
+            }).then((res) => {
+              setPersonnes(res.data);
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setDuring(false);
+        });
+    }
+  }
 
   function deleteImage() {
     axios({
@@ -219,6 +295,13 @@ export default function Person() {
           alt="Avatar de la personne"
         />
         <br />
+        <label htmlFor="img">Image de la personne</label>
+        <input
+          type="file"
+          id="img"
+          ref={filepicker_img}
+          accept="image/png, image/jpeg"
+        />
         <button onClick={editImage}>Modifier l'image</button>{' '}
         <button className="button-delete" onClick={deleteImage}>
           Supprimer l'image

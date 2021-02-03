@@ -16,38 +16,21 @@ module.exports = {
           'base64'
         );
 
-        if (req.body.image.startsWith('data:image/png;')) {
-          pngToJpeg({ quality: 90 })(img_buffer).then((output) => {
-            sharp(output)
-              .resize(400, 400)
-              .toFile(
-                path.join('../../export/img/person_' + person.id + '.jpg'),
-                (err, info) => {
-                  person.img =
-                    '/img/person_' + person.id + '.' + Date.now() + '.jpg';
-                  person.save().then(() => {
-                    res.send('OK');
-                  });
-                }
-              );
-          });
-        } else {
-          sharp(img_buffer)
-            .resize(400, 400)
-            .toFile(
-              path.join(
-                __dirname,
-                '../../export/img/person_' + person.id + '.jpg'
-              ),
-              (err, info) => {
-                person.img =
-                  '/img/person_' + person.id + '.' + Date.now() + '.jpg';
-                person.save().then(() => {
-                  res.send('OK');
-                });
-              }
-            );
-        }
+        sharp(img_buffer)
+          .resize(400, 400)
+          .toFile(
+            path.join(
+              __dirname,
+              '../../export/img/person_' + person.id + '.jpg'
+            ),
+            (err, info) => {
+              person.img =
+                '/img/person_' + person.id + '.' + Date.now() + '.jpg';
+              person.save().then(() => {
+                res.send('OK');
+              });
+            }
+          );
       } else {
         person.img = '/public/person.jpg';
         person.save().then(() => {
@@ -92,6 +75,34 @@ module.exports = {
         person.save().then(() => res.send('OK'));
       } else {
         res.send('OK');
+      }
+    });
+  },
+  edit_image: (req, res) => {
+    bdd.Person.findByPk(req.params.id).then((person) => {
+      if (!!req.body.image) {
+        let img_buffer = new Buffer.from(
+          req.body.image.split(/,\s*/)[1],
+          'base64'
+        );
+
+        sharp(img_buffer)
+          .resize(400, 400)
+          .toFile(
+            path.join(
+              __dirname,
+              '../../export/img/person_' + person.id + '.jpg'
+            ),
+            (err, info) => {
+              person.img =
+                '/img/person_' + person.id + '.' + Date.now() + '.jpg';
+              person.save().then(() => {
+                res.send('OK');
+              });
+            }
+          );
+      } else {
+        res.status(400).send('No image');
       }
     });
   },

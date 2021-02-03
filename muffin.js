@@ -112,6 +112,7 @@ app.get("/api/admin/person/get_all", m.user_ctrl.check_if_logged, m.person_ctrl.
 app.delete("/api/admin/person/delete/:id", m.user_ctrl.check_if_logged, m.person_ctrl.delete_person);
 app.post("/api/admin/person/edit/:id", m.user_ctrl.check_if_logged, m.person_ctrl.edit_person);
 app.delete("/api/admin/person/delete_image/:id", m.user_ctrl.check_if_logged, m.person_ctrl.delete_image);
+app.post("/api/admin/person/edit_image/:id", m.user_ctrl.check_if_logged, m.person_ctrl.edit_image);
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
