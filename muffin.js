@@ -108,6 +108,8 @@ app.post("/api/admin/icecast/save", m.user_ctrl.check_if_logged, m.icecast_ctrl.
 
 // Persons
 app.post("/api/admin/person/create", m.user_ctrl.check_if_logged, m.person_ctrl.create_person);
+app.get("/api/admin/person/get_all", m.user_ctrl.check_if_logged, m.person_ctrl.get_all_person);
+app.delete("/api/admin/person/delete/:id", m.user_ctrl.check_if_logged, m.person_ctrl.delete_person);
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);

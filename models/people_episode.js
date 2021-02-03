@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const PersonEpisode = sequelize.define(
-    "PersonEpisode",
+    'PersonEpisode',
     {
       group: DataTypes.STRING,
       role: DataTypes.STRING,
@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   PersonEpisode.associate = function (models) {
-    models.PersonEpisode.belongsTo(models.Person);
-    models.PersonEpisode.belongsTo(models.Episode);
+    models.PersonEpisode.belongsTo(models.Person, { onDelete: 'cascade' });
+    models.PersonEpisode.belongsTo(models.Episode, { onDelete: 'cascade' });
   };
   return PersonEpisode;
 };

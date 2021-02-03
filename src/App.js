@@ -24,6 +24,7 @@ import Reaction from './page/admin/reaction';
 import Webhook from './page/admin/webhook';
 import Icecast from './page/admin/icecast';
 import CreatePerson from './page/admin/create_person';
+import Person from './page/admin/person';
 
 import Player from './component/player';
 import WS from './component/ws';
@@ -115,6 +116,11 @@ function App() {
             </CheckLogged>
           </Route>
 
+          <Route exact path="/a/person">
+            <CheckLogged>
+              <Person />
+            </CheckLogged>
+          </Route>
           <Route path="/a/person/create">
             <CheckLogged>
               <CreatePerson />

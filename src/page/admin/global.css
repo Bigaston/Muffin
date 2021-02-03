@@ -22,6 +22,10 @@
 	width: 100%;
 }
 
+.container > progress {
+	width: 100%;
+}
+
 .errorMessage {
 	color: red;
 	font-weight: bold;

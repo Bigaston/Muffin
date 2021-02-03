@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Persons", {
+    await queryInterface.createTable('Persons', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("PersonPodcasts", {
+    await queryInterface.createTable('PersonPodcasts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -34,9 +34,10 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "Persons",
+            tableName: 'Persons',
           },
-          key: "id",
+          key: 'id',
+          onDelete: 'cascade',
         },
       },
       PodcastId: {
@@ -44,14 +45,15 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "Podcasts",
+            tableName: 'Podcasts',
           },
-          key: "id",
+          key: 'id',
+          onDelete: 'cascade',
         },
       },
     });
 
-    await queryInterface.createTable("PersonEpisodes", {
+    await queryInterface.createTable('PersonEpisodes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -65,9 +67,10 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "Persons",
+            tableName: 'Persons',
           },
-          key: "id",
+          key: 'id',
+          onDelete: 'cascade',
         },
       },
       EpisodeId: {
@@ -75,17 +78,18 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: "Episodes",
+            tableName: 'Episodes',
           },
-          key: "id",
+          key: 'id',
+          onDelete: 'cascade',
         },
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Persons");
-    await queryInterface.dropTable("PersonPodcasts");
-    await queryInterface.dropTable("PersonEpisodes");
+    await queryInterface.dropTable('Persons');
+    await queryInterface.dropTable('PersonPodcasts');
+    await queryInterface.dropTable('PersonEpisodes');
   },
 };

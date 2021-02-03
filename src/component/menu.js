@@ -96,7 +96,7 @@ export default function Menu() {
             <Link to="/a/icecast">Icecast</Link>
           </p>
           <p>
-            <Link to="/a/person">Personne</Link>
+            <Link to="/a/person">Personnes</Link>
           </p>
           <p>
             <Link to="/a/account">Mon compte</Link>

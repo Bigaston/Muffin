@@ -2,6 +2,7 @@ const bdd = require('../../models');
 const pngToJpeg = require('png-to-jpeg');
 const sharp = require('sharp');
 const path = require('path');
+const fs = require('fs');
 
 module.exports = {
   create_person: (req, res) => {
@@ -53,6 +54,23 @@ module.exports = {
           res.send('OK');
         });
       }
+    });
+  },
+  get_all_person: (req, res) => {
+    bdd.Person.findAll().then((persons) => {
+      res.json(persons);
+    });
+  },
+  delete_person: (req, res) => {
+    bdd.Person.findByPk(req.params.id).then((person) => {
+      if (person.img !== '/static/person.jpg') {
+        fs.unlinkSync(
+          path.join(__dirname, '../../export/img/person_' + person.id + '.jpg')
+        );
+      }
+      person.destroy().then(() => {
+        res.send('OK');
+      });
     });
   },
 };
