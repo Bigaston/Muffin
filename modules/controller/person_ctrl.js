@@ -73,4 +73,13 @@ module.exports = {
       });
     });
   },
+  edit_person: (req, res) => {
+    bdd.Person.findByPk(req.params.id).then((person) => {
+      person.name = req.body.name;
+      person.url = req.body.url;
+      person.save().then(() => {
+        res.send('OK');
+      });
+    });
+  },
 };
