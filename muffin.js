@@ -113,6 +113,10 @@ app.delete("/api/admin/person/delete/:id", m.user_ctrl.check_if_logged, m.person
 app.post("/api/admin/person/edit/:id", m.user_ctrl.check_if_logged, m.person_ctrl.edit_person);
 app.delete("/api/admin/person/delete_image/:id", m.user_ctrl.check_if_logged, m.person_ctrl.delete_image);
 app.post("/api/admin/person/edit_image/:id", m.user_ctrl.check_if_logged, m.person_ctrl.edit_image);
+app.get("/api/admin/person/get_person_podcast", m.user_ctrl.check_if_logged, m.person_ctrl.get_person_podcast)
+app.delete("/api/admin/person/delete_person_podcast/:id", m.user_ctrl.check_if_logged, m.person_ctrl.delete_person_podcast);
+app.post("/api/admin/person/add_person_podcast", m.user_ctrl.check_if_logged, m.person_ctrl.add_person_podcast);
+app.post("/api/admin/person/edit_person_podcast/:id", m.user_ctrl.check_if_logged, m.person_ctrl.edit_person_podcast);
 
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);

@@ -106,4 +106,40 @@ module.exports = {
       }
     });
   },
+  // Person & Podcast
+  get_person_podcast: (req, res) => {
+    bdd.Podcast.findOne({
+      include: [{ model: bdd.PersonPodcast, include: bdd.Person }],
+    }).then((podcast) => {
+      res.json(podcast.PersonPodcasts);
+    });
+  },
+  delete_person_podcast: (req, res) => {
+    bdd.PersonPodcast.findByPk(req.params.id).then((pp) => {
+      if (pp !== null) {
+        pp.destroy().then(() => res.send('OK'));
+      } else {
+        res.send('OK');
+      }
+    });
+  },
+  add_person_podcast: (req, res) => {
+    bdd.PersonPodcast.create({
+      group: req.body.group,
+      role: req.body.role,
+      PersonId: req.body.PersonId,
+      PodcastId: 1,
+    }).then(() => {
+      res.send('OK');
+    });
+  },
+  edit_person_podcast: (req, res) => {
+    bdd.PersonPodcast.findByPk(req.params.id).then((pp) => {
+      pp.group = req.body.group;
+      pp.role = req.body.role;
+      pp.save().then(() => {
+        res.send('OK');
+      });
+    });
+  },
 };
