@@ -36,6 +36,7 @@
 		"rss-parser": "^3.9.0",
 		"sequelize": "^6.3.5",
 		"sequelize-cli": "^6.2.0",
+		"sharp": "^0.27.1",
 		"sqlite3": "^5.0.0",
 		"toastify-js": "^1.9.3",
 		"twemoji": "^13.0.1",

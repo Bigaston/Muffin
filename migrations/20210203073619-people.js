@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Peoples", {
+    await queryInterface.createTable("Persons", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -20,7 +20,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("PeoplePodcasts", {
+    await queryInterface.createTable("PersonPodcasts", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -29,12 +29,12 @@ module.exports = {
       },
       group: Sequelize.DataTypes.STRING,
       role: Sequelize.DataTypes.STRING,
-      PeopleId: {
+      PersonId: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: {
-            tableName: "Peoples",
+            tableName: "Persons",
           },
           key: "id",
         },
@@ -51,7 +51,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("PeopleEpisodes", {
+    await queryInterface.createTable("PersonEpisodes", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -60,12 +60,12 @@ module.exports = {
       },
       group: Sequelize.DataTypes.STRING,
       role: Sequelize.DataTypes.STRING,
-      PeopleId: {
+      PersonId: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: {
-            tableName: "Peoples",
+            tableName: "Persons",
           },
           key: "id",
         },
@@ -84,8 +84,8 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Peoples");
-    await queryInterface.dropTable("PeoplePodcasts");
-    await queryInterface.dropTable("PeopleEpisodes");
+    await queryInterface.dropTable("Persons");
+    await queryInterface.dropTable("PersonPodcasts");
+    await queryInterface.dropTable("PersonEpisodes");
   },
 };

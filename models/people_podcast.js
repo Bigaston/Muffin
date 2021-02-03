@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const PeoplePodcast = sequelize.define(
-    "PeoplePodcast",
+  const PersonPodcast = sequelize.define(
+    "PersonPodcast",
     {
       group: DataTypes.STRING,
       role: DataTypes.STRING,
@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  PeoplePodcast.associate = function (models) {
-    models.PeoplePodcast.belongsTo(models.People);
-    models.PeoplePodcast.belongsTo(models.Podcast);
+  PersonPodcast.associate = function (models) {
+    models.PersonPodcast.belongsTo(models.Person);
+    models.PersonPodcast.belongsTo(models.Podcast);
   };
-  return PeoplePodcast;
+  return PersonPodcast;
 };

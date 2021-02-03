@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const PeopleEpisode = sequelize.define(
-    "PeopleEpisode",
+  const PersonEpisode = sequelize.define(
+    "PersonEpisode",
     {
       group: DataTypes.STRING,
       role: DataTypes.STRING,
@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  PeopleEpisode.associate = function (models) {
-    models.PeopleEpisode.belongsTo(models.People);
-    models.PeopleEpisode.belongsTo(models.Episode);
+  PersonEpisode.associate = function (models) {
+    models.PersonEpisode.belongsTo(models.Person);
+    models.PersonEpisode.belongsTo(models.Episode);
   };
-  return PeopleEpisode;
+  return PersonEpisode;
 };

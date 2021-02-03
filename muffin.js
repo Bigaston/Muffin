@@ -106,6 +106,9 @@ app.post("/api/igdb/search", m.user_ctrl.check_if_logged, m.igdb_ctrl.search_gam
 app.get("/api/admin/icecast/info", m.user_ctrl.check_if_logged, m.icecast_ctrl.get_admin_info);
 app.post("/api/admin/icecast/save", m.user_ctrl.check_if_logged, m.icecast_ctrl.save_data);
 
+// Persons
+app.post("/api/admin/person/create", m.user_ctrl.check_if_logged, m.person_ctrl.create_person);
+
 // SSR
 app.get("/a/*", m.ssr_ctrl.send_index);
 app.get("/p/:slug", m.ssr_ctrl.send_index_playlist)

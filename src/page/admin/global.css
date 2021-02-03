@@ -18,6 +18,10 @@
 	margin-top:0px;
 }
 
+.container > .button-primary {
+	width: 100%;
+}
+
 .errorMessage {
 	color: red;
 	font-weight: bold;
