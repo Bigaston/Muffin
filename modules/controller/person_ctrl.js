@@ -1,5 +1,4 @@
 const bdd = require('../../models');
-const pngToJpeg = require('png-to-jpeg');
 const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
