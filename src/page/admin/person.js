@@ -14,6 +14,8 @@ import { toBase64 } from '../../utils';
 
 import Modal from '../../component/modal';
 
+import './person.css';
+
 export default function Person() {
   let [userState] = useRecoilState(userAtom);
   const [personnes, setPersonnes] = useState([]);
@@ -31,6 +33,7 @@ export default function Person() {
   }, [userState]);
 
   const [openModal, setOpenModal] = useState(false);
+  const [editImg, setEditImg] = useState('');
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState('');
   const [editUrl, setEditUrl] = useState('');
@@ -39,6 +42,7 @@ export default function Person() {
 
   function editPersonne(id, index) {
     setEditId(id);
+    setEditImg(personnes[index].img);
     setEditName(personnes[index].name);
     setEditUrl(personnes[index].url);
     setOpenModal(true);
@@ -108,6 +112,30 @@ export default function Person() {
       });
   }
 
+  function editImage() {}
+
+  function deleteImage() {
+    axios({
+      method: 'DELETE',
+      url: config.host + '/api/admin/person/delete_image/' + editId,
+      headers: {
+        Authorization: 'Bearer ' + userState.jwt,
+      },
+    }).then((res) => {
+      setOpenModal(false);
+      setEditId(null);
+      axios({
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + userState.jwt,
+        },
+        url: config.host + '/api/admin/person/get_all',
+      }).then((res) => {
+        setPersonnes(res.data);
+      });
+    });
+  }
+
   return (
     <>
       <Helmet>
@@ -172,7 +200,6 @@ export default function Person() {
           value={editName}
           onChange={(e) => setEditName(e.target.value)}
         />
-
         <label htmlFor="url">URL de la personne*</label>
         <input
           className="u-full-width"
@@ -184,6 +211,17 @@ export default function Person() {
         {!!errorMessage ? <p className="errorMessage">{errorMessage}</p> : null}
         <button className="button-primary" onClick={editPersonneSubmit}>
           Modifier la personne
+        </button>
+        <p className="fakeLabel">Avatar de la personne</p>
+        <img
+          className="personLogoEdit"
+          src={config.host + editImg}
+          alt="Avatar de la personne"
+        />
+        <br />
+        <button onClick={editImage}>Modifier l'image</button>{' '}
+        <button className="button-delete" onClick={deleteImage}>
+          Supprimer l'image
         </button>
       </Modal>
     </>

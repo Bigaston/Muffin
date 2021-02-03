@@ -49,7 +49,7 @@ module.exports = {
             );
         }
       } else {
-        person.img = '/static/person.jpg';
+        person.img = '/public/person.jpg';
         person.save().then(() => {
           res.send('OK');
         });
@@ -63,7 +63,7 @@ module.exports = {
   },
   delete_person: (req, res) => {
     bdd.Person.findByPk(req.params.id).then((person) => {
-      if (person.img !== '/static/person.jpg') {
+      if (person.img !== '/public/person.jpg') {
         fs.unlinkSync(
           path.join(__dirname, '../../export/img/person_' + person.id + '.jpg')
         );
@@ -80,6 +80,19 @@ module.exports = {
       person.save().then(() => {
         res.send('OK');
       });
+    });
+  },
+  delete_image: (req, res) => {
+    bdd.Person.findByPk(req.params.id).then((person) => {
+      if (person.img !== '/public/person.jpg') {
+        fs.unlinkSync(
+          path.join(__dirname, '../../export/img/person_' + person.id + '.jpg')
+        );
+        person.img = '/public/person.jpg';
+        person.save().then(() => res.send('OK'));
+      } else {
+        res.send('OK');
+      }
     });
   },
 };

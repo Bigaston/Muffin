@@ -26,6 +26,15 @@
 	width: 100%;
 }
 
+.button-delete {
+	background-color: #E74C3C;
+	color: white;
+}
+
+.fakeLabel {
+	font-weight: bold;
+}
+
 .errorMessage {
 	color: red;
 	font-weight: bold;
