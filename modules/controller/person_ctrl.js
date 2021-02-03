@@ -142,4 +142,41 @@ module.exports = {
       });
     });
   },
+  // Person & Episode
+  get_person_episode: (req, res) => {
+    bdd.PersonEpisode.findAll({
+      where: { EpisodeId: req.params.episodeId },
+      include: bdd.Person,
+    }).then((pe) => {
+      res.json(pe);
+    });
+  },
+  delete_person_episode: (req, res) => {
+    bdd.PersonEpisode.findByPk(req.params.id).then((pe) => {
+      if (pe !== null) {
+        pe.destroy().then(() => res.send('OK'));
+      } else {
+        res.send('OK');
+      }
+    });
+  },
+  add_person_episode: (req, res) => {
+    bdd.PersonEpisode.create({
+      group: req.body.group,
+      role: req.body.role,
+      PersonId: req.body.PersonId,
+      EpisodeId: req.body.EpisodeId,
+    }).then(() => {
+      res.send('OK');
+    });
+  },
+  edit_person_episode: (req, res) => {
+    bdd.PersonEpisode.findByPk(req.params.id).then((pp) => {
+      pp.group = req.body.group;
+      pp.role = req.body.role;
+      pp.save().then(() => {
+        res.send('OK');
+      });
+    });
+  },
 };
