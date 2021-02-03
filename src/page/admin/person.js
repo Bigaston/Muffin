@@ -302,10 +302,16 @@ export default function Person() {
           ref={filepicker_img}
           accept="image/png, image/jpeg"
         />
+        {!!errorMessageImg ? (
+          <p className="errorMessage">{errorMessageImg}</p>
+        ) : (
+          <></>
+        )}
         <button onClick={editImage}>Modifier l'image</button>{' '}
         <button className="button-delete" onClick={deleteImage}>
           Supprimer l'image
         </button>
+        {during ? <progress max="100" value={percentCompleted} /> : <></>}
       </Modal>
     </>
   );
