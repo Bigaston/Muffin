@@ -84,6 +84,8 @@ module.exports = {
           ],
         };
 
+        let tagForAllEpisodes = [];
+
         if (!!podcast.data.donation) {
           rss_obj.custom_elements.push({
             'podext:donate': [
@@ -214,7 +216,7 @@ module.exports = {
         }
 
         podcast.PersonPodcasts.forEach((pp) => {
-          rss_obj.custom_elements.push({
+          let obj = {
             'podcast:person': [
               pp.Person.name,
               {
@@ -226,7 +228,9 @@ module.exports = {
                 },
               },
             ],
-          });
+          };
+          tagForAllEpisodes.push(obj);
+          rss_obj.custom_elements.push(obj);
         });
 
         var feed = new RSS(rss_obj);
@@ -318,6 +322,10 @@ module.exports = {
                 },
               ],
             });
+          });
+
+          tagForAllEpisodes.forEach((t) => {
+            ep_content.custom_elements.push(t);
           });
 
           feed.item(ep_content);
