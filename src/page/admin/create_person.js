@@ -53,7 +53,10 @@ export default function ImportPodcast() {
       img.src = window.URL.createObjectURL(file_img);
 
       img.onload = () => {
-        if (img.naturalHeight === img.naturalWidth && img.naturalHeight > 400) {
+        if (
+          img.naturalHeight === img.naturalWidth &&
+          img.naturalHeight >= 400
+        ) {
           toBase64(file_img)
             .then((base64img) => {
               afterImageCheck(base64img);
